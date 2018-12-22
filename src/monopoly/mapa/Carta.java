@@ -5,13 +5,10 @@
  */
 package monopoly.mapa;
 
-import java.util.ArrayList;
 import monopoly.persona.Jugador;
+import static monopoly.Juego.consola;
 
-/**
- *
- * @author Usuario
- */
+
 public class Carta {
 
     String tipo;
@@ -21,15 +18,15 @@ public class Carta {
     // constructores
     public Carta(String tipo, int numCarta) {
         if (tipo == null) {
-            System.out.println(Valor.ANSI_ROJO + "tipo nulo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "tipo nulo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         if (!tipo.equals("suerte") && !tipo.equals("caja")) {
-            System.out.println(Valor.ANSI_ROJO + "tipo no valido." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "tipo no valido." + Valor.ANSI_RESET);
             System.exit(1);
         }
         if (numCarta < 0 || numCarta > Valor.ACCIONES_SUERTE.size()) {
-            System.out.println(Valor.ANSI_ROJO + "numCarta no valido." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "numCarta no valido." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.tipo = tipo;
@@ -48,11 +45,11 @@ public class Carta {
 
     public void setTipo(String tipo) {
         if (tipo == null) {
-            System.out.println(Valor.ANSI_ROJO + "tipo nulo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "tipo nulo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         if (!tipo.equals("suerte") && !tipo.equals("caja")) {
-            System.out.println(Valor.ANSI_ROJO + "tipo no valido." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "tipo no valido." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.tipo = tipo;
@@ -64,7 +61,7 @@ public class Carta {
 
     public void setNumCarta(int numCarta) {
         if (numCarta < 0 || numCarta > Valor.ACCIONES_SUERTE.size()) {
-            System.out.println(Valor.ANSI_ROJO + "numCarta no valido." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "numCarta no valido." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.numCarta = numCarta;
@@ -76,7 +73,7 @@ public class Carta {
 
     public void setAccion(String accion) {
         if (accion == null) {
-            System.out.println(Valor.ANSI_ROJO + "accion nulo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "accion nulo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.accion = accion;
@@ -85,10 +82,10 @@ public class Carta {
     // metodos
     public void realizarAccion(Jugador jugador, Tablero tablero, Turno turno) {
         if (jugador == null) {
-            System.out.println(Valor.ANSI_ROJO + "jugador nulo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "jugador nulo." + Valor.ANSI_RESET);
             System.exit(1);
         }
-        System.out.println("Accion: " + this.accion);
+        consola.imprimir("Accion: " + this.accion);
         /*Se imprime la accion*/
 
         if (this.tipo.equals("suerte")) {
@@ -97,7 +94,7 @@ public class Carta {
                 case 1:
                     if (tablero.pasaPorSalida(jugador.getAvatar().getCasilla(), tablero.casillaByName("Transporte2"))) {
                         /*Si pasa por Salida, cobra*/
-                        System.out.println(jugador.getNombre() + " pasa por Salida y cobra " + Valor.CANTIDAD_PASAR_SALIDA + "€");
+                        consola.imprimir(jugador.getNombre() + " pasa por Salida y cobra " + Valor.CANTIDAD_PASAR_SALIDA + "€");
                         jugador.setFortuna(jugador.getFortuna() + Valor.CANTIDAD_PASAR_SALIDA);
                         jugador.setPasarPorCasillaDeSalida(jugador.getPasarPorCasillaDeSalida() + Valor.CANTIDAD_PASAR_SALIDA);
                     }
@@ -115,7 +112,7 @@ public class Carta {
                 case 4:
                     if (tablero.pasaPorSalida(jugador.getAvatar().getCasilla(), tablero.casillaByName("Dalaran"))) {
                         /*Si pasa por Salida, cobra*/
-                        System.out.println(jugador.getNombre() + " pasa por Salida y cobra " + Valor.CANTIDAD_PASAR_SALIDA + "€");
+                        consola.imprimir(jugador.getNombre() + " pasa por Salida y cobra " + Valor.CANTIDAD_PASAR_SALIDA + "€");
                         jugador.setFortuna(jugador.getFortuna() + Valor.CANTIDAD_PASAR_SALIDA);
                         jugador.setPasarPorCasillaDeSalida(jugador.getPasarPorCasillaDeSalida() + Valor.CANTIDAD_PASAR_SALIDA);
                     }
@@ -157,7 +154,7 @@ public class Carta {
                         jugador.setFortuna(jugador.getFortuna() - dinero);
                         Valor.DINERO_PARKING += dinero;
                         jugador.setPagoDeTasas(jugador.getPagoDeTasas() + dinero);
-                        System.out.println(jugador.getNombre() + " paga " + dinero + " €");
+                        consola.imprimir(jugador.getNombre() + " paga " + dinero + " €");
                     }
                     
                     break;
@@ -204,5 +201,4 @@ public class Carta {
             }
         }
     }
-
 }

@@ -2,6 +2,8 @@ package monopoly.mapa;
 
 import java.util.ArrayList;
 
+import static monopoly.Juego.consola;
+
 public class Grupo {
     private String color;
     private ArrayList<Edificio> edificios;
@@ -133,7 +135,7 @@ public class Grupo {
 
     public void imprimirEdificios() {
         if (edificios.size() == 0)
-            System.out.println("No se han construido edificios en el grupo " + color);
+            consola.imprimir("No se han construido edificios en el grupo " + color);
         int casas = 0, hoteles = 0, piscinas = 0, pistas = 0;
         for (Edificio edificio : edificios) {
             switch (edificio.getTipo()) {
@@ -150,12 +152,12 @@ public class Grupo {
                     pistas++;
                     break;
             }
-            System.out.println(edificio);
+            consola.imprimir(edificio.toString());
         }
-        System.out.println("Se pueden edificar " + (numMaxCasas - casas) + " casas.");
-        System.out.println("Se pueden edificar " + (numMaxHoteles - hoteles) + " hoteles.");
-        System.out.println("Se pueden edificar " + (numMaxPiscinas - piscinas) + " piscinas.");
-        System.out.println("Se pueden edificar " + (numMaxPistas - pistas) + " pistas.");
+        consola.imprimir("Se pueden edificar " + (numMaxCasas - casas) + " casas.");
+        consola.imprimir("Se pueden edificar " + (numMaxHoteles - hoteles) + " hoteles.");
+        consola.imprimir("Se pueden edificar " + (numMaxPiscinas - piscinas) + " piscinas.");
+        consola.imprimir("Se pueden edificar " + (numMaxPistas - pistas) + " pistas.");
     }
 
     @Override

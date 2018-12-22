@@ -7,13 +7,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
 
-public class Jugador {
+import static monopoly.Juego.consola;
+
+public class Jugador{
 
     private String nombre;
     private Avatar avatar;
     private int fortuna;
-    private HashMap<String, Casilla> propiedades;
-    private HashMap<String, Casilla> hipotecas;
+    private HashMap<String, Propiedad> propiedades;
+    private HashMap<String, Propiedad> hipotecas;
     private ArrayList<Edificio> edificios;
     private HashMap<String, Grupo> grupos;
     private boolean inCarcel;
@@ -38,17 +40,17 @@ public class Jugador {
     // constructores
     public Jugador(String nombre, String ficha, Casilla casilla, String id) {
         if (nombre == null) {
-            System.out.println(Valor.ANSI_ROJO + "Nombre nulo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "Nombre nulo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         if (ficha == null) {
-            System.out.println(Valor.ANSI_ROJO + "Ficha nula." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "Ficha nula." + Valor.ANSI_RESET);
             System.exit(1);
         }
         if (ficha.equalsIgnoreCase(Valor.ESFINGE) || ficha.equalsIgnoreCase(Valor.COCHE) || ficha.equalsIgnoreCase(Valor.SOMBRERO) || ficha.equalsIgnoreCase(Valor.PELOTA)) {
             this.avatar = new Avatar(this, ficha, casilla, id);
         } else {
-            System.out.println(Valor.ANSI_ROJO + "Ficha debe ser: Esfinge, Coche, Sombrero o Pelota");
+            consola.imprimir(Valor.ANSI_ROJO + "Ficha debe ser: Esfinge, Coche, Sombrero o Pelota");
             System.exit(1);
         }
         this.nombre = nombre;
@@ -77,7 +79,7 @@ public class Jugador {
 
     public Jugador(String nombre) {
         if (nombre == null) {
-            System.out.println(Valor.ANSI_ROJO + "Nombre nulo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "Nombre nulo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.nombre = nombre;
@@ -107,7 +109,7 @@ public class Jugador {
 
     public void setPagoDeTasas(int pagoDeTasas) {
         if (pagoDeTasas < 0) {
-            System.out.println(Valor.ANSI_ROJO + "pagoDeTasas negativo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "pagoDeTasas negativo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.pagoDeTasas = pagoDeTasas;
@@ -119,7 +121,7 @@ public class Jugador {
 
     public void setPremiosInversionesOBote(int premiosInversionesOBote) {
         if (premiosInversionesOBote < 0) {
-            System.out.println(Valor.ANSI_ROJO + "premiosInversionesOBote negativo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "premiosInversionesOBote negativo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.premiosInversionesOBote = premiosInversionesOBote;
@@ -131,7 +133,7 @@ public class Jugador {
 
     public void setDineroInvertido(int dineroInvertido) {
         if (dineroInvertido < 0) {
-            System.out.println(Valor.ANSI_ROJO + "dineroInvertido negativo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "dineroInvertido negativo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.dineroInvertido = dineroInvertido;
@@ -143,7 +145,7 @@ public class Jugador {
 
     public void setPagoDeAlquileres(int pagoDeAlquileres) {
         if (pagoDeAlquileres < 0) {
-            System.out.println(Valor.ANSI_ROJO + "pagoDeAlquileres negativo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "pagoDeAlquileres negativo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.pagoDeAlquileres = pagoDeAlquileres;
@@ -155,7 +157,7 @@ public class Jugador {
 
     public void setCobroDeAlquileres(int cobroDeAlquileres) {
         if (cobroDeAlquileres < 0) {
-            System.out.println(Valor.ANSI_ROJO + "cobroDeAlquileres negativo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "cobroDeAlquileres negativo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.cobroDeAlquileres = cobroDeAlquileres;
@@ -167,7 +169,7 @@ public class Jugador {
 
     public void setPasarPorCasillaDeSalida(int pasarPorCasillaDeSalida) {
         if (pasarPorCasillaDeSalida < 0) {
-            System.out.println(Valor.ANSI_ROJO + "pasarPorCasillaDeSalida negativo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "pasarPorCasillaDeSalida negativo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.pasarPorCasillaDeSalida = pasarPorCasillaDeSalida;
@@ -179,7 +181,7 @@ public class Jugador {
 
     public void setVecesEnLaCarcel(int vecesEnLaCarcel) {
         if (vecesEnLaCarcel < 0) {
-            System.out.println(Valor.ANSI_ROJO + "vecesEnLaCarcel negativo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "vecesEnLaCarcel negativo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.vecesEnLaCarcel = vecesEnLaCarcel;
@@ -207,7 +209,7 @@ public class Jugador {
 
     public void setNombre(String nombre) {
         if (nombre == null) {
-            System.out.println(Valor.ANSI_ROJO + "Nombre nulo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "Nombre nulo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.nombre = nombre;
@@ -219,7 +221,7 @@ public class Jugador {
 
     public void setAvatar(Avatar avatar) {
         if (avatar == null) {
-            System.out.println(Valor.ANSI_ROJO + "Avatar nulo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "Avatar nulo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.avatar = avatar;
@@ -231,31 +233,31 @@ public class Jugador {
 
     public void setFortuna(int fortuna) {
         if (fortuna < 0) {
-            System.out.println(Valor.ANSI_ROJO + "Fortuna negativa." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "Fortuna negativa." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.fortuna = fortuna;
     }
 
-    public HashMap<String, Casilla> getPropiedades() {
+    public HashMap<String, Propiedad> getPropiedades() {
         return propiedades;
     }
 
-    public void setPropiedades(HashMap<String, Casilla> propiedades) {
+    public void setPropiedades(HashMap<String, Propiedad> propiedades) {
         if (propiedades == null) {
-            System.out.println(Valor.ANSI_ROJO + "Propiedades nulo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "Propiedades nulo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.propiedades = propiedades;
     }
 
-    public HashMap<String, Casilla> getHipotecas() {
+    public HashMap<String, Propiedad> getHipotecas() {
         return hipotecas;
     }
 
-    public void setHipotecas(HashMap<String, Casilla> hipotecas) {
+    public void setHipotecas(HashMap<String, Propiedad> hipotecas) {
         if (hipotecas == null) {
-            System.out.println(Valor.ANSI_ROJO + "Hipotecas nulo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "Hipotecas nulo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.hipotecas = hipotecas;
@@ -267,7 +269,7 @@ public class Jugador {
 
     public void setEdificios(ArrayList<Edificio> edificios) {
         if (edificios == null) {
-            System.out.println(Valor.ANSI_ROJO + "Edificios nulo." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "Edificios nulo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.edificios = edificios;
@@ -295,7 +297,7 @@ public class Jugador {
 
     public void setDadosDobles(int dadosDobles) {
         if (dadosDobles < 0 || dadosDobles > 3) {
-            System.out.println(Valor.ANSI_ROJO + "dadosDobles no valido." + Valor.ANSI_RESET);
+            consola.imprimir(Valor.ANSI_ROJO + "dadosDobles no valido." + Valor.ANSI_RESET);
             System.exit(1);
         }
         this.dadosDobles = dadosDobles;
@@ -307,7 +309,7 @@ public class Jugador {
 
     public void setGrupos(HashMap<String, Grupo> grupos) {
         if (grupos == null) {
-            System.out.println("grupos nulos");
+            consola.imprimir("grupos nulos");
             System.exit(1);
         }
         this.grupos = grupos;
@@ -451,7 +453,7 @@ public class Jugador {
         this.dadosTirados = true;
         this.vecesDadosTirados++;
 
-        System.out.println("El jugador ha sacado un " + desplazamiento + "(" + dados.getDado1() + "+" + dados.getDado2() + ")");
+        consola.imprimir("El jugador ha sacado un " + desplazamiento + "(" + dados.getDado1() + "+" + dados.getDado2() + ")");
 
         //cambiarAlquilerCasillas(tablero, desplazamiento);
         if (this.inCarcel) {
@@ -459,18 +461,18 @@ public class Jugador {
         }
         if (this.inCarcel && this.turnosEnCarcel == 3) {
             /*Cuando el jugador ha cumplido todos sus intentos de salir de la carcel con los dados tiene que pagar*/
-            System.out.println("El jugador " + this.nombre + " ha tirado tres veces en la carcel. Tiene que pagar para salir.");
+            consola.imprimir("El jugador " + this.nombre + " ha tirado tres veces en la carcel. Tiene que pagar para salir.");
             if (this.fortuna >= Valor.COSTE_SALIR_CARCEL) {
                 this.fortuna -= Valor.COSTE_SALIR_CARCEL;
                 this.pagoDeTasas += Valor.COSTE_SALIR_CARCEL;
-                System.out.println("El jugador " + this.nombre + " ha pagado para salir de la carcel y se desplaza " + desplazamiento + " casillas.");
+                consola.imprimir("El jugador " + this.nombre + " ha pagado para salir de la carcel y se desplaza " + desplazamiento + " casillas.");
                 this.avatar.moverAvatar(desplazamiento, tablero, turno);
                 this.inCarcel = false;
             } else {
                 while (Valor.COSTE_SALIR_CARCEL > this.fortuna && !this.bancarrota) {
                     /*Si no le llega el dinero para salir de la carcel debe hipotecarse o declararse en bancarrota*/
-                    System.out.println("El jugador " + this.nombre + " no dispone de suficiente dinero. Que quieres hacer?");
-                    System.out.println("Hipotecar propiedad (hipotecarse) o declararse en bancarrota (bancarrota): ");
+                    consola.imprimir("El jugador " + this.nombre + " no dispone de suficiente dinero. Que quieres hacer?");
+                    consola.imprimir("Hipotecar propiedad (hipotecarse) o declararse en bancarrota (bancarrota): ");
                     String opcion;
 
                     Scanner sc = new Scanner(System.in);
@@ -483,7 +485,7 @@ public class Jugador {
                             this.hipotecar(); // el usuario se hipoteca
                             break;
                         default:
-                            System.out.println("Opcion incorrecta.");
+                            consola.imprimir("Opcion incorrecta.");
                             break;
                     }
                 }
@@ -491,34 +493,34 @@ public class Jugador {
                     this.inCarcel = false;
                     this.fortuna -= Valor.COSTE_SALIR_CARCEL;
                     this.pagoDeTasas += Valor.COSTE_SALIR_CARCEL;
-                    System.out.println("El jugador " + this.nombre + " ha pagado para salir de la carcel y se desplaza" + desplazamiento + " casillas.");
+                    consola.imprimir("El jugador " + this.nombre + " ha pagado para salir de la carcel y se desplaza" + desplazamiento + " casillas.");
                     this.avatar.moverAvatar(desplazamiento, tablero, turno);
                 }
             }
         } else if (this.inCarcel && this.turnosEnCarcel != 3) {
             /*Si esta en la crcel pero aun puede lanzar dados para intentar salir*/
             if (dados.dadosIguales()) {
-                System.out.println("El jugador " + this.nombre + " ha sacado dados dobles. Sale de la carcel.");
+                consola.imprimir("El jugador " + this.nombre + " ha sacado dados dobles. Sale de la carcel.");
                 this.avatar.moverAvatar(desplazamiento, tablero, turno);
                 this.turnosEnCarcel = 0;
             } else {
-                System.out.println("El jugador no ha sacado dados dobles. Permanece en la carcel. Lleva " + this.turnosEnCarcel + " turnos en la carcel.");
+                consola.imprimir("El jugador no ha sacado dados dobles. Permanece en la carcel. Lleva " + this.turnosEnCarcel + " turnos en la carcel.");
             }
         } else {
             /*Si no esta en la carcel*/
             if (dados.dadosIguales()) {
-                System.out.println("Dados dobles.");
+                consola.imprimir("Dados dobles.");
                 this.dadosTirados = false;
                 this.setDadosDobles(this.getDadosDobles() + 1);
             }
             if (this.getDadosDobles() == 3) {
                 /*Si es la tercera vez que saca dobles va a la carcel*/
-                System.out.println("El jugador " + this.nombre + " ha sacado dados dobles tres veces. Va a la carcel.");
+                consola.imprimir("El jugador " + this.nombre + " ha sacado dados dobles tres veces. Va a la carcel.");
                 this.encarcelarJugador(tablero);
-                System.out.println("El jugador " + this.nombre + " acaba su turno.");
+                consola.imprimir("El jugador " + this.nombre + " acaba su turno.");
                 turno.siguienteTurno();
             } else {
-                System.out.println(this.nombre + " se desplaza " + desplazamiento + " posiciones");
+                consola.imprimir(this.nombre + " se desplaza " + desplazamiento + " posiciones");
                 avatar.moverAvatar(desplazamiento, tablero, turno);
             }
         }
@@ -531,25 +533,25 @@ public class Jugador {
         this.vecesDadosTirados++;
 
         //cambiarAlquilerCasillas(tablero, desplazamiento);
-        System.out.println("El jugador ha sacado un " + desplazamiento + "(" + dados.getDado1() + "+" + dados.getDado2() + ")");
+        consola.imprimir("El jugador ha sacado un " + desplazamiento + "(" + dados.getDado1() + "+" + dados.getDado2() + ")");
 
         if (this.inCarcel) {
             this.turnosEnCarcel++;
         }
         if (this.inCarcel && this.turnosEnCarcel == 3) {
             /*Cuando el jugador ha cumplido todos sus intentos de salir de la carcel con los dados tiene que pagar*/
-            System.out.println("El jugador " + this.nombre + " ha tirado tres veces en la carcel. Tiene que pagar para salir.");
+            consola.imprimir("El jugador " + this.nombre + " ha tirado tres veces en la carcel. Tiene que pagar para salir.");
             if (this.fortuna >= Valor.COSTE_SALIR_CARCEL) {
                 this.fortuna -= Valor.COSTE_SALIR_CARCEL;
                 this.pagoDeTasas += Valor.COSTE_SALIR_CARCEL;
-                System.out.println("El jugador " + this.nombre + " ha pagado para salir de la carcel y se desplaza " + desplazamiento + " casillas.");
+                consola.imprimir("El jugador " + this.nombre + " ha pagado para salir de la carcel y se desplaza " + desplazamiento + " casillas.");
                 this.avatar.moverAvatarEspecial(desplazamiento, tablero, turno);
                 this.inCarcel = false;
             } else {
                 while (Valor.COSTE_SALIR_CARCEL > this.fortuna && !this.bancarrota) {
                     /*Si no le llega el dinero para salir de la carcel debe hipotecarse o declararse en bancarrota*/
-                    System.out.println("El jugador " + this.nombre + " no dispone de suficiente dinero. Que quieres hacer?");
-                    System.out.println("Hipotecar propiedad (hipotecarse) o declararse en bancarrota (bancarrota): ");
+                    consola.imprimir("El jugador " + this.nombre + " no dispone de suficiente dinero. Que quieres hacer?");
+                    consola.imprimir("Hipotecar propiedad (hipotecarse) o declararse en bancarrota (bancarrota): ");
                     String opcion;
 
                     Scanner sc = new Scanner(System.in);
@@ -562,7 +564,7 @@ public class Jugador {
                             this.hipotecar(); // el usuario se hipoteca
                             break;
                         default:
-                            System.out.println("Opcion incorrecta.");
+                            consola.imprimir("Opcion incorrecta.");
                             break;
                     }
                 }
@@ -570,22 +572,22 @@ public class Jugador {
                     this.inCarcel = false;
                     this.fortuna -= Valor.COSTE_SALIR_CARCEL;
                     this.pagoDeTasas += Valor.COSTE_SALIR_CARCEL;
-                    System.out.println("El jugador " + this.nombre + " ha pagado para salir de la carcel y se desplaza" + desplazamiento + " casillas.");
+                    consola.imprimir("El jugador " + this.nombre + " ha pagado para salir de la carcel y se desplaza" + desplazamiento + " casillas.");
                     this.avatar.moverAvatarEspecial(desplazamiento, tablero, turno);
                 }
             }
         } else if (this.inCarcel && this.turnosEnCarcel != 3) {
             /*Si esta en la crcel pero aun puede lanzar dados para intentar salir*/
             if (dados.dadosIguales()) {
-                System.out.println("El jugador " + this.nombre + " ha sacado dados dobles. Sale de la carcel.");
+                consola.imprimir("El jugador " + this.nombre + " ha sacado dados dobles. Sale de la carcel.");
                 this.avatar.moverAvatarEspecial(desplazamiento, tablero, turno);
                 this.turnosEnCarcel = 0;
             } else {
-                System.out.println("El jugador no ha sacado dados dobles. Permanece en la carcel. Lleva " + this.turnosEnCarcel + " turnos en la carcel.");
+                consola.imprimir("El jugador no ha sacado dados dobles. Permanece en la carcel. Lleva " + this.turnosEnCarcel + " turnos en la carcel.");
                 this.dadosTirados = true;
             }
         } else {
-            System.out.println(this.nombre + " se desplaza " + desplazamiento + " posiciones");
+            consola.imprimir(this.nombre + " se desplaza " + desplazamiento + " posiciones");
             avatar.moverAvatarEspecial(desplazamiento, tablero, turno);
         }
     }
@@ -608,9 +610,9 @@ public class Jugador {
     public void salirCarcel() {
         if (this.inCarcel = true) {
             if (Valor.COSTE_SALIR_CARCEL > this.fortuna) {
-                System.out.println("No tienes suficiente dinero");
+                consola.imprimir("No tienes suficiente dinero");
             } else {
-                System.out.println(nombre + " paga " + Valor.COSTE_SALIR_CARCEL + " y sale de la cárcel. Puede lanzar los dados.");
+                consola.imprimir(nombre + " paga " + Valor.COSTE_SALIR_CARCEL + " y sale de la cárcel. Puede lanzar los dados.");
                 this.fortuna -= Valor.COSTE_SALIR_CARCEL;
                 this.pagoDeTasas += Valor.COSTE_SALIR_CARCEL;
                 this.inCarcel = false;
@@ -626,7 +628,7 @@ public class Jugador {
         while (impuesto > this.fortuna && !bancarrota) {
             /*Si no le llega el dinero se hipoteca o declara en bancarrota*/
             Scanner scanner = new Scanner(System.in);
-            System.out.println("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
+            consola.imprimir("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
             String opcion = scanner.nextLine();
 
             switch (opcion) {
@@ -637,7 +639,7 @@ public class Jugador {
                     this.declararBancarrota(tablero.getCasillas().get(0).get(0).getPropietario(), tablero, turno);
                     break;
                 default:
-                    System.out.println("Opcion incorrecta, las opciones son 'hipotecarse' y 'bancarrota'");
+                    consola.imprimir("Opcion incorrecta, las opciones son 'hipotecarse' y 'bancarrota'");
             }
 
         }
@@ -671,7 +673,7 @@ public class Jugador {
                 while (this.avatar.getCasilla().getAlquiler() > this.fortuna && !bancarrota) {
                     /*Si no le llega el dinero se hipoteca o declara bancarrota*/
                     Scanner scanner = new Scanner(System.in);
-                    System.out.println("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
+                    consola.imprimir("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
                     String opcion = scanner.nextLine();
 
                     switch (opcion) {
@@ -682,7 +684,7 @@ public class Jugador {
                             this.declararBancarrota(this.avatar.getCasilla().getPropietario(), tablero, turno);
                             break;
                         default:
-                            System.out.println("Opcion incorrecta, las opciones son 'hipotecarse' y 'bancarrota'");
+                            consola.imprimir("Opcion incorrecta, las opciones son 'hipotecarse' y 'bancarrota'");
                     }
 
                 }
@@ -692,7 +694,7 @@ public class Jugador {
                     if (this.avatar.getCasilla().getPropietario().getGrupos().containsKey(this.getAvatar().getCasilla().getGrupo().getColor())) {
                         coste = this.getAvatar().getCasilla().getAlquiler() * 2;
                     }
-                    System.out.println("El jugador " + this.nombre + " paga " + coste + " a " + this.avatar.getCasilla().getPropietario().getNombre());
+                    consola.imprimir("El jugador " + this.nombre + " paga " + coste + " a " + this.avatar.getCasilla().getPropietario().getNombre());
                     this.fortuna -= coste;
                     this.pagoDeAlquileres += coste;
                     this.avatar.getCasilla().getPropietario().cobrarAlquiler(coste);
@@ -718,7 +720,7 @@ public class Jugador {
                 while (valorPagar > this.fortuna && !bancarrota) {
                     /*Si el dinero no le llega se hipoteca o declara en bancarrota*/
                     Scanner scanner = new Scanner(System.in);
-                    System.out.println("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
+                    consola.imprimir("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
                     String opcion = scanner.nextLine();
 
                     switch (opcion) {
@@ -729,14 +731,14 @@ public class Jugador {
                             this.declararBancarrota(this.avatar.getCasilla().getPropietario(), tablero, turno);
                             break;
                         default:
-                            System.out.println("Opcion incorrecta, las opciones son 'hipotecarse' y 'bancarrota'");
+                            consola.imprimir("Opcion incorrecta, las opciones son 'hipotecarse' y 'bancarrota'");
                     }
 
                 }
 
                 if (!bancarrota) {
                     /*Pagar el alquiler*/
-                    System.out.println("El jugador " + this.nombre + " paga " + valorPagar + " a " + this.avatar.getCasilla().getPropietario().getNombre());
+                    consola.imprimir("El jugador " + this.nombre + " paga " + valorPagar + " a " + this.avatar.getCasilla().getPropietario().getNombre());
                     this.fortuna -= valorPagar;
                     this.pagoDeAlquileres += valorPagar;
                     this.avatar.getCasilla().getPropietario().cobrarAlquiler(valorPagar);
@@ -771,7 +773,7 @@ public class Jugador {
                 while (valorPagar > this.fortuna && !bancarrota) {
                     /*SI no le llega el dinero hipoteca/bancarrota*/
                     Scanner scanner = new Scanner(System.in);
-                    System.out.println("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
+                    consola.imprimir("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
                     String opcion = scanner.nextLine();
 
                     switch (opcion) {
@@ -782,14 +784,14 @@ public class Jugador {
                             this.declararBancarrota(this.avatar.getCasilla().getPropietario(), tablero, turno);
                             break;
                         default:
-                            System.out.println("Opcion incorrecta, las opciones son 'hipotecarse' y 'bancarrota'");
+                            consola.imprimir("Opcion incorrecta, las opciones son 'hipotecarse' y 'bancarrota'");
                     }
 
                 }
 
                 if (!bancarrota) {
                     /*Pagar*/
-                    System.out.println("El jugador " + this.nombre + " paga " + valorPagar + " a " + this.avatar.getCasilla().getPropietario().getNombre());
+                    consola.imprimir("El jugador " + this.nombre + " paga " + valorPagar + " a " + this.avatar.getCasilla().getPropietario().getNombre());
                     this.fortuna -= valorPagar;
                     this.pagoDeAlquileres += valorPagar;
                     this.avatar.getCasilla().getPropietario().cobrarAlquiler(valorPagar);
@@ -804,9 +806,9 @@ public class Jugador {
     public void hipotecar() {
         boolean flag = true;
         do {
-            System.out.println(this.propiedades.values());
+            consola.imprimir(this.propiedades.values().toString());
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Propiedar a hipotecar o cancelar: ");
+            consola.imprimir("Propiedad a hipotecar o cancelar: ");
             String prop = scanner.nextLine();
 
             if (this.propiedades.containsKey(prop)) {
@@ -815,13 +817,14 @@ public class Jugador {
                 this.hipotecas.put(prop, this.propiedades.get(prop));
                 this.propiedades.remove(prop);
                 this.hipotecas.get(prop).setHipotecada(true);
-                this.hipotecas.get(prop).venderEdificios();
+                Solar solar = (Solar) this.hipotecas.get(prop);
+                solar.venderEdificios();
                 flag = false;
             } else if (prop.equals("cancelar")) {
                 /*Para salir del bucle sin hipotecar*/
                 return;
             } else {
-                System.out.println("No tienes esa propiedad");
+                consola.imprimir("No tienes esa propiedad");
             }
         } while (flag);
     }
@@ -829,18 +832,19 @@ public class Jugador {
     /**
      * Hipotecar la casilla cas si es posible
      */
-    public void hipotecar(Casilla cas) {
+    public void hipotecar(Solar cas) {
         if (this.propiedades.containsKey(cas.getNombre())) {
             /*Hipotecar la propiedad*/
             this.fortuna += (int) (0.5 * this.propiedades.get(cas.getNombre()).getValor());
             this.hipotecas.put(cas.getNombre(), this.propiedades.get(cas.getNombre()));
             this.propiedades.remove(cas.getNombre());
             this.hipotecas.get(cas.getNombre()).setHipotecada(true);
-            this.hipotecas.get(cas.getNombre()).venderEdificios();
-            System.out.println("El jugador " + this.nombre + " hipoteca " + cas.getNombre() + " por " + (0.5 * this.hipotecas.get(cas.getNombre()).getValor())
+            Solar solar = (Solar) this.hipotecas.get(cas.getNombre());
+            solar.venderEdificios();
+            consola.imprimir("El jugador " + this.nombre + " hipoteca " + cas.getNombre() + " por " + (0.5 * this.hipotecas.get(cas.getNombre()).getValor())
                     + " €\nSu fortuna actual es: " + this.fortuna);
         } else {
-            System.out.println("No tienes esa propiedad");
+            consola.imprimir("No tienes esa propiedad");
         }
     }
 
@@ -848,18 +852,18 @@ public class Jugador {
         if (this.hipotecas.containsKey(cas.getNombre())) {
             int precio = (int) (0.5 * this.hipotecas.get(cas.getNombre()).getValor());
             if (precio > this.fortuna) {
-                System.out.println("No tienes suficiente dinero para deshipotecar " + cas.getNombre()
+                consola.imprimir("No tienes suficiente dinero para deshipotecar " + cas.getNombre()
                         + "\nCantidad necesaria: " + precio);
             } else {
                 /*Deshipotecar la propiedad*/
                 this.fortuna -= precio;
                 this.propiedades.put(cas.getNombre(), this.hipotecas.get(cas.getNombre()));
                 this.hipotecas.remove(cas.getNombre());
-                System.out.println("El jugador " + this.nombre + " deshipoteca " + cas.getNombre() + " por " + precio
+                consola.imprimir("El jugador " + this.nombre + " deshipoteca " + cas.getNombre() + " por " + precio
                         + " €\nSu fortuna actual es: " + this.fortuna);
             }
         } else {
-            System.out.println("No tienes esa hipoteca");
+            consola.imprimir("No tienes esa hipoteca");
         }
     }
 
@@ -868,14 +872,14 @@ public class Jugador {
      */
     public void declararBancarrota(Jugador jugador, Tablero tablero, Turno turno) {
         this.bancarrota = true;
-        for (Casilla prop : this.propiedades.values()) {
+        for (Propiedad prop : this.propiedades.values()) {
             /*Traspase de las propiedades*/
             jugador.getPropiedades().put(prop.getNombre(), prop);
             prop.setPropietario(jugador);
         }
         this.propiedades.clear();
         
-        for (Casilla hip : this.hipotecas.values()) {
+        for (Propiedad hip : this.hipotecas.values()) {
             /*Traspase de las hipotecas*/
             jugador.getHipotecas().put(hip.getNombre(), hip);
             hip.setPropietario(jugador);
@@ -893,7 +897,7 @@ public class Jugador {
             Iterator jug_it = tablero.getJugadores().values().iterator();
             while (jug_it.hasNext()) {
                 Jugador ganador = (Jugador) jug_it.next();
-                System.out.println("El ganador de la partida es " + ganador.getNombre());
+                consola.imprimir("El ganador de la partida es " + ganador.getNombre());
                 /*Si solo queda un jugador, este es el ganador*/
             }
             System.exit(0);
@@ -905,7 +909,7 @@ public class Jugador {
         while (precio > this.fortuna && !bancarrota) {
             /*Si no le llega el dinero se hipoteca o declara bancarrota*/
             Scanner scanner = new Scanner(System.in);
-            System.out.println("No tienes suficiente dinero para pagar " + precio + "€. ¿Quieres hipotecar o declararte en bancarrota?: ");
+            consola.imprimir("No tienes suficiente dinero para pagar " + precio + "€. ¿Quieres hipotecar o declararte en bancarrota?: ");
             String opcion = scanner.nextLine();
 
             switch (opcion) {
@@ -916,7 +920,7 @@ public class Jugador {
                     this.declararBancarrota(jugador, tablero, turno);
                     break;
                 default:
-                    System.out.println("Opcion incorrecta, las opciones son 'hipotecarse' y 'bancarrota'");
+                    consola.imprimir("Opcion incorrecta, las opciones son 'hipotecarse' y 'bancarrota'");
             }
         }
     }
@@ -936,11 +940,11 @@ public class Jugador {
         Casilla c = this.avatar.getCasilla();
         if (!c.getPropietario().getNombre().equals("banca") || c.getValor() == 0) {
             /*Comprobacion de que la casilla no es comprable*/
-            System.out.println("La casilla no se puede comprar");
+            consola.imprimir("La casilla no se puede comprar");
         } else if (this.fortuna > c.getValor()) {
             /*Si le llega el dinero*/
             this.fortuna = fortuna - c.getValor();
-            this.propiedades.put(c.getNombre(), c);
+            this.propiedades.put(c.getNombre(), (Propiedad) c);
             c.setPropietario(this);
             Iterator grupos = tablero.getGrupos().values().iterator();
             while (grupos.hasNext()) {
@@ -956,11 +960,11 @@ public class Jugador {
                 }
             }
             //cambiarAlquilerCasillas(tablero);
-            System.out.println("El jugador " + this.nombre + " compra la casilla " + c.getNombre() + " por " + c.getValor() + "€");
+            consola.imprimir("El jugador " + this.nombre + " compra la casilla " + c.getNombre() + " por " + c.getValor() + "€");
             this.dineroInvertido += c.getValor();
-            System.out.println("Su fortuna actual es " + this.fortuna + "€");
+            consola.imprimir("Su fortuna actual es " + this.fortuna + "€");
         } else {
-            System.out.println("No tienes suficiente dinero");
+            consola.imprimir("No tienes suficiente dinero");
         }
     }
 

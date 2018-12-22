@@ -2,6 +2,8 @@ package monopoly.persona;
 
 import monopoly.mapa.*;
 
+import static monopoly.Juego.consola;
+
 public class Avatar {
 
     private String id;
@@ -17,7 +19,7 @@ public class Avatar {
             this.ficha = ficha;
             this.casilla = casilla;
         } else {
-            System.out.println("Error creando avatar.");
+            consola.imprimir("Error creando avatar.");
             System.exit(1);
         }
     }
@@ -29,7 +31,7 @@ public class Avatar {
 
     public void setId(String id) {
         if (id == null) {
-            System.out.println("Id nulo.");
+            consola.imprimir("Id nulo.");
             System.exit(1);
         }
         this.id = id;
@@ -41,7 +43,7 @@ public class Avatar {
 
     public void setFicha(String ficha) {
         if (ficha == null) {
-            System.out.println("Ficha nula.");
+            consola.imprimir("Ficha nula.");
             System.exit(1);
         }
         this.ficha = ficha;
@@ -53,7 +55,7 @@ public class Avatar {
 
     public void setJugador(Jugador jugador) {
         if (jugador == null) {
-            System.out.println("Jugador nulo.");
+            consola.imprimir("Jugador nulo.");
             System.exit(1);
         }
         this.jugador = jugador;
@@ -65,7 +67,7 @@ public class Avatar {
 
     public void setCasilla(Casilla casilla) {
         if (casilla == null) {
-            System.out.println("Casilla nula.");
+            consola.imprimir("Casilla nula.");
             System.exit(1);
         }
         this.casilla = casilla;
@@ -77,11 +79,11 @@ public class Avatar {
      */
     public void moverAvatar(int avance, Tablero tablero, Turno turno) {
         if (avance < 0) {
-            System.out.println(Valor.ANSI_ROJO + "Avance negativo.");
+            consola.imprimir(Valor.ANSI_ROJO + "Avance negativo.");
             System.exit(1);
         }
         if (tablero == null) {
-            System.out.println(Valor.ANSI_ROJO + "Tablero nulo.");
+            consola.imprimir(Valor.ANSI_ROJO + "Tablero nulo.");
             System.exit(1);
 
         }
@@ -91,11 +93,11 @@ public class Avatar {
         int posicionNueva = (posicionActual + avance) % 10;
         if (lado * 10 + posicionNueva < this.casilla.getPosicion()) {
             /*Si el jugador pasa por salida, cobra*/
-            System.out.println(this.jugador.getNombre() + " pasa por salida y cobra " + Valor.CANTIDAD_PASAR_SALIDA + " €");
+            consola.imprimir(this.jugador.getNombre() + " pasa por salida y cobra " + Valor.CANTIDAD_PASAR_SALIDA + " €");
             this.jugador.setPasarPorCasillaDeSalida(this.jugador.getPasarPorCasillaDeSalida() + Valor.CANTIDAD_PASAR_SALIDA);
         }
         
-        System.out.println("Desde " + this.casilla.getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
+        consola.imprimir("Desde " + this.casilla.getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
         this.casilla.eliminarAvatar(this);
         /*Cambio el avatar de una casilla a otra*/
         this.casilla = tablero.getCasillas().get(lado).get(posicionNueva);
@@ -106,8 +108,8 @@ public class Avatar {
             this.casilla.setEdificable(true);
         }
 
-        System.out.println("Veces caidas en " + this.casilla.getNombre());
-        this.casilla.getVecesCaidas().forEach((k, v) -> System.out.println(k.getNombre() + " -> " + v));
+        consola.imprimir("Veces caidas en " + this.casilla.getNombre());
+        this.casilla.frecuenciaVisita();
 
         this.casilla.realizarAccion(jugador, turno, avance);
     }
@@ -116,7 +118,7 @@ public class Avatar {
         switch (this.ficha) {
             case Valor.COCHE:
                 if (this.jugador.getTurnosDadosTiradosEspecial() == 4) {
-                    System.out.println("El jugador ya ha tirado 4 veces en modo avanzado. No puede tirar mas.");
+                    consola.imprimir("El jugador ya ha tirado 4 veces en modo avanzado. No puede tirar mas.");
                 } else if (avance > 4) {
                     this.jugador.setDadosTirados(false);
                     this.jugador.aumentarTurnosDadosTiradosEspecial();
@@ -124,20 +126,20 @@ public class Avatar {
                     /*Calculo de la nueva posicion*/
                     int lado = ((posicionActual + avance) / 10) % 4;
                     int posicionNueva = (posicionActual + avance) % 10;
-                    System.out.println("Desde " + this.casilla.getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
+                    consola.imprimir("Desde " + this.casilla.getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
                     this.casilla.eliminarAvatar(this);
                     /*Cambio el avatar de una casilla a otra*/
                     this.casilla = tablero.getCasillas().get(lado).get(posicionNueva);
                     this.casilla.getAvatares().put(this.id, this);
                     this.casilla.getVecesCaidas().put(this.jugador, this.casilla.getVecesCaidas().get(this.jugador) + 1);
-                    System.out.println("Veces caidas en " + this.casilla.getNombre());
-                    this.casilla.getVecesCaidas().forEach((k, v) -> System.out.println(k.getNombre() + " -> " + v));
+                    consola.imprimir("Veces caidas en " + this.casilla.getNombre());
+                    this.casilla.getVecesCaidas().forEach((k, v) -> consola.imprimir(k.getNombre() + " -> " + v));
                     if (this.jugador.getTurnosDadosTiradosEspecial() == 4) {
                         this.jugador.setDadosTirados(true);
                     }
                     this.casilla.realizarAccion(jugador, turno, avance);
                 } else {
-                    System.out.println("El jugador ha sacado 4 o menos. Pasara los siguientes 2 turnos sin poder tirar.");
+                    consola.imprimir("El jugador ha sacado 4 o menos. Pasara los siguientes 2 turnos sin poder tirar.");
                     int posicionActual = this.casilla.getPosicion();
                     /*Calculo de la nueva posicion*/
                     posicionActual -= avance;
@@ -146,7 +148,7 @@ public class Avatar {
                     }
                     int lado = ((posicionActual) / 10) % 4;
                     int posicionNueva = (posicionActual) % 10;
-                    System.out.println("Desde " + this.casilla.getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
+                    consola.imprimir("Desde " + this.casilla.getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
                     this.casilla.eliminarAvatar(this);
                     /*Cambio el avatar de una casilla a otra*/
                     this.casilla = tablero.getCasillas().get(lado).get(posicionNueva);
@@ -163,7 +165,7 @@ public class Avatar {
                     /*Calculo de la nueva posicion*/
                     int lado = ((posicionActual + 4) / 10) % 4;
                     int posicionNueva = (posicionActual + 4) % 10;
-                    System.out.println("Desde " + this.casilla.getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
+                    consola.imprimir("Desde " + this.casilla.getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
                     this.casilla.eliminarAvatar(this);
                     /*Cambio el avatar de una casilla a otra*/
                     this.casilla = tablero.getCasillas().get(lado).get(posicionNueva);
@@ -173,7 +175,7 @@ public class Avatar {
                         /*Calculo de la nueva posicion*/
                         lado = ((posicionActual + 1) / 10) % 4;
                         posicionNueva = (posicionActual + 1) % 10;
-                        System.out.println("Desde " + this.casilla.getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
+                        consola.imprimir("Desde " + this.casilla.getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
                         this.casilla.eliminarAvatar(this);
                         /*Cambio el avatar de una casilla a otra*/
                         this.casilla = tablero.getCasillas().get(lado).get(posicionNueva);
@@ -193,14 +195,14 @@ public class Avatar {
                         }
                         int lado = ((posicionActual) / 10) % 4;
                         int posicionNueva = (posicionActual) % 10;
-                        System.out.println("Desde " + this.casilla.getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
+                        consola.imprimir("Desde " + this.casilla.getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
                         this.casilla.eliminarAvatar(this);
                         /*Cambio el avatar de una casilla a otra*/
                         this.casilla = tablero.getCasillas().get(lado).get(posicionNueva);
                         this.casilla.getAvatares().put(this.id, this);
                         if (i % 2 != 0) {
-                            System.out.println("Veces caidas en " + this.casilla.getNombre());
-                            this.casilla.getVecesCaidas().forEach((k, v) -> System.out.println(k.getNombre() + " -> " + v));
+                            consola.imprimir("Veces caidas en " + this.casilla.getNombre());
+                            this.casilla.getVecesCaidas().forEach((k, v) -> consola.imprimir(k.getNombre() + " -> " + v));
                             this.casilla.getVecesCaidas().put(this.jugador, this.casilla.getVecesCaidas().get(this.jugador) + 1);
                             this.casilla.realizarAccion(jugador, turno, avance);
                         }
@@ -217,7 +219,7 @@ public class Avatar {
      */
     public void moverAvatarCasilla(Casilla destino) {
         if (casilla == null) {
-            System.out.println(Valor.ANSI_ROJO + "Avance negativo.");
+            consola.imprimir(Valor.ANSI_ROJO + "Avance negativo.");
             System.exit(1);
         }
         this.casilla.eliminarAvatar(this);
@@ -232,7 +234,7 @@ public class Avatar {
      */
     public void moverAvatarCasilla(Casilla destino, Turno turno) {
         if (casilla == null) {
-            System.out.println(Valor.ANSI_ROJO + "Avance negativo.");
+            consola.imprimir(Valor.ANSI_ROJO + "Avance negativo.");
             System.exit(1);
         }
         int avance = destino.getPosicion() - this.casilla.getPosicion();

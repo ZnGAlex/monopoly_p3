@@ -1,12 +1,11 @@
 package monopoly.mapa;
 
 import java.util.ArrayList;
-import monopoly.persona.Jugador;
 
-/**
- *
- * @author Usuario
- */
+import monopoly.persona.Jugador;
+import static monopoly.Juego.consola;
+
+
 public class Turno {
     private ArrayList<Jugador> jugadores;
     private int turno;
@@ -19,7 +18,7 @@ public class Turno {
     
     public Turno(ArrayList<Jugador> jugadores){
         if (jugadores == null) {
-            System.out.println(Valor.ANSI_ROJO + "Jugadores nulo.");
+            consola.imprimir(Valor.ANSI_ROJO + "Jugadores nulo.");
             System.exit(1);
         }
         this.jugadores = jugadores;
@@ -34,7 +33,7 @@ public class Turno {
 
     public void setJugadores(ArrayList<Jugador> jugadores) {
         if (jugadores == null) {
-            System.out.println(Valor.ANSI_ROJO + "Jugadores nulo.");
+            consola.imprimir(Valor.ANSI_ROJO + "Jugadores nulo.");
             System.exit(1);
         }
         this.jugadores = jugadores;
@@ -46,7 +45,7 @@ public class Turno {
 
     public void setTurno(int turno) {
         if (turno < 0 || turno >= jugadores.size()) {
-            System.out.println(Valor.ANSI_ROJO + "Turno no valido.");
+            consola.imprimir(Valor.ANSI_ROJO + "Turno no valido.");
             System.exit(1);
         }
         this.turno = turno;
@@ -62,7 +61,6 @@ public class Turno {
     
     public void siguienteTurno(){
         turno = (turno+1)%jugadores.size();
-        System.out.println("Turno de " + jugadores.get(turno).getNombre());
+        consola.imprimir("Turno de " + jugadores.get(turno).getNombre());
     }
-    
 }
