@@ -3,7 +3,8 @@ package monopoly.mapa;
 import java.util.ArrayList;
 
 import monopoly.persona.Jugador;
-import static monopoly.Juego.consola;
+
+import static monopoly.mapa.Juego.consola;
 
 
 public class Turno {

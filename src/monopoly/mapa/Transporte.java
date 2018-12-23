@@ -10,7 +10,7 @@ public class Transporte extends Propiedad {
 
     @Override
     public int alquiler() {
-        return 0;
+        return getAlquiler();
     }
 
     @Override

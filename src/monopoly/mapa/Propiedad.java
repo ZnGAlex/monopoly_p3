@@ -2,7 +2,7 @@ package monopoly.mapa;
 
 import monopoly.persona.Jugador;
 
-public class Propiedad extends Casilla{
+public abstract class Propiedad extends Casilla{
 
     public Propiedad(String nombre, Grupo grupo, int posicion, Jugador banca, Tablero tablero) {
         super(nombre, grupo, posicion, banca, tablero);
@@ -16,9 +16,7 @@ public class Propiedad extends Casilla{
         return (super.getPropietario() == jugador);
     }
 
-    public int alquiler() {
-        return super.getAlquiler();
-    }
+    public abstract int alquiler();
 
     public int valor() {
         return super.getValor();

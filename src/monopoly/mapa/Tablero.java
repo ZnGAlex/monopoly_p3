@@ -1,6 +1,5 @@
 package monopoly.mapa;
 
-import monopoly.interfaces.Consola;
 import monopoly.persona.*;
 
 import java.util.*;
@@ -9,7 +8,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
-import static monopoly.Juego.consola;
+import static monopoly.mapa.Juego.consola;
 
 public class Tablero {
 
@@ -156,13 +155,13 @@ public class Tablero {
         this.casillas.add(derecha);
 
         /*Cartas de suerte*/
-        Carta cartaS1 = new Carta("suerte", 1);
-        Carta cartaS2 = new Carta("suerte", 2);
-        Carta cartaS3 = new Carta("suerte", 3);
-        Carta cartaS4 = new Carta("suerte", 4);
-        Carta cartaS5 = new Carta("suerte", 5);
-        Carta cartaS6 = new Carta("suerte", 6);
-        Carta cartaS7 = new Carta("suerte", 7);
+        Suerte cartaS1 = new Suerte(1);
+        Suerte cartaS2 = new Suerte(2);
+        Suerte cartaS3 = new Suerte(3);
+        Suerte cartaS4 = new Suerte(4);
+        Suerte cartaS5 = new Suerte(5);
+        Suerte cartaS6 = new Suerte(6);
+        Suerte cartaS7 = new Suerte(7);
         this.cartasSuerte = new ArrayList<>();
         this.cartasSuerte.add(cartaS1);
         this.cartasSuerte.add(cartaS2);
@@ -173,12 +172,12 @@ public class Tablero {
         this.cartasSuerte.add(cartaS7);
 
         /*Cartas de caja*/
-        Carta cartaC1 = new Carta("caja", 1);
-        Carta cartaC2 = new Carta("caja", 2);
-        Carta cartaC3 = new Carta("caja", 3);
-        Carta cartaC4 = new Carta("caja", 4);
-        Carta cartaC5 = new Carta("caja", 5);
-        Carta cartaC6 = new Carta("caja", 6);
+        CajaComunidad cartaC1 = new CajaComunidad(1);
+        CajaComunidad cartaC2 = new CajaComunidad(2);
+        CajaComunidad cartaC3 = new CajaComunidad(3);
+        CajaComunidad cartaC4 = new CajaComunidad(4);
+        CajaComunidad cartaC5 = new CajaComunidad(5);
+        CajaComunidad cartaC6 = new CajaComunidad(6);
         this.cartasCaja = new ArrayList<>();
         this.cartasCaja.add(cartaC1);
         this.cartasCaja.add(cartaC2);
@@ -244,10 +243,11 @@ public class Tablero {
         Carta[] cartasAux;
         if (c == 's') {
             cartas = this.cartasSuerte;
+            cartasAux = new Suerte[cartas.size()];
         } else {
             cartas = this.cartasCaja;
+            cartasAux = new CajaComunidad[cartas.size()];
         }
-        cartasAux = new Carta[cartas.size()];
         boolean seRepite = false;
         int posicion;
         Random random = new Random();
@@ -255,7 +255,7 @@ public class Tablero {
         for (Carta carta : cartas) {
             do {
                 seRepite = false;
-                posicion = random.nextInt((5 - 0) + 1) + 0;
+                posicion = random.nextInt((cartas.size()));
 
                 if (cartasAux[posicion] != null) {
                     seRepite = true;

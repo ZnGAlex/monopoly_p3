@@ -2,10 +2,7 @@ package monopoly.mapa;
 
 import monopoly.persona.Jugador;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import static monopoly.Juego.consola;
+import static monopoly.mapa.Juego.consola;
 
 public class Solar extends Propiedad {
 
@@ -96,7 +93,7 @@ public class Solar extends Propiedad {
 
     @Override
     public int alquiler() {
-        return 0;
+        return getAlquiler();
     }
 
     public int getNumCasas() {
@@ -231,7 +228,25 @@ public class Solar extends Propiedad {
                     break;
             }
             if (construir) {
-                Edificio edificio = new Edificio(tipo, this);
+                Edificio edificio = null;
+                switch (tipo) {
+                    case Valor.EDIFICIO_CASA:
+                        Casa casa = new Casa(this);
+                        edificio = casa;
+                        break;
+                    case Valor.EDIFICIO_HOTEL:
+                        Hotel hotel = new Hotel(this);
+                        edificio = hotel;
+                        break;
+                    case Valor.EDIFICIO_PISCINA:
+                        Piscina piscina = new Piscina(this);
+                        edificio = piscina;
+                        break;
+                    case Valor.EDIFICIO_PISTA:
+                        PistaDeporte pista = new PistaDeporte(this);
+                        edificio = pista;
+                        break;
+                }
                 incrementarNumTipoEdificio(tipo);
                 if (numHoteles == 3 && numMaximoHoteles == 3) {
                     getGrupo().setNumMaxCasas(getGrupo().getNumMaxCasas() - 1);

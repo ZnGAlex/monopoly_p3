@@ -1,5 +1,8 @@
 package monopoly.persona;
 
+import monopoly.excepciones.ExcepcionCompraCasilla;
+import monopoly.excepciones.ExcepcionHipoteca;
+import monopoly.excepciones.ExcepcionPersona;
 import monopoly.mapa.*;
 
 import java.util.ArrayList;
@@ -7,7 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
 
-import static monopoly.Juego.consola;
+import static monopoly.mapa.Juego.consola;
 
 public class Jugador{
 
@@ -38,20 +41,30 @@ public class Jugador{
     private boolean haCompradoModoEspecial;
 
     // constructores
-    public Jugador(String nombre, String ficha, Casilla casilla, String id) {
+    public Jugador(String nombre, String ficha, Casilla casilla, String id) throws ExcepcionPersona {
         if (nombre == null) {
-            consola.imprimir(Valor.ANSI_ROJO + "Nombre nulo." + Valor.ANSI_RESET);
-            System.exit(1);
+            throw new ExcepcionPersona("Nombre de jugador nulo.");
         }
         if (ficha == null) {
-            consola.imprimir(Valor.ANSI_ROJO + "Ficha nula." + Valor.ANSI_RESET);
-            System.exit(1);
+            throw new ExcepcionPersona("Tipo de avatar nulo.");
         }
         if (ficha.equalsIgnoreCase(Valor.ESFINGE) || ficha.equalsIgnoreCase(Valor.COCHE) || ficha.equalsIgnoreCase(Valor.SOMBRERO) || ficha.equalsIgnoreCase(Valor.PELOTA)) {
-            this.avatar = new Avatar(this, ficha, casilla, id);
+            switch (ficha) {
+                case Valor.COCHE:
+                    avatar = new Coche(this, casilla, id);
+                    break;
+                case Valor.ESFINGE:
+                    avatar = new Esfinge(this, casilla, id);
+                    break;
+                case Valor.PELOTA:
+                    avatar = new Pelota(this, casilla, id);
+                    break;
+                case Valor.SOMBRERO:
+                    avatar = new Sombrero(this, casilla, id);
+                    break;
+            }
         } else {
-            consola.imprimir(Valor.ANSI_ROJO + "Ficha debe ser: Esfinge, Coche, Sombrero o Pelota");
-            System.exit(1);
+            throw new ExcepcionPersona("Tipo de avatar debe ser: Esfinge, Coche, Sombrero o Pelota");
         }
         this.nombre = nombre;
         this.fortuna = Valor.FORTUNA_INICIAL;
@@ -77,10 +90,9 @@ public class Jugador{
         this.bloqueoTiroModoEspecial = false;
     }
 
-    public Jugador(String nombre) {
+    public Jugador(String nombre) throws ExcepcionPersona {
         if (nombre == null) {
-            consola.imprimir(Valor.ANSI_ROJO + "Nombre nulo." + Valor.ANSI_RESET);
-            System.exit(1);
+            throw new ExcepcionPersona("Nombre de jugador nulo.");
         }
         this.nombre = nombre;
         this.fortuna = Valor.FORTUNA_BANCA;
@@ -482,7 +494,11 @@ public class Jugador{
                             this.declararBancarrota(this.getAvatar().getCasilla().getPropietario(), tablero, turno);// funcion bancarrota
                             break;
                         case "hipotecarse":
-                            this.hipotecar(); // el usuario se hipoteca
+                            try {
+                                this.hipotecar();
+                            } catch (ExcepcionHipoteca excepcionHipoteca) {
+                                consola.imprimir(excepcionHipoteca.getMessage());
+                            }
                             break;
                         default:
                             consola.imprimir("Opcion incorrecta.");
@@ -561,7 +577,11 @@ public class Jugador{
                             this.declararBancarrota(this.getAvatar().getCasilla().getPropietario(), tablero, turno);// funcion bancarrota
                             break;
                         case "hipotecarse":
-                            this.hipotecar(); // el usuario se hipoteca
+                            try {
+                                this.hipotecar();
+                            } catch (ExcepcionHipoteca excepcionHipoteca) {
+                                consola.imprimir(excepcionHipoteca.getMessage());
+                            }
                             break;
                         default:
                             consola.imprimir("Opcion incorrecta.");
@@ -633,7 +653,11 @@ public class Jugador{
 
             switch (opcion) {
                 case "hipotecarse":
-                    this.hipotecar();
+                    try {
+                        this.hipotecar();
+                    } catch (ExcepcionHipoteca excepcionHipoteca) {
+                        consola.imprimir(excepcionHipoteca.getMessage());
+                    }
                     break;
                 case "bancarrota":
                     this.declararBancarrota(tablero.getCasillas().get(0).get(0).getPropietario(), tablero, turno);
@@ -678,7 +702,11 @@ public class Jugador{
 
                     switch (opcion) {
                         case "hipotecarse":
-                            this.hipotecar();
+                            try {
+                                this.hipotecar();
+                            } catch (ExcepcionHipoteca excepcionHipoteca) {
+                                consola.imprimir(excepcionHipoteca.getMessage());
+                            }
                             break;
                         case "bancarrota":
                             this.declararBancarrota(this.avatar.getCasilla().getPropietario(), tablero, turno);
@@ -725,7 +753,11 @@ public class Jugador{
 
                     switch (opcion) {
                         case "hipotecarse":
-                            this.hipotecar();
+                            try {
+                                this.hipotecar();
+                            } catch (ExcepcionHipoteca excepcionHipoteca) {
+                                consola.imprimir(excepcionHipoteca.getMessage());
+                            }
                             break;
                         case "bancarrota":
                             this.declararBancarrota(this.avatar.getCasilla().getPropietario(), tablero, turno);
@@ -778,7 +810,11 @@ public class Jugador{
 
                     switch (opcion) {
                         case "hipotecarse":
-                            this.hipotecar();
+                            try {
+                                this.hipotecar();
+                            } catch (ExcepcionHipoteca excepcionHipoteca) {
+                                consola.imprimir(excepcionHipoteca.getMessage());
+                            }
                             break;
                         case "bancarrota":
                             this.declararBancarrota(this.avatar.getCasilla().getPropietario(), tablero, turno);
@@ -803,7 +839,7 @@ public class Jugador{
     /**
      * Elegir una propiedad para hipotecar
      */
-    public void hipotecar() {
+    public void hipotecar() throws ExcepcionHipoteca {
         boolean flag = true;
         do {
             consola.imprimir(this.propiedades.values().toString());
@@ -824,7 +860,7 @@ public class Jugador{
                 /*Para salir del bucle sin hipotecar*/
                 return;
             } else {
-                consola.imprimir("No tienes esa propiedad");
+                throw new ExcepcionHipoteca("No tienes esa propiedad");
             }
         } while (flag);
     }
@@ -832,7 +868,7 @@ public class Jugador{
     /**
      * Hipotecar la casilla cas si es posible
      */
-    public void hipotecar(Solar cas) {
+    public void hipotecar(Solar cas) throws ExcepcionHipoteca {
         if (this.propiedades.containsKey(cas.getNombre())) {
             /*Hipotecar la propiedad*/
             this.fortuna += (int) (0.5 * this.propiedades.get(cas.getNombre()).getValor());
@@ -844,16 +880,15 @@ public class Jugador{
             consola.imprimir("El jugador " + this.nombre + " hipoteca " + cas.getNombre() + " por " + (0.5 * this.hipotecas.get(cas.getNombre()).getValor())
                     + " €\nSu fortuna actual es: " + this.fortuna);
         } else {
-            consola.imprimir("No tienes esa propiedad");
+            throw new ExcepcionHipoteca("No tienes esa propiedad");
         }
     }
 
-    public void deshipotecar(Casilla cas) {
+    public void deshipotecar(Casilla cas) throws ExcepcionHipoteca {
         if (this.hipotecas.containsKey(cas.getNombre())) {
             int precio = (int) (0.5 * this.hipotecas.get(cas.getNombre()).getValor());
             if (precio > this.fortuna) {
-                consola.imprimir("No tienes suficiente dinero para deshipotecar " + cas.getNombre()
-                        + "\nCantidad necesaria: " + precio);
+                throw new ExcepcionHipoteca("No tienes suficiente dinero para deshipotecar \" + " + cas.getNombre() + " cantidad necesaria: " + precio);
             } else {
                 /*Deshipotecar la propiedad*/
                 this.fortuna -= precio;
@@ -914,7 +949,11 @@ public class Jugador{
 
             switch (opcion) {
                 case "hipotecarse":
-                    this.hipotecar();
+                    try {
+                        this.hipotecar();
+                    } catch (ExcepcionHipoteca excepcionHipoteca) {
+                        consola.imprimir(excepcionHipoteca.getMessage());
+                    }
                     break;
                 case "bancarrota":
                     this.declararBancarrota(jugador, tablero, turno);
@@ -936,11 +975,11 @@ public class Jugador{
     /**
      * Compra la casilla en la que se encuentre el jugador
      */
-    public void comprarCasilla(Tablero tablero) {
+    public void comprarCasilla(Tablero tablero) throws ExcepcionCompraCasilla {
         Casilla c = this.avatar.getCasilla();
         if (!c.getPropietario().getNombre().equals("banca") || c.getValor() == 0) {
             /*Comprobacion de que la casilla no es comprable*/
-            consola.imprimir("La casilla no se puede comprar");
+            throw new ExcepcionCompraCasilla("La casilla no se puede comprar");
         } else if (this.fortuna > c.getValor()) {
             /*Si le llega el dinero*/
             this.fortuna = fortuna - c.getValor();

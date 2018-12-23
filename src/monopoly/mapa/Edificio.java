@@ -1,6 +1,6 @@
 package monopoly.mapa;
 
-import static monopoly.Juego.consola;
+import static monopoly.mapa.Juego.consola;
 
 public class Edificio {
     private String nombre;
@@ -9,6 +9,15 @@ public class Edificio {
     private Grupo grupo;
     private int valor;
     private int alquiler;
+
+    public Edificio(Solar solar) {
+        if (solar == null) {
+            consola.imprimir("Casilla nula.");
+            System.exit(1);
+        }
+        this.casilla = solar;
+        this.grupo = solar.getGrupo();
+    }
 
     public Edificio(String tipo, Solar solar) {
         if (tipo == null) {

@@ -2,7 +2,7 @@ package monopoly.mapa;
 
 import java.util.ArrayList;
 
-import static monopoly.Juego.consola;
+import static monopoly.mapa.Juego.consola;
 
 public class Grupo {
     private String color;

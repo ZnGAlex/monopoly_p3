@@ -10,7 +10,7 @@ public class Servicio extends Propiedad {
 
     @Override
     public int alquiler() {
-        return 0;
+        return getAlquiler();
     }
 
     @Override

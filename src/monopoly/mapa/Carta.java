@@ -6,16 +6,25 @@
 package monopoly.mapa;
 
 import monopoly.persona.Jugador;
-import static monopoly.Juego.consola;
+
+import static monopoly.mapa.Juego.consola;
 
 
-public class Carta {
+public abstract class Carta {
 
-    String tipo;
     int numCarta;
     String accion;
 
     // constructores
+    public Carta(int numCarta) {
+        if (numCarta < 0 || numCarta > Valor.ACCIONES_SUERTE.size()) {
+            consola.imprimir(Valor.ANSI_ROJO + "numCarta no valido." + Valor.ANSI_RESET);
+            System.exit(1);
+        }
+        this.numCarta = numCarta;
+    }
+
+    /*
     public Carta(String tipo, int numCarta) {
         if (tipo == null) {
             consola.imprimir(Valor.ANSI_ROJO + "tipo nulo." + Valor.ANSI_RESET);
@@ -37,24 +46,9 @@ public class Carta {
             this.accion = Valor.ACCIONES_CAJA.get(numCarta - 1);
         }
     }
+    */
 
     //getters y setters
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        if (tipo == null) {
-            consola.imprimir(Valor.ANSI_ROJO + "tipo nulo." + Valor.ANSI_RESET);
-            System.exit(1);
-        }
-        if (!tipo.equals("suerte") && !tipo.equals("caja")) {
-            consola.imprimir(Valor.ANSI_ROJO + "tipo no valido." + Valor.ANSI_RESET);
-            System.exit(1);
-        }
-        this.tipo = tipo;
-    }
-
     public int getNumCarta() {
         return numCarta;
     }
@@ -80,30 +74,35 @@ public class Carta {
     }
 
     // metodos
+
+    public abstract void realizarAccion(Jugador jugador, Tablero tablero, Turno turno);
+
+    /*
+
     public void realizarAccion(Jugador jugador, Tablero tablero, Turno turno) {
         if (jugador == null) {
             consola.imprimir(Valor.ANSI_ROJO + "jugador nulo." + Valor.ANSI_RESET);
             System.exit(1);
         }
         consola.imprimir("Accion: " + this.accion);
-        /*Se imprime la accion*/
+        // Se imprime la accion
 
         if (this.tipo.equals("suerte")) {
-            /*Se realiza la accion, ya sea de suerte o de caja*/
+            // Se realiza la accion, ya sea de suerte o de caja
             switch (this.numCarta) {
                 case 1:
                     if (tablero.pasaPorSalida(jugador.getAvatar().getCasilla(), tablero.casillaByName("Transporte2"))) {
-                        /*Si pasa por Salida, cobra*/
+                        // Si pasa por Salida, cobra
                         consola.imprimir(jugador.getNombre() + " pasa por Salida y cobra " + Valor.CANTIDAD_PASAR_SALIDA + "€");
                         jugador.setFortuna(jugador.getFortuna() + Valor.CANTIDAD_PASAR_SALIDA);
                         jugador.setPasarPorCasillaDeSalida(jugador.getPasarPorCasillaDeSalida() + Valor.CANTIDAD_PASAR_SALIDA);
                     }
                     jugador.getAvatar().moverAvatarCasilla(tablero.casillaByName("Tansporte2"));
-                    /*Mover avatar a la casilla Transporte2*/
+                    // Mover avatar a la casilla Transporte2
                     break;
                 case 2:
                     jugador.getAvatar().moverAvatarCasilla(tablero.casillaByName("LosBaldios"), turno);
-                    /*Mover avatar a la casilla LosBaldios*/
+                    // Mover avatar a la casilla LosBaldios
                     break;
                 case 3:
                     jugador.setFortuna(jugador.getFortuna() + 5000);
@@ -111,19 +110,19 @@ public class Carta {
                     break;
                 case 4:
                     if (tablero.pasaPorSalida(jugador.getAvatar().getCasilla(), tablero.casillaByName("Dalaran"))) {
-                        /*Si pasa por Salida, cobra*/
+                        // Si pasa por Salida, cobra
                         consola.imprimir(jugador.getNombre() + " pasa por Salida y cobra " + Valor.CANTIDAD_PASAR_SALIDA + "€");
                         jugador.setFortuna(jugador.getFortuna() + Valor.CANTIDAD_PASAR_SALIDA);
                         jugador.setPasarPorCasillaDeSalida(jugador.getPasarPorCasillaDeSalida() + Valor.CANTIDAD_PASAR_SALIDA);
                     }
                     jugador.getAvatar().moverAvatarCasilla(tablero.casillaByName("Dalaran"));
                     jugador.getAvatar().moverAvatarCasilla(tablero.casillaByName("Dalaran"), turno);
-                    /*Mover avatar a la casilla Transporte2*/
+                    // Mover avatar a la casilla Transporte2
                     break;
                 case 5:
                     jugador.encarcelarJugador(tablero);
                     turno.siguienteTurno();
-                    /*Encarcelar al jugador*/
+                    // Encarcelar al jugador
                     break;
                 case 6:
                     jugador.setFortuna(jugador.getFortuna() + 50000);
@@ -201,4 +200,6 @@ public class Carta {
             }
         }
     }
+
+    */
 }
