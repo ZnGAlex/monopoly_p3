@@ -1,5 +1,7 @@
 package monopoly.interfaces;
 
+import monopoly.excepciones.ExcepcionCasilla;
+import monopoly.excepciones.ExcepcionDados;
 import monopoly.mapa.*;
 import monopoly.persona.Avatar;
 import monopoly.persona.Jugador;
@@ -19,7 +21,7 @@ public interface Comando {
 
     void turnoActual(Turno turno);
 
-    void lanzarDados(Turno turno);
+    void lanzarDados(Turno turno) throws ExcepcionDados, ExcepcionCasilla;
 
     void acabarTurno(Turno turno, boolean modoCambiado);
 

@@ -1,5 +1,7 @@
 package monopoly.interfaces;
 
+import java.util.Scanner;
+
 public class ConsolaNormal implements Consola{
     @Override
     public void imprimir(String mensaje) {
@@ -8,6 +10,10 @@ public class ConsolaNormal implements Consola{
 
     @Override
     public String leer(String descripcion) {
-        return null;
+        System.out.print(descripcion);
+        Scanner sc = new Scanner(System.in);
+        String entrada = sc.nextLine();
+
+        return entrada;
     }
 }

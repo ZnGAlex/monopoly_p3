@@ -1,5 +1,6 @@
 package monopoly.persona;
 
+import monopoly.excepciones.ExcepcionCasilla;
 import monopoly.excepciones.ExcepcionCompraCasilla;
 import monopoly.excepciones.ExcepcionHipoteca;
 import monopoly.excepciones.ExcepcionPersona;
@@ -457,7 +458,7 @@ public class Jugador{
      * Realiza la accion de tirar los dados y desplazar al jugador. Tiene en
      * cuenta si esta dentro de la carcel
      */
-    public void tirarDadosJugador(Tablero tablero, Turno turno) {
+    public void tirarDadosJugador(Tablero tablero, Turno turno) throws ExcepcionCasilla {
         Dado dados = new Dado();
         int desplazamiento = 0;
 
@@ -616,7 +617,7 @@ public class Jugador{
     /**
      * Mete al jugador en la carcel
      */
-    public void encarcelarJugador(Tablero tablero) {
+    public void encarcelarJugador(Tablero tablero) throws ExcepcionCasilla {
         this.avatar.moverAvatarCasilla(tablero.casillaByName("Carcel"));
         this.vecesEnLaCarcel += 1;
         this.inCarcel = true;
@@ -647,9 +648,7 @@ public class Jugador{
     public void pagarImpuesto(int impuesto, Tablero tablero, Turno turno) {
         while (impuesto > this.fortuna && !bancarrota) {
             /*Si no le llega el dinero se hipoteca o declara en bancarrota*/
-            Scanner scanner = new Scanner(System.in);
-            consola.imprimir("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
-            String opcion = scanner.nextLine();
+            String opcion = consola.leer("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
 
             switch (opcion) {
                 case "hipotecarse":
@@ -843,9 +842,7 @@ public class Jugador{
         boolean flag = true;
         do {
             consola.imprimir(this.propiedades.values().toString());
-            Scanner scanner = new Scanner(System.in);
-            consola.imprimir("Propiedad a hipotecar o cancelar: ");
-            String prop = scanner.nextLine();
+            String prop = consola.leer("Propiedad a hipotecar o cancelar: ");
 
             if (this.propiedades.containsKey(prop)) {
                 /*Hipotecar la propiedad*/
@@ -898,7 +895,7 @@ public class Jugador{
                         + " €\nSu fortuna actual es: " + this.fortuna);
             }
         } else {
-            consola.imprimir("No tienes esa hipoteca");
+            throw new ExcepcionHipoteca("No tienes esa hipoteca.");
         }
     }
 

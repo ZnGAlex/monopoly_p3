@@ -1,5 +1,7 @@
 package monopoly.mapa;
 
+import monopoly.excepciones.ExcepcionCasilla;
+import monopoly.excepciones.ExcepcionPersona;
 import monopoly.persona.*;
 
 import java.util.*;
@@ -21,7 +23,7 @@ public class Tablero {
     private ArrayList<Carta> cartasCaja;
 
     // constructores
-    public Tablero() {
+    public Tablero() throws ExcepcionPersona {
         Jugador banca = new Jugador("banca");
         this.casillas = new ArrayList<>();
         this.avatares = new HashMap<>();
@@ -91,23 +93,23 @@ public class Tablero {
         grupo_verde.getCasillas().add(solar3GrupoVerde);
         grupo_azul.getCasillas().add(solar1GrupoAzul);
         grupo_azul.getCasillas().add(solar2GrupoAzul);
-        Casilla salida = new Casilla(Valor.CASILLA_SALIDA, Valor.POSICION_CASILLA_SALIDA, banca, this);
-        Especial suerte1 = new Especial(Valor.CASILLA_SUERTE, Valor.POSICION_CASILLA_SUERTE1, banca, this);
+        Salida salida = new Salida(Valor.CASILLA_SALIDA, Valor.POSICION_CASILLA_SALIDA, banca, this);
+        CasillaSuerte suerte1 = new CasillaSuerte(Valor.CASILLA_SUERTE, Valor.POSICION_CASILLA_SUERTE1, banca, this);
         Especial caja1 = new Especial(Valor.CASILLA_CAJA, Valor.POSICION_CASILLA_CAJA1, banca, this);
         Impuesto impuesto1 = new Impuesto(Valor.CASILLA_IMPUESTO, Valor.POSICION_CASILLA_IMPUESTO1, banca, this);
         Transporte transporte1 = new Transporte(Valor.CASILLA_TRANSPORTE, Valor.POSICION_CASILLA_TRANSPORTE1, banca, this);
-        Especial carcel = new Especial(Valor.CASILLA_CARCEL, Valor.POSICION_CASILLA_CARCEL, banca, this);
+        Carcel carcel = new Carcel(Valor.CASILLA_CARCEL, Valor.POSICION_CASILLA_CARCEL, banca, this);
         Servicio servicio1 = new Servicio(Valor.CASILLA_SERVICIO, Valor.POSICION_CASILLA_SERVICIO1, banca, this);
         Transporte transporte2 = new Transporte(Valor.CASILLA_TRANSPORTE2, Valor.POSICION_CASILLA_TRANSPORTE2, banca, this);
         Especial caja2 = new Especial(Valor.CASILLA_CAJA, Valor.POSICION_CASILLA_CAJA2, banca, this);
-        Especial parking = new Especial(Valor.CASILLA_PARKING, Valor.POSICION_CASILLA_PARKING, banca, this);
-        Especial suerte2 = new Especial(Valor.CASILLA_SUERTE, Valor.POSICION_CASILLA_SUERTE2, banca, this);
+        Parking parking = new Parking(Valor.CASILLA_PARKING, Valor.POSICION_CASILLA_PARKING, banca, this);
+        CasillaSuerte suerte2 = new CasillaSuerte(Valor.CASILLA_SUERTE, Valor.POSICION_CASILLA_SUERTE2, banca, this);
         Transporte transporte3 = new Transporte(Valor.CASILLA_TRANSPORTE3, Valor.POSICION_CASILLA_TRANSPORTE3, banca, this);
         Servicio servicio2 = new Servicio(Valor.CASILLA_SERVICIO, Valor.POSICION_CASILLA_SERVICIO2, banca, this);
-        Especial ircarcel = new Especial(Valor.CASILLA_IR_CARCEL, Valor.POSICION_CASILLA_IR_CARCEL, banca, this);
+        CasillaIrCarcel ircarcel = new CasillaIrCarcel(Valor.CASILLA_IR_CARCEL, Valor.POSICION_CASILLA_IR_CARCEL, banca, this);
         Especial caja3 = new Especial(Valor.CASILLA_CAJA, Valor.POSICION_CASILLA_CAJA3, banca, this);
         Transporte transporte4 = new Transporte(Valor.CASILLA_TRANSPORTE4, Valor.POSICION_CASILLA_TRANSPORTE4, banca, this);
-        Especial suerte3 = new Especial(Valor.CASILLA_SUERTE, Valor.POSICION_CASILLA_SUERTE3, banca, this);
+        CasillaSuerte suerte3 = new CasillaSuerte(Valor.CASILLA_SUERTE, Valor.POSICION_CASILLA_SUERTE3, banca, this);
         Impuesto impuesto2 = new Impuesto(Valor.CASILLA_IMPUESTO2, Valor.POSICION_CASILLA_IMPUESTO2, banca, this);
         abajo.add(salida);
         abajo.add(solar1GrupoNegro);
@@ -268,7 +270,7 @@ public class Tablero {
         }
     }
 
-    public void escogerCarta(char c, Jugador jugador, Turno turno) {
+    public void escogerCarta(char c, Jugador jugador, Turno turno) throws ExcepcionCasilla {
         if (c != 's' && c != 'c') {
             consola.imprimir("c no valido.");
             System.exit(1);
@@ -300,10 +302,9 @@ public class Tablero {
      * @param nombre Nombre de la casila a buscar
      * @return Casilla si existe. Si no existe return null
      */
-    public Casilla casillaByName(String nombre) {
+    public Casilla casillaByName(String nombre) throws ExcepcionCasilla {
         if (nombre == null) {
-            consola.imprimir(Valor.ANSI_ROJO + "Nombre nulo." + Valor.ANSI_RESET);
-            System.exit(1);
+            throw new ExcepcionCasilla("Nombre de casilla nulo.");
         }
         for (ArrayList<Casilla> n : casillas) {
             for (Casilla cas : n) {
@@ -312,6 +313,7 @@ public class Tablero {
                 }
             }
         }
+        consola.imprimir("Casilla no encontrada.");
         return null;
     }
 

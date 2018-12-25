@@ -1,5 +1,6 @@
 package monopoly.mapa;
 
+import monopoly.excepciones.ExcepcionCasilla;
 import monopoly.persona.Jugador;
 import static monopoly.mapa.Juego.consola;
 
@@ -10,7 +11,7 @@ final public class Suerte extends Carta {
     }
 
     @Override
-    public void realizarAccion(Jugador jugador, Tablero tablero, Turno turno) {
+    public void realizarAccion(Jugador jugador, Tablero tablero, Turno turno) throws ExcepcionCasilla {
         consola.imprimir("Accion: " + this.accion);
         switch (this.numCarta) {
             case 1:
@@ -20,7 +21,7 @@ final public class Suerte extends Carta {
                     jugador.setFortuna(jugador.getFortuna() + Valor.CANTIDAD_PASAR_SALIDA);
                     jugador.setPasarPorCasillaDeSalida(jugador.getPasarPorCasillaDeSalida() + Valor.CANTIDAD_PASAR_SALIDA);
                 }
-                jugador.getAvatar().moverAvatarCasilla(tablero.casillaByName("Tansporte2"));
+                jugador.getAvatar().moverAvatarCasilla(tablero.casillaByName("Transporte2"));
                 // Mover avatar a la casilla Transporte2
                 break;
             case 2:

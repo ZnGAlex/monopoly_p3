@@ -1,5 +1,6 @@
 package monopoly.mapa;
 
+import monopoly.excepciones.ExcepcionCasilla;
 import monopoly.persona.Jugador;
 
 import static monopoly.mapa.Juego.consola;
@@ -12,7 +13,7 @@ final public class CajaComunidad extends Carta {
     }
 
     @Override
-    public void realizarAccion(Jugador jugador, Tablero tablero, Turno turno) {
+    public void realizarAccion(Jugador jugador, Tablero tablero, Turno turno) throws ExcepcionCasilla {
         consola.imprimir("Accion: " + this.accion);
         switch (this.numCarta) {
             case 1:

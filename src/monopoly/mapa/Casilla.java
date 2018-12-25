@@ -2,11 +2,12 @@ package monopoly.mapa;
 
 import java.util.*;
 
+import monopoly.excepciones.ExcepcionCasilla;
 import monopoly.persona.*;
 
 import static monopoly.mapa.Juego.consola;
 
-public class Casilla {
+public abstract class Casilla {
 
     private String nombre;
     private int posicion;
@@ -197,49 +198,12 @@ public class Casilla {
         }
         return cadena;
     }
-    public String shortInfo() {
-        String cadena = new String();
-        cadena = "{\n "
-                + "\t tipo: "
-                + "\n}";
 
-        return cadena;
-    }
 
     /**
      * Info completa de las casillas
      */
-    public String info() {
-        String cadena = new String();
-        /*
-                ArrayList<String> jug = new ArrayList<>();
-                for (Avatar avat : this.avatares.values()) {
-                    String str = new String();
-                    str = avat.getJugador().getNombre();
-                    if (avat.getJugador().getInCarcel()) {
-                        str = str.concat("(" + avat.getJugador().getTurnosEnCarcel() + ")");
-                    }
-                    jug.add(str);
-                }
-                cadena = "{\n "
-                        + "\t salir: " + Valor.COSTE_SALIR_CARCEL
-                        + ",\n\t jugadores: " + jug
-                        + "\n}";
-                ArrayList<String> jugad = new ArrayList<>();
-                for (Avatar avat : this.avatares.values()) {
-                    jugad.add(avat.getJugador().getNombre());
-                }
-                cadena = "{\n "
-                        + "\t bote: " + Valor.DINERO_PARKING
-                        + ",\n\t jugadores: " + jugad
-                        + "\n}";
-                */
-                cadena = "{\n "
-                        + "\t tipo: "
-                        + "\n}";
-
-        return cadena;
-    }
+    public abstract String info();
 
 
     /**
@@ -361,7 +325,7 @@ public class Casilla {
         }
     }
 
-    public void realizarAccion(Jugador jugador, Turno turno, int avance) {
+    public void realizarAccion(Jugador jugador, Turno turno, int avance) throws ExcepcionCasilla {
         switch (this.posicion) {
             /*switch de la accion que sucede al caer en cada tipo de casilla*/
             case Valor.POSICION_CASILLA_IR_CARCEL:

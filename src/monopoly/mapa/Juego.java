@@ -2,6 +2,7 @@ package monopoly.mapa;
 
 import java.util.*;
 
+import monopoly.excepciones.ExcepcionCasilla;
 import monopoly.excepciones.ExcepcionCompraCasilla;
 import monopoly.excepciones.ExcepcionHipoteca;
 import monopoly.excepciones.ExcepcionPersona;
@@ -17,7 +18,7 @@ public class Juego implements Comando {
     private HashMap<String, Jugador> jugadores;
     private ArrayList<Jugador> jgdrs;
 
-    public Juego() {
+    public Juego() throws ExcepcionPersona, ExcepcionCasilla {
         consola = new ConsolaNormal();
         tablero = new Tablero();
         avatares = new HashMap<>();
@@ -29,9 +30,8 @@ public class Juego implements Comando {
             /*BUCLE DE CREACION DE JUGADORES*/
             consola.imprimir(tablero.toString());
             consola.imprimir(imprimirOpciones());
-            System.out.print("$> ");
             Scanner scanner = new Scanner(System.in);
-            String orden = scanner.nextLine();
+            String orden = consola.leer("$> ");
             String[] partes = orden.split(" ");
             String comando = partes[0];
 
@@ -88,9 +88,8 @@ public class Juego implements Comando {
             /*BUCLE DE JUEGO*/
             consola.imprimir(imprimirOpcionesJugador());
             /*comandos*/
-            System.out.print("$> ");
             Scanner scanner = new Scanner(System.in);
-            String orden = scanner.nextLine();
+            String orden = consola.leer("$> ");
             String[] partes = orden.split(" ");
             String comando = partes[0];
 
@@ -141,7 +140,11 @@ public class Juego implements Comando {
                                 if (tablero.casillaByName(partes[1]) == null) {
                                     consola.imprimir("La casilla " + partes[1] + " no existe.");
                                 } else {
-                                    describirCasilla(tablero.casillaByName(partes[1]));
+                                    try {
+                                        describirCasilla(tablero.casillaByName(partes[1]));
+                                    } catch (ExcepcionCasilla ex) {
+                                        consola.imprimir(ex.getMessage());
+                                    }
                                 }
                                 break;
                         }
@@ -357,7 +360,7 @@ public class Juego implements Comando {
     }
 
     @Override
-    public void lanzarDados(Turno turno) {
+    public void lanzarDados(Turno turno) throws ExcepcionCasilla {
         if (turno.turnoActual().getDadosTirados()) {
             consola.imprimir("El jugador " + turno.turnoActual().getNombre() + " ya ha lanzado los dados.");
         } else {
@@ -501,6 +504,8 @@ public class Juego implements Comando {
             turno.turnoActual().hipotecar((Solar) tablero.casillaByName(casilla));
         } catch (ExcepcionHipoteca ex) {
             consola.imprimir(ex.getMessage());
+        } catch (ExcepcionCasilla ex) {
+            consola.imprimir(ex.getMessage());
         }
     }
 
@@ -509,6 +514,8 @@ public class Juego implements Comando {
         try {
             turno.turnoActual().deshipotecar(tablero.casillaByName(casilla));
         } catch (ExcepcionHipoteca ex) {
+            consola.imprimir(ex.getMessage());
+        } catch (ExcepcionCasilla ex) {
             consola.imprimir(ex.getMessage());
         }
     }
