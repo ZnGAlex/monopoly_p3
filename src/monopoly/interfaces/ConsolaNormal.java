@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class ConsolaNormal implements Consola{
     @Override
     public void imprimir(String mensaje) {
-        System.out.print(mensaje);
+        System.out.println(mensaje);
     }
 
     @Override
