@@ -287,9 +287,7 @@ public class Tablero {
 
         int numero;
         do {
-            consola.imprimir("Escoge un numero del 1 al " + cartas.size() + ": ");
-            Scanner scanner = new Scanner(System.in);
-            numero = scanner.nextInt();
+            numero = Integer.parseInt(consola.leer("Escoge un numero del 1 al " + cartas.size() + ": "));
         } while (numero < 1 || numero > cartas.size());
 
         cartas.get(numero-1).realizarAccion(jugador, this, turno);

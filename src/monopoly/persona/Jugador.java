@@ -484,12 +484,9 @@ public class Jugador{
             } else {
                 while (Valor.COSTE_SALIR_CARCEL > this.fortuna && !this.bancarrota) {
                     /*Si no le llega el dinero para salir de la carcel debe hipotecarse o declararse en bancarrota*/
-                    consola.imprimir("El jugador " + this.nombre + " no dispone de suficiente dinero. Que quieres hacer?");
-                    consola.imprimir("Hipotecar propiedad (hipotecarse) o declararse en bancarrota (bancarrota): ");
-                    String opcion;
 
-                    Scanner sc = new Scanner(System.in);
-                    opcion = sc.nextLine();
+                    String opcion = consola.leer("El jugador " + this.nombre + " no dispone de suficiente dinero. Que quieres hacer?" +
+                                                    "Hipotecar propiedad (hipotecarse) o declararse en bancarrota (bancarrota): ");
                     switch (opcion) {
                         case "bancarrota":
                             this.declararBancarrota(this.getAvatar().getCasilla().getPropietario(), tablero, turno);// funcion bancarrota
@@ -567,12 +564,10 @@ public class Jugador{
             } else {
                 while (Valor.COSTE_SALIR_CARCEL > this.fortuna && !this.bancarrota) {
                     /*Si no le llega el dinero para salir de la carcel debe hipotecarse o declararse en bancarrota*/
-                    consola.imprimir("El jugador " + this.nombre + " no dispone de suficiente dinero. Que quieres hacer?");
-                    consola.imprimir("Hipotecar propiedad (hipotecarse) o declararse en bancarrota (bancarrota): ");
-                    String opcion;
 
-                    Scanner sc = new Scanner(System.in);
-                    opcion = sc.nextLine();
+                    String opcion = consola.leer("El jugador " + this.nombre + " no dispone de suficiente dinero. Que quieres hacer?" +
+                            "Hipotecar propiedad (hipotecarse) o declararse en bancarrota (bancarrota): ");
+
                     switch (opcion) {
                         case "bancarrota":
                             this.declararBancarrota(this.getAvatar().getCasilla().getPropietario(), tablero, turno);// funcion bancarrota
@@ -695,9 +690,8 @@ public class Jugador{
                 /*Si la casilla no pertenece a la banca*/
                 while (this.avatar.getCasilla().getAlquiler() > this.fortuna && !bancarrota) {
                     /*Si no le llega el dinero se hipoteca o declara bancarrota*/
-                    Scanner scanner = new Scanner(System.in);
-                    consola.imprimir("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
-                    String opcion = scanner.nextLine();
+
+                    String opcion = consola.leer("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
 
                     switch (opcion) {
                         case "hipotecarse":
@@ -746,9 +740,8 @@ public class Jugador{
                 }
                 while (valorPagar > this.fortuna && !bancarrota) {
                     /*Si el dinero no le llega se hipoteca o declara en bancarrota*/
-                    Scanner scanner = new Scanner(System.in);
-                    consola.imprimir("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
-                    String opcion = scanner.nextLine();
+
+                    String opcion = consola.leer("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
 
                     switch (opcion) {
                         case "hipotecarse":
@@ -803,9 +796,8 @@ public class Jugador{
                 /*Calculo del alquiler*/
                 while (valorPagar > this.fortuna && !bancarrota) {
                     /*SI no le llega el dinero hipoteca/bancarrota*/
-                    Scanner scanner = new Scanner(System.in);
-                    consola.imprimir("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
-                    String opcion = scanner.nextLine();
+
+                    String opcion = consola.leer("No tienes suficiente dinero. ¿Quieres hipotecar o declararte en bancarrota?: ");
 
                     switch (opcion) {
                         case "hipotecarse":
@@ -940,9 +932,8 @@ public class Jugador{
     public void hipotecarOBancarrota(Jugador jugador, Tablero tablero, Turno turno, int precio) {
         while (precio > this.fortuna && !bancarrota) {
             /*Si no le llega el dinero se hipoteca o declara bancarrota*/
-            Scanner scanner = new Scanner(System.in);
-            consola.imprimir("No tienes suficiente dinero para pagar " + precio + "€. ¿Quieres hipotecar o declararte en bancarrota?: ");
-            String opcion = scanner.nextLine();
+
+            String opcion = consola.leer("No tienes suficiente dinero para pagar " + precio + "€. ¿Quieres hipotecar o declararte en bancarrota?: ");
 
             switch (opcion) {
                 case "hipotecarse":

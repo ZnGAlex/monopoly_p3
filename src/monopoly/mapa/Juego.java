@@ -30,7 +30,6 @@ public class Juego implements Comando {
             /*BUCLE DE CREACION DE JUGADORES*/
             consola.imprimir(tablero.toString());
             consola.imprimir(imprimirOpciones());
-            Scanner scanner = new Scanner(System.in);
             String orden = consola.leer("$> ");
             String[] partes = orden.split(" ");
             String comando = partes[0];
@@ -88,7 +87,6 @@ public class Juego implements Comando {
             /*BUCLE DE JUEGO*/
             consola.imprimir(imprimirOpcionesJugador());
             /*comandos*/
-            Scanner scanner = new Scanner(System.in);
             String orden = consola.leer("$> ");
             String[] partes = orden.split(" ");
             String comando = partes[0];
