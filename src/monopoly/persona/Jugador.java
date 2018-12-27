@@ -479,7 +479,7 @@ public class Jugador{
                 this.fortuna -= Valor.COSTE_SALIR_CARCEL;
                 this.pagoDeTasas += Valor.COSTE_SALIR_CARCEL;
                 consola.imprimir("El jugador " + this.nombre + " ha pagado para salir de la carcel y se desplaza " + desplazamiento + " casillas.");
-                this.avatar.moverAvatar(desplazamiento, tablero, turno);
+                this.avatar.moverEnBasico(desplazamiento, tablero, turno);
                 this.inCarcel = false;
             } else {
                 while (Valor.COSTE_SALIR_CARCEL > this.fortuna && !this.bancarrota) {
@@ -511,14 +511,14 @@ public class Jugador{
                     this.fortuna -= Valor.COSTE_SALIR_CARCEL;
                     this.pagoDeTasas += Valor.COSTE_SALIR_CARCEL;
                     consola.imprimir("El jugador " + this.nombre + " ha pagado para salir de la carcel y se desplaza" + desplazamiento + " casillas.");
-                    this.avatar.moverAvatar(desplazamiento, tablero, turno);
+                    this.avatar.moverEnBasico(desplazamiento, tablero, turno);
                 }
             }
         } else if (this.inCarcel && this.turnosEnCarcel != 3) {
             /*Si esta en la crcel pero aun puede lanzar dados para intentar salir*/
             if (dados.dadosIguales()) {
                 consola.imprimir("El jugador " + this.nombre + " ha sacado dados dobles. Sale de la carcel.");
-                this.avatar.moverAvatar(desplazamiento, tablero, turno);
+                this.avatar.moverEnBasico(desplazamiento, tablero, turno);
                 this.turnosEnCarcel = 0;
             } else {
                 consola.imprimir("El jugador no ha sacado dados dobles. Permanece en la carcel. Lleva " + this.turnosEnCarcel + " turnos en la carcel.");
@@ -538,7 +538,7 @@ public class Jugador{
                 turno.siguienteTurno();
             } else {
                 consola.imprimir(this.nombre + " se desplaza " + desplazamiento + " posiciones");
-                avatar.moverAvatar(desplazamiento, tablero, turno);
+                avatar.moverEnBasico(desplazamiento, tablero, turno);
             }
         }
     }
@@ -562,7 +562,7 @@ public class Jugador{
                 this.fortuna -= Valor.COSTE_SALIR_CARCEL;
                 this.pagoDeTasas += Valor.COSTE_SALIR_CARCEL;
                 consola.imprimir("El jugador " + this.nombre + " ha pagado para salir de la carcel y se desplaza " + desplazamiento + " casillas.");
-                this.avatar.moverAvatarEspecial(desplazamiento, tablero, turno);
+                this.avatar.moverEnAvanzado(desplazamiento, tablero, turno);
                 this.inCarcel = false;
             } else {
                 while (Valor.COSTE_SALIR_CARCEL > this.fortuna && !this.bancarrota) {
@@ -594,14 +594,14 @@ public class Jugador{
                     this.fortuna -= Valor.COSTE_SALIR_CARCEL;
                     this.pagoDeTasas += Valor.COSTE_SALIR_CARCEL;
                     consola.imprimir("El jugador " + this.nombre + " ha pagado para salir de la carcel y se desplaza" + desplazamiento + " casillas.");
-                    this.avatar.moverAvatarEspecial(desplazamiento, tablero, turno);
+                    this.avatar.moverEnAvanzado(desplazamiento, tablero, turno);
                 }
             }
         } else if (this.inCarcel && this.turnosEnCarcel != 3) {
             /*Si esta en la crcel pero aun puede lanzar dados para intentar salir*/
             if (dados.dadosIguales()) {
                 consola.imprimir("El jugador " + this.nombre + " ha sacado dados dobles. Sale de la carcel.");
-                this.avatar.moverAvatarEspecial(desplazamiento, tablero, turno);
+                this.avatar.moverEnAvanzado(desplazamiento, tablero, turno);
                 this.turnosEnCarcel = 0;
             } else {
                 consola.imprimir("El jugador no ha sacado dados dobles. Permanece en la carcel. Lleva " + this.turnosEnCarcel + " turnos en la carcel.");
@@ -609,7 +609,7 @@ public class Jugador{
             }
         } else {
             consola.imprimir(this.nombre + " se desplaza " + desplazamiento + " posiciones");
-            avatar.moverAvatarEspecial(desplazamiento, tablero, turno);
+            avatar.moverEnAvanzado(desplazamiento, tablero, turno);
         }
     }
 

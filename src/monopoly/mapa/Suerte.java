@@ -5,14 +5,19 @@ import monopoly.persona.Jugador;
 import static monopoly.mapa.Juego.consola;
 
 final public class Suerte extends Carta {
+
     public Suerte(int numCarta) {
-        super(numCarta);
-        setAccion(Valor.ACCIONES_SUERTE.get(numCarta - 1));
+        if (numCarta < 0 || numCarta > Valor.ACCIONES_SUERTE.size()) {
+            consola.imprimir(Valor.ANSI_ROJO + "numCarta no valido." + Valor.ANSI_RESET);
+            System.exit(1);
+        }
+        this.numCarta = numCarta;
+        setFraseAccion(Valor.ACCIONES_SUERTE.get(numCarta - 1));
     }
 
     @Override
-    public void realizarAccion(Jugador jugador, Tablero tablero, Turno turno) throws ExcepcionCasilla {
-        consola.imprimir("Accion: " + this.accion);
+    public void accion(Jugador jugador, Tablero tablero, Turno turno) throws ExcepcionCasilla {
+        consola.imprimir("Accion: " + this.fraseAccion);
         switch (this.numCarta) {
             case 1:
                 if (tablero.pasaPorSalida(jugador.getAvatar().getCasilla(), tablero.casillaByName("Transporte2"))) {
@@ -54,8 +59,8 @@ final public class Suerte extends Carta {
                 break;
             case 7:
                 int dinero = 0;
-                for(Edificio edificio: jugador.getEdificios()){
-                    switch(edificio.getTipo()){
+                for (Edificio edificio : jugador.getEdificios()) {
+                    switch (edificio.getTipo()) {
                         case "casa":
                             dinero += 4000;
                             break;
@@ -82,5 +87,14 @@ final public class Suerte extends Carta {
 
                 break;
         }
+    }
+
+    @Override
+    public void setNumCarta(int numCarta) {
+        if (numCarta < 0 || numCarta > Valor.ACCIONES_SUERTE.size()) {
+            consola.imprimir(Valor.ANSI_ROJO + "numCarta no valido." + Valor.ANSI_RESET);
+            System.exit(1);
+        }
+        this.numCarta = numCarta;
     }
 }

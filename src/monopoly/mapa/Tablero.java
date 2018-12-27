@@ -292,7 +292,7 @@ public class Tablero {
             numero = scanner.nextInt();
         } while (numero < 1 || numero > cartas.size());
 
-        cartas.get(numero-1).realizarAccion(jugador, this, turno);
+        cartas.get(numero-1).accion(jugador, this, turno);
 
     }
 

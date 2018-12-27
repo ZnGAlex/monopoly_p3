@@ -10,7 +10,7 @@ public class ConsolaNormal implements Consola{
 
     @Override
     public String leer(String descripcion) {
-        System.out.print(descripcion);
+        imprimir(descripcion);
         Scanner sc = new Scanner(System.in);
         String entrada = sc.nextLine();
 

@@ -8,13 +8,18 @@ import static monopoly.mapa.Juego.consola;
 final public class CajaComunidad extends Carta {
 
     public CajaComunidad(int numCarta) {
-        super(numCarta);
-        setAccion(Valor.ACCIONES_CAJA.get(numCarta - 1));
+        if (numCarta < 0 || numCarta > Valor.ACCIONES_CAJA.size()) {
+            consola.imprimir(Valor.ANSI_ROJO + "numCarta no valido." + Valor.ANSI_RESET);
+            System.exit(1);
+        }
+        
+        this.numCarta = numCarta;
+        setFraseAccion(Valor.ACCIONES_CAJA.get(numCarta - 1));
     }
 
     @Override
-    public void realizarAccion(Jugador jugador, Tablero tablero, Turno turno) throws ExcepcionCasilla {
-        consola.imprimir("Accion: " + this.accion);
+    public void accion(Jugador jugador, Tablero tablero, Turno turno) throws ExcepcionCasilla {
+        consola.imprimir("Accion: " + this.fraseAccion);
         switch (this.numCarta) {
             case 1:
                 if (jugador.getFortuna() < 5000) {
@@ -55,4 +60,14 @@ final public class CajaComunidad extends Carta {
                 break;
         }
     }
+
+    @Override
+    public void setNumCarta(int numCarta) {
+        if (numCarta < 0 || numCarta > Valor.ACCIONES_CAJA.size()) {
+            consola.imprimir(Valor.ANSI_ROJO + "numCarta no valido." + Valor.ANSI_RESET);
+            System.exit(1);
+        }
+        this.numCarta = numCarta;
+    }
+
 }

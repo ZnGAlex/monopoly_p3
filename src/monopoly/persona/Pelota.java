@@ -15,7 +15,7 @@ final public class Pelota extends Avatar{
     }
 
     @Override
-    public void moverAvatarEspecial(int avance, Tablero tablero, Turno turno) {
+    public void moverEnAvanzado(int avance, Tablero tablero, Turno turno) {
         try {
             getJugador().setDadosTirados(true);
             if (avance > 4) {

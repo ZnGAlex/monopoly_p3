@@ -14,15 +14,12 @@ import static monopoly.mapa.Juego.consola;
 public abstract class Carta {
 
     int numCarta;
-    String accion;
+    String fraseAccion;
 
     // constructores
-    public Carta(int numCarta) {
-        if (numCarta < 0 || numCarta > Valor.ACCIONES_SUERTE.size()) {
-            consola.imprimir(Valor.ANSI_ROJO + "numCarta no valido." + Valor.ANSI_RESET);
-            System.exit(1);
-        }
-        this.numCarta = numCarta;
+    public Carta() {
+        numCarta = 0;
+        fraseAccion = "";
     }
 
     //getters y setters
@@ -30,28 +27,22 @@ public abstract class Carta {
         return numCarta;
     }
 
-    public void setNumCarta(int numCarta) {
-        if (numCarta < 0 || numCarta > Valor.ACCIONES_SUERTE.size()) {
-            consola.imprimir(Valor.ANSI_ROJO + "numCarta no valido." + Valor.ANSI_RESET);
-            System.exit(1);
-        }
-        this.numCarta = numCarta;
+    public abstract void setNumCarta(int numCarta);
+
+    public String getFraseAccion() {
+        return fraseAccion;
     }
 
-    public String getAccion() {
-        return accion;
-    }
-
-    public void setAccion(String accion) {
-        if (accion == null) {
+    public void setFraseAccion(String fraseAccion) {
+        if (fraseAccion == null) {
             consola.imprimir(Valor.ANSI_ROJO + "accion nulo." + Valor.ANSI_RESET);
             System.exit(1);
         }
-        this.accion = accion;
+        this.fraseAccion = fraseAccion;
     }
 
     // metodos
 
-    public abstract void realizarAccion(Jugador jugador, Tablero tablero, Turno turno) throws ExcepcionCasilla;
+    public abstract void accion(Jugador jugador, Tablero tablero, Turno turno) throws ExcepcionCasilla;
 
 }
