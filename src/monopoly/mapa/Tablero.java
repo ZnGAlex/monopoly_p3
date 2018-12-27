@@ -290,7 +290,7 @@ public class Tablero {
             numero = Integer.parseInt(consola.leer("Escoge un numero del 1 al " + cartas.size() + ": "));
         } while (numero < 1 || numero > cartas.size());
 
-        cartas.get(numero-1).realizarAccion(jugador, this, turno);
+        cartas.get(numero-1).accion(jugador, this, turno);
 
     }
 

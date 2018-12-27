@@ -65,7 +65,7 @@ public abstract class Avatar {
     /**
      * Mueve el avatar 'avance' casillas en el tablero
      */
-    public void moverAvatar(int avance, Tablero tablero, Turno turno) throws ExcepcionCasilla {
+    public void moverEnBasico(int avance, Tablero tablero, Turno turno) throws ExcepcionCasilla {
         if (avance < 0) {
             consola.imprimir(Valor.ANSI_ROJO + "Avance negativo.");
             System.exit(1);
@@ -102,7 +102,7 @@ public abstract class Avatar {
         this.casilla.realizarAccion(jugador, turno, avance);
     }
 
-    public abstract void moverAvatarEspecial(int avance, Tablero tablero, Turno turno);
+    public abstract void moverEnAvanzado(int avance, Tablero tablero, Turno turno);
 
     /**
      * Mueve el avatar a la casilla destino sin realizar ninguna accion en ella

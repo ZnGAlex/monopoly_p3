@@ -15,7 +15,7 @@ final public class Coche extends Avatar {
     }
 
     @Override
-    public void moverAvatarEspecial(int avance, Tablero tablero, Turno turno) {
+    public void moverEnAvanzado(int avance, Tablero tablero, Turno turno) {
         try {
             if (getJugador().getTurnosDadosTiradosEspecial() == 4) {
                 consola.imprimir("El jugador ya ha tirado 4 veces en modo avanzado. No puede tirar mas.");

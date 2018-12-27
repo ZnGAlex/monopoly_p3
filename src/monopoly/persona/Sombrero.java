@@ -12,7 +12,7 @@ final public class Sombrero extends Avatar {
     }
 
     @Override
-    public void moverAvatarEspecial(int avance, Tablero tablero, Turno turno) {
+    public void moverEnAvanzado(int avance, Tablero tablero, Turno turno) {
 
     }
 
