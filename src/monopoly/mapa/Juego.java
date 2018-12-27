@@ -2,11 +2,8 @@ package monopoly.mapa;
 
 import java.util.*;
 
-import monopoly.excepciones.ExcepcionCasilla;
-import monopoly.excepciones.ExcepcionCompraCasilla;
-import monopoly.excepciones.ExcepcionHipoteca;
-import monopoly.excepciones.ExcepcionPersona;
-import monopoly.excepciones.ExcepcionTrato;
+import monopoly.excepciones.*;
+
 import monopoly.interfaces.Comando;
 import monopoly.interfaces.ConsolaNormal;
 import monopoly.persona.*;
@@ -160,7 +157,11 @@ public class Juego implements Comando {
                     if (!partes[1].equals("dados")) {
                         consola.imprimir("\nComando incorrecto.");
                     } else {
-                        lanzarDados(turno);
+                        try {
+                            lanzarDados(turno);
+                        } catch (ExcepcionDados ex) {
+                            consola.imprimir(ex.getMessage());
+                        }
                     }
                     consola.imprimir(tablero.toString());
                     break;
@@ -301,7 +302,7 @@ public class Juego implements Comando {
                     if (partes.length < 5 || partes.length > 8) {
                         consola.imprimir("Comando incorrecto" + partes.length);
                     } else {
-                        
+
                     }
 
                     break;
@@ -370,12 +371,12 @@ public class Juego implements Comando {
     }
 
     @Override
-    public void lanzarDados(Turno turno) throws ExcepcionCasilla {
+    public void lanzarDados(Turno turno) throws ExcepcionCasilla, ExcepcionDados {
         if (turno.turnoActual().getDadosTirados()) {
-            consola.imprimir("El jugador " + turno.turnoActual().getNombre() + " ya ha lanzado los dados.");
+            throw new ExcepcionDados("El jugador ya ha tirado los dados.");
         } else {
             if (turno.turnoActual().getBloqueoTiroModoEspecial()) {
-                consola.imprimir("El jugador esta bloqueado, no puede tirar los dados. LLeva " + turno.turnoActual().getTurnosBloqueoModoEspecial() + " turnos bloqueado.");
+                throw new ExcepcionDados("El jugador esta bloqueado, no puede tirar los dados. LLeva " + turno.turnoActual().getTurnosBloqueoModoEspecial() + " turnos bloqueado.");
             } else if (turno.turnoActual().getModoEspecial()) {
                 turno.turnoActual().tirarDadosJugadorEspecial(tablero, turno);
             } else {
