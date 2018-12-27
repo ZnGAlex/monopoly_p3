@@ -9,7 +9,6 @@ import monopoly.mapa.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Scanner;
 
 import static monopoly.mapa.Juego.consola;
 

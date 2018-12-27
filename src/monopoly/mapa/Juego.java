@@ -6,6 +6,7 @@ import monopoly.excepciones.ExcepcionCasilla;
 import monopoly.excepciones.ExcepcionCompraCasilla;
 import monopoly.excepciones.ExcepcionHipoteca;
 import monopoly.excepciones.ExcepcionPersona;
+import monopoly.excepciones.ExcepcionTrato;
 import monopoly.interfaces.Comando;
 import monopoly.interfaces.ConsolaNormal;
 import monopoly.persona.*;
@@ -17,6 +18,8 @@ public class Juego implements Comando {
     private HashMap<String, Avatar> avatares;
     private HashMap<String, Jugador> jugadores;
     private ArrayList<Jugador> jgdrs;
+    private ArrayList<Trato> tratos;
+    private Turno turno;
 
     public Juego() throws ExcepcionPersona, ExcepcionCasilla {
         consola = new ConsolaNormal();
@@ -69,7 +72,7 @@ public class Juego implements Comando {
         } while (!iniciarJuego);
 
         tablero.iniciarCaidaCasilla(jgdrs);
-        Turno turno = new Turno(jgdrs);
+        turno = new Turno(jgdrs);
         Iterator avatares_i = avatares.values().iterator();
         /*Insercion de avatares y jugadores en el tablero*/
         while (avatares_i.hasNext()) {
@@ -163,9 +166,9 @@ public class Juego implements Comando {
                     break;
                 case "acabar":
                     /*acabar turno*/
-                    if (!partes[1].equals("turno"))
+                    if (!partes[1].equals("turno")) {
                         consola.imprimir("Comando incorrecto.");
-                    else {
+                    } else {
                         acabarTurno(turno, modoCambiado);
                     }
                     break;
@@ -199,14 +202,15 @@ public class Juego implements Comando {
                             }
                             break;
                         case "edificios":
-                            if (partes.length == 2)
+                            if (partes.length == 2) {
                                 tablero.imprimirEdificios();
-                            else if (partes.length == 3) {
+                            } else if (partes.length == 3) {
                                 if (tablero.getGrupos().containsKey(partes[2])) {
                                     Grupo g = tablero.getGrupos().get(partes[2]);
                                     g.imprimirEdificios();
-                                } else
+                                } else {
                                     consola.imprimir("El grupo no existe.");
+                                }
                             }
                             break;
                         default:
@@ -218,9 +222,9 @@ public class Juego implements Comando {
                     if (partes.length > 2) {
                         consola.imprimir("Comando incorrecto.");
                     } else {
-                        if (tablero.casillaByName(partes[1]) == null)
+                        if (tablero.casillaByName(partes[1]) == null) {
                             consola.imprimir("La casilla " + partes[1] + " no existe.");
-                        else if (turno.turnoActual().getAvatar().getCasilla().getNombre().equals(partes[1])) /*si se encuentra en la casilla que quiere comprar, la compra*/ {
+                        } else if (turno.turnoActual().getAvatar().getCasilla().getNombre().equals(partes[1])) /*si se encuentra en la casilla que quiere comprar, la compra*/ {
                             comprar(turno, partes[1]);
                         } else {
                             consola.imprimir("No estas en " + partes[1]);
@@ -272,9 +276,9 @@ public class Juego implements Comando {
                     if (partes.length != 2) {
                         consola.imprimir("Comando incorrecto.");
                     } else {
-                        if (modoCambiado)
+                        if (modoCambiado) {
                             consola.imprimir("El jugador ya ha cambiado su modo de movimiento.");
-                        else if (partes[1].equals("modo")) {
+                        } else if (partes[1].equals("modo")) {
                             cambiarModo(turno, modoCambiado);
                         }
                     }
@@ -285,13 +289,21 @@ public class Juego implements Comando {
                     } else {
                         if (tablero.casillaByName(partes[2]) == null) {
                             consola.imprimir("La casilla " + partes[2] + " no existe.");
-                        } else if (tablero.casillaByName(partes[2]).getPropietario() != turno.turnoActual())
+                        } else if (tablero.casillaByName(partes[2]).getPropietario() != turno.turnoActual()) {
                             consola.imprimir("La casilla " + partes[2] + " no pertenece a " + turno.turnoActual().getNombre());
-                        else {
+                        } else {
                             Solar s = (Solar) tablero.casillaByName(partes[2]);
                             vender(s, partes[1], Integer.parseInt(partes[3]));
                         }
                     }
+                    break;
+                case "trato":
+                    if (partes.length < 5 || partes.length > 8) {
+                        consola.imprimir("Comando incorrecto" + partes.length);
+                    } else {
+                        
+                    }
+
                     break;
                 default:
                     consola.imprimir("\nComando incorrecto.");
@@ -364,10 +376,11 @@ public class Juego implements Comando {
         } else {
             if (turno.turnoActual().getBloqueoTiroModoEspecial()) {
                 consola.imprimir("El jugador esta bloqueado, no puede tirar los dados. LLeva " + turno.turnoActual().getTurnosBloqueoModoEspecial() + " turnos bloqueado.");
-            } else if (turno.turnoActual().getModoEspecial())
+            } else if (turno.turnoActual().getModoEspecial()) {
                 turno.turnoActual().tirarDadosJugadorEspecial(tablero, turno);
-            else
+            } else {
                 turno.turnoActual().tirarDadosJugador(tablero, turno);
+            }
         }
     }
 
@@ -566,6 +579,122 @@ public class Juego implements Comando {
             default:
                 consola.imprimir("Comando incorrecto.");
                 break;
+        }
     }
-}
+
+    public static boolean esNumero(String str) {
+        try {
+            int i = Integer.parseInt(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public Trato crearTrato(String[] comando) throws ExcepcionTrato {
+
+        for (String str : comando) {
+            str = str.replace(":", "");
+            str = str.replace("(", "");
+            str = str.replace(")", "");
+            str = str.replace(",", "");
+            str = str.replace("noalquiler", "");
+        }
+
+        try {
+
+            if (tablero.getJugadores().get(comando[1]) == null) {
+                throw new ExcepcionTrato(comando[1] + " no es un jugador");
+            }
+            if (turno.turnoActual().getNombre().equals(comando[1])) {
+                throw new ExcepcionTrato("No puedes hacer un trato contigo mismo");
+            }
+            switch (comando.length) {
+                case 5:
+                    if (esNumero(comando[3])) {
+                        if (tablero.casillaByName(comando[4]) == null) {
+                            throw new ExcepcionTrato(comando[4] + " no existe");
+                        }
+                        if (!tablero.casillaByName(comando[4]).getPropietario().getNombre().equals(comando[1])) {
+                            throw new ExcepcionTrato(comando[1] + " no es el dueño de " + comando[3]);
+                        }
+                        return new M4P(Integer.parseInt(comando[3]), (Propiedad) tablero.casillaByName(comando[4]));
+                    } else if (esNumero(comando[4])) {
+                        if (tablero.casillaByName(comando[3]) == null) {
+                            throw new ExcepcionTrato(comando[3] + " no existe");
+                        }
+                        if (!turno.turnoActual().getNombre().equals(tablero.casillaByName(comando[3]).getPropietario().getNombre())) {
+                            throw new ExcepcionTrato(turno.turnoActual().getNombre() + " no es el dueño de " + comando[3]);
+                        }
+                        return new P4M((Propiedad) tablero.casillaByName(comando[3]), Integer.parseInt(comando[4]));
+                    } else {
+                        if (tablero.casillaByName(comando[4]) == null) {
+                            throw new ExcepcionTrato(comando[4] + " no existe");
+                        }
+                        if (!tablero.casillaByName(comando[4]).getPropietario().getNombre().equals(comando[1])) {
+                            throw new ExcepcionTrato(comando[1] + " no es el dueño de " + comando[3]);
+                        }
+                        if (tablero.casillaByName(comando[3]) == null) {
+                            throw new ExcepcionTrato(comando[3] + " no existe");
+                        }
+                        if (!turno.turnoActual().getNombre().equals(tablero.casillaByName(comando[3]).getPropietario().getNombre())) {
+                            throw new ExcepcionTrato(turno.turnoActual().getNombre() + " no es el dueño de " + comando[3]);
+                        }
+                        return new P4P((Propiedad) tablero.casillaByName(comando[3]), (Propiedad) tablero.casillaByName(comando[4]));
+                    }
+                case 7:
+                    if (tablero.casillaByName(comando[3]) == null) {
+                        throw new ExcepcionTrato(comando[3] + " no existe");
+                    }
+                    if (!turno.turnoActual().getNombre().equals(tablero.casillaByName(comando[3]).getPropietario().getNombre())) {
+                        throw new ExcepcionTrato(turno.turnoActual().getNombre() + " no es el dueño de " + comando[3]);
+                    }
+                    if (esNumero(comando[5])) {
+                        if (tablero.casillaByName(comando[6]) == null) {
+                            throw new ExcepcionTrato(comando[6] + " no existe");
+                        }
+                        if (!tablero.casillaByName(comando[6]).getPropietario().getNombre().equals(comando[1])) {
+                            throw new ExcepcionTrato(comando[1] + " no es el dueño de " + comando[6]);
+                        }
+                        return new PM4P((Propiedad) tablero.casillaByName(comando[3]), (Propiedad) tablero.casillaByName(comando[6]), Integer.parseInt(comando[5]));
+                    } else if (esNumero(comando[6])) {
+                        if (tablero.casillaByName(comando[4]) == null) {
+                            throw new ExcepcionTrato(comando[4] + " no existe");
+                        }
+                        if (!tablero.casillaByName(comando[4]).getPropietario().getNombre().equals(comando[1])) {
+                            throw new ExcepcionTrato(comando[1] + " no es el dueño de " + comando[4]);
+                        }
+                        return new P4PM((Propiedad) tablero.casillaByName(comando[3]), (Propiedad) tablero.casillaByName(comando[4]), Integer.parseInt(comando[6]));
+                    } else {
+                        throw new ExcepcionTrato("No se puede intercambiar mas de una propiedad por jugador");
+                    }
+                case 8:
+                    if (tablero.casillaByName(comando[3]) == null) {
+                        throw new ExcepcionTrato(comando[3] + " no existe");
+                    }
+                    if (!turno.turnoActual().getNombre().equals(tablero.casillaByName(comando[3]).getPropietario().getNombre())) {
+                        throw new ExcepcionTrato(turno.turnoActual().getNombre() + " no es el dueño de " + comando[3]);
+                    }
+                    if (tablero.casillaByName(comando[4]) == null) {
+                        throw new ExcepcionTrato(comando[4] + " no existe");
+                    }
+                    if (!tablero.casillaByName(comando[4]).getPropietario().getNombre().equals(comando[1])) {
+                        throw new ExcepcionTrato(comando[4] + " no es el dueño de " + comando[6]);
+                    }
+                    if (tablero.casillaByName(comando[6]) == null) {
+                        throw new ExcepcionTrato(comando[6] + " no existe");
+                    }
+                    if (!tablero.casillaByName(comando[6]).getPropietario().getNombre().equals(comando[1])) {
+                        throw new ExcepcionTrato(comando[1] + " no es el dueño de " + comando[6]);
+                    }
+                    if (Integer.parseInt(comando[7]) <= 0) {
+                        throw new ExcepcionTrato("Numero de turnos no valido");
+                    }
+                    return new P4PT((Propiedad) tablero.casillaByName(comando[3]), (Propiedad) tablero.casillaByName(comando[4]), (Propiedad) tablero.casillaByName(comando[6]), Integer.parseInt(comando[7]));
+            }
+        } catch (ExcepcionCasilla ex) {
+            consola.imprimir(ex.getMessage());
+        }
+        return null;
+    }
 }

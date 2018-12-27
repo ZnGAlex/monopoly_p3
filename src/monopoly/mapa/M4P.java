@@ -16,7 +16,7 @@ public class M4P extends Trato{
     private Propiedad propiedad2;
     private int dinero;
 
-    public M4P(Propiedad propiedad2, int dinero) throws ExcepcionTrato{
+    public M4P(int dinero, Propiedad propiedad2) throws ExcepcionTrato{
         if(propiedad2 == null){
             throw new ExcepcionTrato("Propiedad2 nulo");
         }

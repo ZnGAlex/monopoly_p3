@@ -8,7 +8,6 @@ import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Scanner;
 
 import static monopoly.mapa.Juego.consola;
 
