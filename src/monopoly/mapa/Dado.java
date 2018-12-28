@@ -59,7 +59,7 @@ public class Dado {
         Random random = new Random();
         // dado1 = random.nextInt((6-1) + 1) + 1;
         // dado2 = random.nextInt((6-1) + 1) + 1;
-        dado1 = 12;
+        dado1 = 9;
         dado2 = 0;
         return dado1 + dado2;
     }

@@ -1,6 +1,6 @@
 package monopoly.excepciones;
 
-public class ExcepcionCompraCasilla extends ExcepcionPersona {
+public class ExcepcionCompraCasilla extends ExcepcionJugador {
     public ExcepcionCompraCasilla(String error) {
         super(error);
     }
