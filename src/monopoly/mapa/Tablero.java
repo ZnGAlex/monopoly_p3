@@ -1,7 +1,7 @@
 package monopoly.mapa;
 
 import monopoly.excepciones.ExcepcionCasilla;
-import monopoly.excepciones.ExcepcionPersona;
+import monopoly.excepciones.ExcepcionJugador;
 import monopoly.persona.*;
 
 import java.util.*;
@@ -22,7 +22,7 @@ public class Tablero {
     private ArrayList<Carta> cartasCaja;
 
     // constructores
-    public Tablero() throws ExcepcionPersona {
+    public Tablero() throws ExcepcionJugador {
         Jugador banca = new Jugador("banca");
         this.casillas = new ArrayList<>();
         this.avatares = new HashMap<>();

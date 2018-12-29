@@ -18,7 +18,7 @@ public class Juego implements Comando {
     private HashMap<String, Trato> tratos;
     private Turno turno;
 
-    public Juego() throws ExcepcionPersona, ExcepcionCasilla {
+    public Juego() throws ExcepcionJugador, ExcepcionCasilla {
         consola = new ConsolaNormal();
         tablero = new Tablero();
         avatares = new HashMap<>();
@@ -399,7 +399,7 @@ public class Juego implements Comando {
             avatares.put(j.getAvatar().getId(), j.getAvatar());
             jgdrs.add(j);
             tablero.getCasillas().get(0).get(0).setAvatares(avatares);
-        } catch (ExcepcionPersona ex) {
+        } catch (ExcepcionJugador ex) {
             consola.imprimir(ex.getMessage());
         }
     }
@@ -449,6 +449,14 @@ public class Juego implements Comando {
             turno.turnoActual().reducirNoPaga();
             turno.siguienteTurno();
             imprimirTratos();
+        } else if (turno.turnoActual().getAvatar() instanceof Esfinge) {
+            ((Esfinge) turno.turnoActual().getAvatar()).setLadoAntiguo(turno.turnoActual().getAvatar().getCasilla().getPosicion() / 10 % 4); // Restauramos la posicion anterior
+            ((Esfinge) turno.turnoActual().getAvatar()).setPosicionAntigua((turno.turnoActual().getAvatar().getCasilla().getPosicion()));
+            turno.turnoActual().setTurnosDadosTiradosEspecial(0);
+            turno.turnoActual().setDadosTirados(false);
+            turno.siguienteTurno();
+            imprimirTratos();
+            
         } else if (turno.turnoActual().getBloqueoTiroModoEspecial()) {
             turno.turnoActual().aumentarTurnosBloqueoTiroModoEspecial();
             if (turno.turnoActual().getTurnosBloqueoModoEspecial() == 2) {
@@ -616,6 +624,8 @@ public class Juego implements Comando {
         if (!turno.turnoActual().getModoEspecial()) {
             turno.turnoActual().cambiarModo();
             modoCambiado = true;
+            if (turno.turnoActual().getAvatar() instanceof Esfinge)
+                ((Esfinge) turno.turnoActual().getAvatar()).cambiarAvanceEste();
             consola.imprimir("A partir de ahora, el avatar " + turno.turnoActual().getAvatar().getId() + " de tipo " + turno.turnoActual().getAvatar().getTipo() + " se movera en modo avanzado.");
         } else {
             turno.turnoActual().cambiarModo();

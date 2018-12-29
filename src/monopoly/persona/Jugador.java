@@ -3,7 +3,7 @@ package monopoly.persona;
 import monopoly.excepciones.ExcepcionCasilla;
 import monopoly.excepciones.ExcepcionCompraCasilla;
 import monopoly.excepciones.ExcepcionHipoteca;
-import monopoly.excepciones.ExcepcionPersona;
+import monopoly.excepciones.ExcepcionJugador;
 import monopoly.mapa.*;
 
 import java.util.ArrayList;
@@ -42,12 +42,12 @@ public class Jugador {
     private HashMap<String, Integer> nopaga;
 
     // constructores
-    public Jugador(String nombre, String ficha, Casilla casilla, String id) throws ExcepcionPersona {
+    public Jugador(String nombre, String ficha, Casilla casilla, String id) throws ExcepcionJugador {
         if (nombre == null) {
-            throw new ExcepcionPersona("Nombre de jugador nulo.");
+            throw new ExcepcionJugador("Nombre de jugador nulo.");
         }
         if (ficha == null) {
-            throw new ExcepcionPersona("Tipo de avatar nulo.");
+            throw new ExcepcionJugador("Tipo de avatar nulo.");
         }
         if (ficha.equalsIgnoreCase(Valor.ESFINGE) || ficha.equalsIgnoreCase(Valor.COCHE) || ficha.equalsIgnoreCase(Valor.SOMBRERO) || ficha.equalsIgnoreCase(Valor.PELOTA)) {
             switch (ficha) {
@@ -65,7 +65,7 @@ public class Jugador {
                     break;
             }
         } else {
-            throw new ExcepcionPersona("Tipo de avatar debe ser: Esfinge, Coche, Sombrero o Pelota");
+            throw new ExcepcionJugador("Tipo de avatar debe ser: Esfinge, Coche, Sombrero o Pelota");
         }
         this.nombre = nombre;
         this.fortuna = Valor.FORTUNA_INICIAL;
@@ -92,9 +92,9 @@ public class Jugador {
         this.nopaga = new HashMap<>();
     }
 
-    public Jugador(String nombre) throws ExcepcionPersona {
+    public Jugador(String nombre) throws ExcepcionJugador {
         if (nombre == null) {
-            throw new ExcepcionPersona("Nombre de jugador nulo.");
+            throw new ExcepcionJugador("Nombre de jugador nulo.");
         }
         this.nombre = nombre;
         this.fortuna = Valor.FORTUNA_BANCA;
