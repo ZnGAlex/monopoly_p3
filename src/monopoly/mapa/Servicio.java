@@ -24,8 +24,10 @@ public class Servicio extends Propiedad {
         }
         if (numEstaciones == 1)
             valor = Valor.FACTOR_SERVICIO * 4;
-        else
+        else if (numEstaciones == 2)
             valor = Valor.FACTOR_SERVICIO * 10;
+        else
+            valor = 0;
 
         return valor;
     }
