@@ -34,12 +34,12 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="24" />
-          <entry key="java" value="16957" />
+          <entry key="java" value="17101" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="16957" />
+          <entry key="JAVA" value="17101" />
           <entry key="PLAIN_TEXT" value="24" />
         </counts>
       </usages-collector>
@@ -50,10 +50,18 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/Juego.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3712">
-              <caret line="571" column="80" selection-start-line="571" selection-start-column="80" selection-end-line="571" selection-end-column="80" />
+            <state relative-caret-position="8524">
+              <caret line="635" column="80" selection-start-line="635" selection-start-column="80" selection-end-line="635" selection-end-column="80" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#19260#19261#0" expanded="true" />
+                <element signature="e#19308#19309#0" expanded="true" />
+                <element signature="e#22467#22468#0" expanded="true" />
+                <element signature="e#22519#22520#0" expanded="true" />
+                <element signature="e#23294#23295#0" expanded="true" />
+                <element signature="e#23337#23338#0" expanded="true" />
+                <element signature="e#23404#23405#0" expanded="true" />
+                <element signature="e#23445#23446#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -71,8 +79,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/monopoly/persona/Esfinge.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
-              <caret line="45" column="99" selection-start-line="45" selection-start-column="93" selection-end-line="45" selection-end-column="99" />
+            <state relative-caret-position="459">
+              <caret line="47" column="105" selection-start-line="47" selection-start-column="105" selection-end-line="47" selection-end-column="105" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#10357#10358#0" expanded="true" />
@@ -121,10 +129,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/CajaComunidad.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="986">
+            <state relative-caret-position="1106">
               <caret line="60" column="76" selection-start-line="60" selection-start-column="76" selection-end-line="60" selection-end-column="76" />
             </state>
           </provider>
@@ -134,7 +142,7 @@
         <entry file="file://$PROJECT_DIR$/src/monopoly/persona/Avatar.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="948">
-              <caret line="96" column="8" lean-forward="true" selection-start-line="96" selection-start-column="8" selection-end-line="98" selection-end-column="9" />
+              <caret line="97" column="8" selection-start-line="97" selection-start-column="8" selection-end-line="99" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -154,11 +162,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/Dado.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1160">
-              <caret line="62" column="18" selection-start-line="62" selection-start-column="18" selection-end-line="62" selection-end-column="18" />
+            <state relative-caret-position="826">
+              <caret line="59" column="8" lean-forward="true" selection-start-line="59" selection-start-column="8" selection-end-line="59" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -269,12 +277,12 @@
         <option value="$PROJECT_DIR$/src/monopoly/mapa/Piscina.java" />
         <option value="$PROJECT_DIR$/src/monopoly/mapa/PistaDeporte.java" />
         <option value="$PROJECT_DIR$/src/monopoly/persona/Avatar.java" />
-        <option value="$PROJECT_DIR$/src/monopoly/mapa/Dado.java" />
         <option value="$PROJECT_DIR$/src/monopoly/mapa/Solar.java" />
-        <option value="$PROJECT_DIR$/src/monopoly/persona/Esfinge.java" />
         <option value="$PROJECT_DIR$/src/monopoly/mapa/Juego.java" />
         <option value="$PROJECT_DIR$/src/monopoly/mapa/Suerte.java" />
         <option value="$PROJECT_DIR$/src/monopoly/mapa/CajaComunidad.java" />
+        <option value="$PROJECT_DIR$/src/monopoly/persona/Esfinge.java" />
+        <option value="$PROJECT_DIR$/src/monopoly/mapa/Dado.java" />
       </list>
     </option>
   </component>
@@ -404,18 +412,18 @@
       <workItem from="1545932456267" duration="223000" />
       <workItem from="1545991900444" duration="15307000" />
       <workItem from="1546032040499" duration="3277000" />
-      <workItem from="1546082625227" duration="6444000" />
+      <workItem from="1546082625227" duration="7090000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="67827000" />
+    <option name="totallyTimeSpent" value="68473000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.120730735" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.120730735" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -764,16 +772,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/Dado.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1160">
-          <caret line="62" column="18" selection-start-line="62" selection-start-column="18" selection-end-line="62" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/Tablero.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1060">
@@ -787,7 +785,7 @@
     <entry file="file://$PROJECT_DIR$/src/monopoly/persona/Avatar.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="948">
-          <caret line="96" column="8" lean-forward="true" selection-start-line="96" selection-start-column="8" selection-end-line="98" selection-end-column="9" />
+          <caret line="97" column="8" selection-start-line="97" selection-start-column="8" selection-end-line="99" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -815,10 +813,59 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/Carta.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="13" column="22" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/Solar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="754">
+          <caret line="262" column="88" selection-start-line="262" selection-start-column="88" selection-end-line="262" selection-end-column="88" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/Suerte.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="586">
+          <caret line="41" column="73" selection-start-line="41" selection-start-column="73" selection-end-line="41" selection-end-column="73" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/CajaComunidad.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1106">
+          <caret line="60" column="76" selection-start-line="60" selection-start-column="76" selection-end-line="60" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/Juego.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8524">
+          <caret line="635" column="80" selection-start-line="635" selection-start-column="80" selection-end-line="635" selection-end-column="80" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#19260#19261#0" expanded="true" />
+            <element signature="e#19308#19309#0" expanded="true" />
+            <element signature="e#22467#22468#0" expanded="true" />
+            <element signature="e#22519#22520#0" expanded="true" />
+            <element signature="e#23294#23295#0" expanded="true" />
+            <element signature="e#23337#23338#0" expanded="true" />
+            <element signature="e#23404#23405#0" expanded="true" />
+            <element signature="e#23445#23446#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/monopoly/persona/Esfinge.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="45" column="99" selection-start-line="45" selection-start-column="93" selection-end-line="45" selection-end-column="99" />
+        <state relative-caret-position="459">
+          <caret line="47" column="105" selection-start-line="47" selection-start-column="105" selection-end-line="47" selection-end-column="105" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#10357#10358#0" expanded="true" />
@@ -845,44 +892,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/Carta.java">
+    <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/Dado.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="13" column="22" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/Solar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="754">
-          <caret line="262" column="88" selection-start-line="262" selection-start-column="88" selection-end-line="262" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/Juego.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3712">
-          <caret line="571" column="80" selection-start-line="571" selection-start-column="80" selection-end-line="571" selection-end-column="80" />
+        <state relative-caret-position="826">
+          <caret line="59" column="8" lean-forward="true" selection-start-line="59" selection-start-column="8" selection-end-line="59" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/Suerte.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="586">
-          <caret line="41" column="73" selection-start-line="41" selection-start-column="73" selection-end-line="41" selection-end-column="73" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/monopoly/mapa/CajaComunidad.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="986">
-          <caret line="60" column="76" selection-start-line="60" selection-start-column="76" selection-end-line="60" selection-end-column="76" />
         </state>
       </provider>
     </entry>
