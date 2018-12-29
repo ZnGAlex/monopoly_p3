@@ -17,23 +17,9 @@ public abstract class Casilla {
     private int alquiler;
     private Tablero tablero;
     private HashMap<String, Avatar> avatares;
-    private ArrayList<Edificio> edificios;
     private HashMap<Jugador, Integer> vecesCaidas;
     private boolean edificable;
     private boolean hipotecada;
-
-    public Casilla(String nombre, Grupo grupo, int posicion, Jugador banca, Tablero tablero) {
-        this.nombre = nombre;
-        this.grupo = grupo;
-        this.posicion = posicion;
-        this.propietario = banca;
-        this.avatares = new HashMap<>();
-        this.edificios = new ArrayList<>();
-        this.vecesCaidas = new HashMap<>();
-        this.tablero = tablero;
-        this.edificable = true;
-        this.hipotecada = false;
-    }
 
     public Casilla(String nombre, int posicion, Jugador banca, Tablero tablero) {
         if (nombre == null) {
@@ -46,7 +32,6 @@ public abstract class Casilla {
         this.propietario = banca;
         this.avatares = new HashMap<>();
         this.vecesCaidas = new HashMap<>();
-        this.edificios = new ArrayList<>();
         this.tablero = tablero;
         this.edificable = true;
         this.hipotecada = false;
@@ -141,18 +126,6 @@ public abstract class Casilla {
         this.avatares = avatares;
     }
 
-    public ArrayList<Edificio> getEdificios() {
-        return edificios;
-    }
-
-    public void setEdificios(ArrayList<Edificio> edificios) {
-        if (edificios == null) {
-            consola.imprimir(Valor.ANSI_ROJO + "Edificios nulo." + Valor.ANSI_RESET);
-            System.exit(1);
-        }
-        this.edificios = edificios;
-    }
-
     public HashMap<Jugador, Integer> getVecesCaidas() {
         return vecesCaidas;
     }
@@ -182,23 +155,6 @@ public abstract class Casilla {
     }
 
     //Metodos
-
-    /**
-     * Obtiene el string de los nombres de los edificios de la casilla
-     */
-    public String obtenerEdificios() {
-        String cadena = "";
-
-        if (this.edificios.size() == 0) {
-            cadena = "no tiene edificios";
-        } else {
-            for (Edificio edificio : edificios) {
-                cadena = cadena.concat(edificio.getNombre() + " ");
-            }
-        }
-        return cadena;
-    }
-
 
     /**
      * Info completa de las casillas
@@ -316,13 +272,6 @@ public abstract class Casilla {
             nombre = this.grupo.obtenerColorPrint() + this.nombre + Valor.ANSI_RESET;
         }
         return nombre;
-    }
-
-    public void actualizarAlquiler() {
-        alquiler = grupo.getAlquiler();
-        for (Edificio edificio : edificios) {
-            alquiler += edificio.getAlquiler();
-        }
     }
 
     public void realizarAccion(Jugador jugador, Turno turno, int avance) throws ExcepcionCasilla {

@@ -3,10 +3,13 @@ package monopoly.mapa;
 import monopoly.persona.Esfinge;
 import monopoly.persona.Jugador;
 
+import java.util.ArrayList;
+
 import static monopoly.mapa.Juego.consola;
 
 public class Solar extends Propiedad {
 
+    private Grupo grupo;
     private int numCasas;
     private int numMaximoCasas;
     private int numHoteles;
@@ -16,10 +19,13 @@ public class Solar extends Propiedad {
     private int numPistas;
     private int numMaximoPistas;
     private int numTotalEdificios;
+    private ArrayList<Edificio> edificios;
 
     public Solar (String nombre, Grupo grupo, int posicion, Jugador banca, Tablero tablero) {
-        super(nombre, grupo, posicion, banca, tablero);
+        super(nombre, posicion, banca, tablero);
         this.numMaximoCasas = 4;
+        this.grupo = grupo;
+        this.edificios = new ArrayList<>();
         switch (grupo.getColor()) {
             case Valor.GRUPO_NEGRO:
                 super.setValor(Valor.COSTE_GRUPO_NEGRO);
@@ -167,6 +173,53 @@ public class Solar extends Propiedad {
 
     public void setNumTotalEdificios(int numTotalEdificios) {
         this.numTotalEdificios = numTotalEdificios;
+    }
+
+    public ArrayList<Edificio> getEdificios() {
+        return edificios;
+    }
+
+    public void setEdificios(ArrayList<Edificio> edificios) {
+        if (edificios == null) {
+            consola.imprimir(Valor.ANSI_ROJO + "Edificios nulo." + Valor.ANSI_RESET);
+            System.exit(1);
+        }
+        this.edificios = edificios;
+    }
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        if (grupo == null) {
+            consola.imprimir(Valor.ANSI_ROJO + "Grupo nulo." + Valor.ANSI_RESET);
+            System.exit(1);
+        }
+        this.grupo = grupo;
+    }
+
+    /**
+     * Obtiene el string de los nombres de los edificios de la casilla
+     */
+    public String obtenerEdificios() {
+        String cadena = "";
+
+        if (this.edificios.size() == 0) {
+            cadena = "no tiene edificios";
+        } else {
+            for (Edificio edificio : edificios) {
+                cadena = cadena.concat(edificio.getNombre() + " ");
+            }
+        }
+        return cadena;
+    }
+
+    public void actualizarAlquiler() {
+        setAlquiler(grupo.getAlquiler());
+        for (Edificio edificio : edificios) {
+            setAlquiler(getAlquiler() + edificio.getAlquiler());
+        }
     }
 
     public void edificar(String tipo, Jugador jugador) {

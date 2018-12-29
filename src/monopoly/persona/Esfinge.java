@@ -281,7 +281,8 @@ final public class Esfinge extends Avatar{
         // Eliminacion de la construccion de edificios y devolucion del coste
         for (Edificio edificio : this.edificiosComprados) {
             getJugador().getEdificios().remove(edificio);
-            edificio.getCasilla().getEdificios().remove(edificio);
+            Solar s = (Solar) edificio.getCasilla();
+            s.getEdificios().remove(edificio);
             tablero.getEdificios().remove(edificio);
         }
 
