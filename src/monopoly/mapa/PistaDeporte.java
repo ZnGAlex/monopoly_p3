@@ -4,8 +4,12 @@ import static monopoly.mapa.Juego.consola;
 
 final public class PistaDeporte extends Edificio {
     public PistaDeporte(Solar solar) {
-        super(solar);
-        setTipo(Valor.EDIFICIO_PISTA);
+        if (solar == null) {
+            consola.imprimir("Casilla nula.");
+            System.exit(1);
+        }
+        setCasilla(solar);
+        setGrupo(solar.getGrupo());
         setValor((int) (solar.getValor() * 1.25));
         setAlquiler((int) (solar.getValor() * 0.1 * 25));
         switch (solar.getNumPistas()) {

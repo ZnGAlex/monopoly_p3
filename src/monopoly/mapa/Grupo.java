@@ -138,19 +138,14 @@ public class Grupo {
             consola.imprimir("No se han construido edificios en el grupo " + color);
         int casas = 0, hoteles = 0, piscinas = 0, pistas = 0;
         for (Edificio edificio : edificios) {
-            switch (edificio.getTipo()) {
-                case Valor.EDIFICIO_CASA:
-                    casas++;
-                    break;
-                case Valor.EDIFICIO_HOTEL:
-                    hoteles++;
-                    break;
-                case Valor.EDIFICIO_PISCINA:
-                    piscinas++;
-                    break;
-                case Valor.EDIFICIO_PISTA:
-                    pistas++;
-                    break;
+            if(edificio instanceof Casa){
+                casas++;
+            }else if(edificio instanceof Hotel){
+                hoteles++;
+            }else if(edificio instanceof Piscina){
+                piscinas++;
+            }else if(edificio instanceof PistaDeporte){
+                pistas++;
             }
             consola.imprimir(edificio.toString());
         }

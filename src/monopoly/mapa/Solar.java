@@ -195,7 +195,7 @@ public class Solar extends Propiedad {
                         getGrupo().setNumMaxCasas(getGrupo().getNumMaxCasas());
                         for (int i = 0; i < getEdificios().size(); i++) {
                             Edificio ed = getEdificios().get(i);
-                            if (ed.getTipo().equals(Valor.EDIFICIO_CASA)) {
+                            if (ed instanceof Casa) {
                                 getEdificios().remove(i);
                                 getPropietario().getEdificios().remove(ed);
                                 getTablero().getEdificios().remove(ed);
@@ -298,7 +298,7 @@ public class Solar extends Propiedad {
             case Valor.EDIFICIO_CASA:
                 for (int i = getEdificios().size() - 1; i >= 0; i--) {
                     Edificio edificio = getEdificios().get(i);
-                    if (edificio.getTipo().equals(Valor.EDIFICIO_CASA)) {
+                    if (edificio instanceof Casa) {
                         dinero += edificio.getValor() / 2; // cojemos valor de edificio/2
                         setAlquiler(edificio.getAlquiler()); // restamos alquiler de edificio a casilla
                         getPropietario().getEdificios().remove(edificio); // borramos el edificio del propietario
@@ -323,7 +323,7 @@ public class Solar extends Propiedad {
             case Valor.EDIFICIO_HOTEL:
                 for (int i = getEdificios().size() - 1; i >= 0; i--) {
                     Edificio edificio = getEdificios().get(i);
-                    if (edificio.getTipo().equals(Valor.EDIFICIO_HOTEL)) {
+                    if (edificio instanceof Hotel) {
                         dinero += edificio.getValor() / 2;
                         setAlquiler(edificio.getAlquiler()); // restamos alquiler de edificio a casilla
                         getPropietario().getEdificios().remove(edificio); // borramos el edificio del propietario
@@ -348,7 +348,7 @@ public class Solar extends Propiedad {
             case Valor.EDIFICIO_PISCINA:
                 for (int i = getEdificios().size() - 1; i >= 0; i--) {
                     Edificio edificio = getEdificios().get(i);
-                    if (edificio.getTipo().equals(Valor.EDIFICIO_PISCINA)) {
+                    if (edificio instanceof Piscina) {
                         dinero += edificio.getValor() / 2;
                         setAlquiler(edificio.getAlquiler()); // restamos alquiler de edificio a casilla
                         getPropietario().getEdificios().remove(edificio); // borramos el edificio del propietario
@@ -373,7 +373,7 @@ public class Solar extends Propiedad {
             case Valor.EDIFICIO_PISTA:
                 for (int i = getEdificios().size() - 1; i >= 0; i--) {
                     Edificio edificio = getEdificios().get(i);
-                    if (edificio.getTipo().equals(Valor.EDIFICIO_PISTA)) {
+                    if (edificio instanceof PistaDeporte) {
                         dinero += edificio.getValor() / 2;
                         setAlquiler(edificio.getAlquiler()); // restamos alquiler de edificio a casilla
                         getPropietario().getEdificios().remove(edificio); // borramos el edificio del propietario

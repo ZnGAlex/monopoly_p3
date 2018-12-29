@@ -4,8 +4,12 @@ import static monopoly.mapa.Juego.consola;
 
 final public class Piscina extends Edificio {
     public Piscina(Solar solar) {
-        super(solar);
-        setTipo(Valor.EDIFICIO_PISCINA);
+        if (solar == null) {
+            consola.imprimir("Casilla nula.");
+            System.exit(1);
+        }
+        setCasilla(solar);
+        setGrupo(solar.getGrupo());
         setValor((int) (solar.getValor() * 0.4));
         setAlquiler((int) (solar.getValor() * 0.1 * 25));
         switch (solar.getNumPiscinas()) {
