@@ -79,6 +79,7 @@ public abstract class Avatar {
         /*Calculo de la nueva posicion*/
         int lado = ((posicionActual + avance) / 10) % 4;
         int posicionNueva = (posicionActual + avance) % 10;
+        
         if (lado * 10 + posicionNueva < this.casilla.getPosicion()) {
             /*Si el jugador pasa por salida, cobra*/
             consola.imprimir(this.jugador.getNombre() + " pasa por salida y cobra " + Valor.CANTIDAD_PASAR_SALIDA + " €");

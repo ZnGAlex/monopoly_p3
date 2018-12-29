@@ -15,7 +15,7 @@ public class Juego implements Comando {
     private HashMap<String, Avatar> avatares;
     private HashMap<String, Jugador> jugadores;
     private ArrayList<Jugador> jgdrs;
-    private ArrayList<Trato> tratos;
+    private HashMap<String, Trato> tratos;
     private Turno turno;
 
     public Juego() throws ExcepcionJugador, ExcepcionCasilla {
@@ -24,6 +24,7 @@ public class Juego implements Comando {
         avatares = new HashMap<>();
         jugadores = new HashMap<>();
         jgdrs = new ArrayList<>();
+        tratos = new HashMap<>();
         boolean iniciarJuego = false;
 
         do {
@@ -87,6 +88,7 @@ public class Juego implements Comando {
             /*BUCLE DE JUEGO*/
             consola.imprimir(imprimirOpcionesJugador());
             /*comandos*/
+
             String orden = consola.leer("$> ");
             String[] partes = orden.split(" ");
             String comando = partes[0];
@@ -214,6 +216,18 @@ public class Juego implements Comando {
                                 }
                             }
                             break;
+                        case "tratos":
+                            if (partes.length != 2) {
+                                consola.imprimir("Comando incorrecto");
+                            } else {
+                                for (String clave : tratos.keySet()) {
+                                    if (tratos.get(clave).getJugador2() == turno.turnoActual()) {
+                                        consola.imprimir("\t" + clave);
+                                        consola.imprimir(tratos.get(clave).toString());
+                                    }
+                                }
+                            }
+                            break;
                         default:
                             consola.imprimir("Comando incorrecto.");
                     }
@@ -302,9 +316,51 @@ public class Juego implements Comando {
                     if (partes.length < 5 || partes.length > 8) {
                         consola.imprimir("Comando incorrecto" + partes.length);
                     } else {
-
+                        try {
+                            String clave = "trato" + (tratos.size() + 1);
+                            Trato trato = crearTrato(partes);
+                            if (!seRepiteTrato(trato)) {
+                                consola.imprimir(clave + ": " + trato.pregunta());
+                                tratos.put(clave, crearTrato(partes));
+                                for (Trato tr : tratos.values()) {
+                                    consola.imprimir(tr.toString());
+                                }
+                            } else {
+                                consola.imprimir("Trato repetido");
+                            }
+                        } catch (ExcepcionTrato ex) {
+                            consola.imprimir(ex.getMessage());
+                        }
                     }
 
+                    break;
+                case "eliminar":
+                    if (partes.length != 2) {
+                        consola.imprimir("Comando incorrecto");
+                    } else if (tratos.get(partes[1]) == null) {
+                        consola.imprimir("El " + partes[1] + " no existe");
+                    } else if (tratos.get(partes[1]).getJugador1() != turno.turnoActual()) {
+                        consola.imprimir("No has propuesto el " + partes[1]);
+                    } else {
+                        tratos.remove(partes[1]);
+                        consola.imprimir(partes[1] + " eliminado");
+                    }
+                    break;
+                case "aceptar":
+                    if (partes.length != 2) {
+                        consola.imprimir("Comando incorrecto");
+                    } else if (tratos.get(partes[1]) == null) {
+                        consola.imprimir("El " + partes[1] + " no existe");
+                    } else if (tratos.get(partes[1]).getJugador2() != turno.turnoActual()) {
+                        consola.imprimir("No te corresponde el " + partes[1]);
+                    } else {
+                        try {
+                            tratos.get(partes[1]).aceptarTrato();
+                            limpiarTratos();
+                        } catch (ExcepcionTrato ex) {
+                            consola.imprimir(ex.getMessage());
+                        }
+                    }
                     break;
                 default:
                     consola.imprimir("\nComando incorrecto.");
@@ -318,7 +374,7 @@ public class Juego implements Comando {
     }
 
     public String imprimirOpcionesJugador() {
-        return "Comandos:\n lanzar dados\n comprar [casilla]\n hipotecar [casilla]\n deshipotecar [casilla]\n edificar [casa/hotel/piscina/pista]\n vender [casas/hoteles/piscinas/pistas] [cantidad]\n listar [enventa/jugadores/avatares/edificios (grupo)]\n salir carcel\n acabar turno\n describir jugador [nombre]\n describir [casilla]\n describir avatar [avatar]\n estadisticas\n estadisticas [jugador]\n cambiar modo\n ver tablero";
+        return "Comandos:\n lanzar dados\n comprar [casilla]\n hipotecar [casilla]\n deshipotecar [casilla]\n edificar [casa/hotel/piscina/pista]\n vender [casas/hoteles/piscinas/pistas] [cantidad]\n listar [enventa/jugadores/avatares/edificios (grupo)]\n salir carcel\n acabar turno\n describir jugador [nombre]\n describir [casilla]\n describir avatar [avatar]\n estadisticas\n estadisticas [jugador]\n trato [jugador]: cambiar ([Prop1] (y [dinero]), [Prop2] (y dinero)) (y noalquiler([Prop3], [turnos]))\n aceptar [trato]\n eliminar [trato]\n cambiar modo\n ver tablero";
     }
 
     @Override
@@ -390,7 +446,9 @@ public class Juego implements Comando {
         if (turno.turnoActual().getAvatar() instanceof Coche && turno.turnoActual().getModoEspecial()) {
             turno.turnoActual().setDadosTirados(false);
             turno.turnoActual().setTurnosDadosTiradosEspecial(0);
+            turno.turnoActual().reducirNoPaga();
             turno.siguienteTurno();
+            imprimirTratos();
         } else if (turno.turnoActual().getAvatar() instanceof Esfinge) {
             ((Esfinge) turno.turnoActual().getAvatar()).setLadoAntiguo(turno.turnoActual().getAvatar().getCasilla().getPosicion() / 10 % 4); // Restauramos la posicion anterior
             ((Esfinge) turno.turnoActual().getAvatar()).setPosicionAntigua((turno.turnoActual().getAvatar().getCasilla().getPosicion()));
@@ -398,6 +456,8 @@ public class Juego implements Comando {
             turno.turnoActual().setTurnosDadosTiradosEspecial(0);
             turno.turnoActual().setDadosTirados(false);
             turno.siguienteTurno();
+            imprimirTratos();
+            
         } else if (turno.turnoActual().getBloqueoTiroModoEspecial()) {
             turno.turnoActual().aumentarTurnosBloqueoTiroModoEspecial();
             if (turno.turnoActual().getTurnosBloqueoModoEspecial() == 2) {
@@ -405,10 +465,14 @@ public class Juego implements Comando {
                 turno.turnoActual().setBloqueoTiroModoEspecial(false);
                 turno.turnoActual().setTurnosBloqueoModoEspecial(0);
             }
+            turno.turnoActual().reducirNoPaga();
             turno.siguienteTurno();
+            imprimirTratos();
         } else if (turno.turnoActual().getDadosTirados()) {
             turno.turnoActual().setDadosTirados(false);
+            turno.turnoActual().reducirNoPaga();
             turno.siguienteTurno();
+            imprimirTratos();
             modoCambiado = false;
         } else {
             consola.imprimir("Debes lanzar los dados antes de acabar tu turno");
@@ -607,13 +671,14 @@ public class Juego implements Comando {
     }
 
     public Trato crearTrato(String[] comando) throws ExcepcionTrato {
+        Trato trato = new Trato();
 
-        for (String str : comando) {
-            str = str.replace(":", "");
-            str = str.replace("(", "");
-            str = str.replace(")", "");
-            str = str.replace(",", "");
-            str = str.replace("noalquiler", "");
+        for (int i = 0; i < comando.length; i++) {
+            comando[i] = comando[i].replace(":", "");
+            comando[i] = comando[i].replace("(", "");
+            comando[i] = comando[i].replace(")", "");
+            comando[i] = comando[i].replace(",", "");
+            comando[i] = comando[i].replace("noalquiler", "");
         }
 
         try {
@@ -631,9 +696,9 @@ public class Juego implements Comando {
                             throw new ExcepcionTrato(comando[4] + " no existe");
                         }
                         if (!tablero.casillaByName(comando[4]).getPropietario().getNombre().equals(comando[1])) {
-                            throw new ExcepcionTrato(comando[1] + " no es el dueño de " + comando[3]);
+                            throw new ExcepcionTrato(comando[1] + " no es el dueño de " + comando[4]);
                         }
-                        return new M4P(Integer.parseInt(comando[3]), (Propiedad) tablero.casillaByName(comando[4]));
+                        trato = new Trato(turno.turnoActual(), Integer.parseInt(comando[3]), (Propiedad) tablero.casillaByName(comando[4]));
                     } else if (esNumero(comando[4])) {
                         if (tablero.casillaByName(comando[3]) == null) {
                             throw new ExcepcionTrato(comando[3] + " no existe");
@@ -641,13 +706,13 @@ public class Juego implements Comando {
                         if (!turno.turnoActual().getNombre().equals(tablero.casillaByName(comando[3]).getPropietario().getNombre())) {
                             throw new ExcepcionTrato(turno.turnoActual().getNombre() + " no es el dueño de " + comando[3]);
                         }
-                        return new P4M((Propiedad) tablero.casillaByName(comando[3]), Integer.parseInt(comando[4]));
+                        trato = new Trato((Propiedad) tablero.casillaByName(comando[3]), Integer.parseInt(comando[4]), tablero.getJugadores().get(comando[1]));
                     } else {
                         if (tablero.casillaByName(comando[4]) == null) {
                             throw new ExcepcionTrato(comando[4] + " no existe");
                         }
                         if (!tablero.casillaByName(comando[4]).getPropietario().getNombre().equals(comando[1])) {
-                            throw new ExcepcionTrato(comando[1] + " no es el dueño de " + comando[3]);
+                            throw new ExcepcionTrato(comando[1] + " no es el dueño de " + comando[4]);
                         }
                         if (tablero.casillaByName(comando[3]) == null) {
                             throw new ExcepcionTrato(comando[3] + " no existe");
@@ -655,8 +720,9 @@ public class Juego implements Comando {
                         if (!turno.turnoActual().getNombre().equals(tablero.casillaByName(comando[3]).getPropietario().getNombre())) {
                             throw new ExcepcionTrato(turno.turnoActual().getNombre() + " no es el dueño de " + comando[3]);
                         }
-                        return new P4P((Propiedad) tablero.casillaByName(comando[3]), (Propiedad) tablero.casillaByName(comando[4]));
+                        trato = new Trato((Propiedad) tablero.casillaByName(comando[3]), (Propiedad) tablero.casillaByName(comando[4]));
                     }
+                    break;
                 case 7:
                     if (tablero.casillaByName(comando[3]) == null) {
                         throw new ExcepcionTrato(comando[3] + " no existe");
@@ -671,7 +737,7 @@ public class Juego implements Comando {
                         if (!tablero.casillaByName(comando[6]).getPropietario().getNombre().equals(comando[1])) {
                             throw new ExcepcionTrato(comando[1] + " no es el dueño de " + comando[6]);
                         }
-                        return new PM4P((Propiedad) tablero.casillaByName(comando[3]), (Propiedad) tablero.casillaByName(comando[6]), Integer.parseInt(comando[5]));
+                        trato = new Trato((Propiedad) tablero.casillaByName(comando[3]), Integer.parseInt(comando[5]), (Propiedad) tablero.casillaByName(comando[6]));
                     } else if (esNumero(comando[6])) {
                         if (tablero.casillaByName(comando[4]) == null) {
                             throw new ExcepcionTrato(comando[4] + " no existe");
@@ -679,10 +745,11 @@ public class Juego implements Comando {
                         if (!tablero.casillaByName(comando[4]).getPropietario().getNombre().equals(comando[1])) {
                             throw new ExcepcionTrato(comando[1] + " no es el dueño de " + comando[4]);
                         }
-                        return new P4PM((Propiedad) tablero.casillaByName(comando[3]), (Propiedad) tablero.casillaByName(comando[4]), Integer.parseInt(comando[6]));
+                        trato = new Trato((Propiedad) tablero.casillaByName(comando[3]), (Propiedad) tablero.casillaByName(comando[4]), Integer.parseInt(comando[6]));
                     } else {
                         throw new ExcepcionTrato("No se puede intercambiar mas de una propiedad por jugador");
                     }
+                    break;
                 case 8:
                     if (tablero.casillaByName(comando[3]) == null) {
                         throw new ExcepcionTrato(comando[3] + " no existe");
@@ -694,7 +761,7 @@ public class Juego implements Comando {
                         throw new ExcepcionTrato(comando[4] + " no existe");
                     }
                     if (!tablero.casillaByName(comando[4]).getPropietario().getNombre().equals(comando[1])) {
-                        throw new ExcepcionTrato(comando[4] + " no es el dueño de " + comando[6]);
+                        throw new ExcepcionTrato(comando[1] + " no es el dueño de " + comando[4]);
                     }
                     if (tablero.casillaByName(comando[6]) == null) {
                         throw new ExcepcionTrato(comando[6] + " no existe");
@@ -705,11 +772,51 @@ public class Juego implements Comando {
                     if (Integer.parseInt(comando[7]) <= 0) {
                         throw new ExcepcionTrato("Numero de turnos no valido");
                     }
-                    return new P4PT((Propiedad) tablero.casillaByName(comando[3]), (Propiedad) tablero.casillaByName(comando[4]), (Propiedad) tablero.casillaByName(comando[6]), Integer.parseInt(comando[7]));
+                    trato = new Trato((Propiedad) tablero.casillaByName(comando[3]), (Propiedad) tablero.casillaByName(comando[4]), (Propiedad) tablero.casillaByName(comando[6]), Integer.parseInt(comando[7]));
+                    break;
             }
+
+            return trato;
         } catch (ExcepcionCasilla ex) {
             consola.imprimir(ex.getMessage());
         }
+
         return null;
+    }
+
+    public boolean seRepiteTrato(Trato trato) {
+        for (Trato tr : tratos.values()) {
+            if (trato.getTipo().equals(tr.getTipo()) && trato.getPropiedad1() == tr.getPropiedad1() && trato.getPropiedad2() == tr.getPropiedad2() && trato.getPropiedad3() == tr.getPropiedad3() && trato.getDinero() == tr.getDinero() && trato.getJugador1() == tr.getJugador1() && trato.getJugador2() == tr.getJugador2() && trato.getTurnos() == tr.getTurnos()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void limpiarTratos() {
+        ArrayList<String> eliminables = new ArrayList<>();
+
+        for (String clave : tratos.keySet()) {
+            Trato trato = tratos.get(clave);
+
+            if ((trato.getPropiedad1() != null && trato.getPropiedad1().getPropietario() != trato.getJugador1()) || (trato.getPropiedad2() != null && trato.getPropiedad2().getPropietario() != trato.getJugador2()) || (trato.getPropiedad3() != null && trato.getPropiedad3().getPropietario() != trato.getJugador2())) {
+                eliminables.add(clave);
+            }
+        }
+
+        for (String clave : eliminables) {
+            tratos.remove(clave);
+        }
+    }
+    
+    public void imprimirTratos(){
+        consola.imprimir("Tratos: ");
+            for (String clave : tratos.keySet()) {
+                if (tratos.get(clave).getJugador2() == turno.turnoActual()) {
+                    consola.imprimir("\t" + clave);
+                    consola.imprimir(tratos.get(clave).toString());
+                }
+            }
+            consola.imprimir("\n");
     }
 }
