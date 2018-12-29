@@ -637,17 +637,17 @@ public class Jugador {
      * Saca al jugador de la carcel cobrandole. No se usa cuando es obligatorio
      * pagar
      */
-    public void salirCarcel() {
+    public void salirCarcel() throws ExcepcionJugador {
         if (this.inCarcel = true) {
             if (Valor.COSTE_SALIR_CARCEL > this.fortuna) {
-                consola.imprimir("No tienes suficiente dinero");
-            } else {
-                consola.imprimir(nombre + " paga " + Valor.COSTE_SALIR_CARCEL + " y sale de la cárcel. Puede lanzar los dados.");
-                this.fortuna -= Valor.COSTE_SALIR_CARCEL;
-                this.pagoDeTasas += Valor.COSTE_SALIR_CARCEL;
-                this.inCarcel = false;
-                this.dadosTirados = false;
+                throw new ExcepcionJugador("No tienes suficiente dinero");
             }
+            consola.imprimir(nombre + " paga " + Valor.COSTE_SALIR_CARCEL + " y sale de la cárcel. Puede lanzar los dados.");
+            this.fortuna -= Valor.COSTE_SALIR_CARCEL;
+            this.pagoDeTasas += Valor.COSTE_SALIR_CARCEL;
+            this.inCarcel = false;
+            this.dadosTirados = false;
+
         }
     }
 
@@ -1005,7 +1005,7 @@ public class Jugador {
             this.dineroInvertido += c.getValor();
             consola.imprimir("Su fortuna actual es " + this.fortuna + "€");
         } else {
-            consola.imprimir("No tienes suficiente dinero");
+            throw new ExcepcionCompraCasilla("No tienes suficiente dinero");
         }
     }
 
