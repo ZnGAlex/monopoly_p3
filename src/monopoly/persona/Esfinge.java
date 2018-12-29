@@ -17,7 +17,6 @@ final public class Esfinge extends Avatar{
     private ArrayList<Edificio> edificiosComprados;
     private ArrayList<Integer> beneficios;
     private ArrayList<Integer> perdidas;
-    private int turno;
 
     public Esfinge(Jugador jugador, Casilla casilla, String id) {
         super(jugador, casilla, id);
@@ -26,7 +25,6 @@ final public class Esfinge extends Avatar{
         this.edificiosComprados = new ArrayList<>();
         this.beneficios = new ArrayList<>();
         this.perdidas = new ArrayList<>();
-        this.turno = 0;
     }
 
     private void moverAIzquierda(int avance, int posicionActual, Tablero tablero) {
@@ -158,9 +156,6 @@ final public class Esfinge extends Avatar{
                 getJugador().aumentarTurnosDadosTiradosEspecial();
                 int posicionActual = getCasilla().getPosicion();
                 int lado = posicionActual % 10, posicionNueva = 0;
-                if (this.turno != 0)
-                    avance = 3;
-                this.turno++;
                 /*Calculo de la nueva posicion*/
                 if (!isAvanceEste())
                     moverAIzquierda(avance, posicionActual, tablero);
