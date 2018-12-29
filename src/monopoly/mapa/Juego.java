@@ -342,8 +342,7 @@ public class Juego implements Comando {
                     } else if (tratos.get(partes[1]).getJugador1() != turno.turnoActual()) {
                         consola.imprimir("No has propuesto el " + partes[1]);
                     } else {
-                        tratos.remove(partes[1]);
-                        consola.imprimir(partes[1] + " eliminado");
+                        eliminarTrato(partes[1]);
                     }
                     break;
                 case "aceptar":
@@ -457,7 +456,7 @@ public class Juego implements Comando {
             turno.turnoActual().setDadosTirados(false);
             turno.siguienteTurno();
             imprimirTratos();
-            
+
         } else if (turno.turnoActual().getBloqueoTiroModoEspecial()) {
             turno.turnoActual().aumentarTurnosBloqueoTiroModoEspecial();
             if (turno.turnoActual().getTurnosBloqueoModoEspecial() == 2) {
@@ -628,8 +627,9 @@ public class Juego implements Comando {
         if (!turno.turnoActual().getModoEspecial()) {
             turno.turnoActual().cambiarModo();
             modoCambiado = true;
-            if (turno.turnoActual().getAvatar() instanceof Esfinge)
+            if (turno.turnoActual().getAvatar() instanceof Esfinge) {
                 ((Esfinge) turno.turnoActual().getAvatar()).cambiarAvanceEste();
+            }
             consola.imprimir("A partir de ahora, el avatar " + turno.turnoActual().getAvatar().getId() + " de tipo " + turno.turnoActual().getAvatar().getTipo() + " se movera en modo avanzado.");
         } else {
             if (turno.turnoActual().getAvatar() instanceof Esfinge)
@@ -670,6 +670,7 @@ public class Juego implements Comando {
         return true;
     }
 
+    @Override
     public Trato crearTrato(String[] comando) throws ExcepcionTrato {
         Trato trato = new Trato();
 
@@ -808,15 +809,22 @@ public class Juego implements Comando {
             tratos.remove(clave);
         }
     }
-    
-    public void imprimirTratos(){
+
+    @Override
+    public void eliminarTrato(String nombre) {
+        tratos.remove(nombre);
+        consola.imprimir(nombre + " eliminado");
+    }
+
+    @Override
+    public void imprimirTratos() {
         consola.imprimir("Tratos: ");
-            for (String clave : tratos.keySet()) {
-                if (tratos.get(clave).getJugador2() == turno.turnoActual()) {
-                    consola.imprimir("\t" + clave);
-                    consola.imprimir(tratos.get(clave).toString());
-                }
+        for (String clave : tratos.keySet()) {
+            if (tratos.get(clave).getJugador2() == turno.turnoActual()) {
+                consola.imprimir("\t" + clave);
+                consola.imprimir(tratos.get(clave).toString());
             }
-            consola.imprimir("\n");
+        }
+        consola.imprimir("\n");
     }
 }

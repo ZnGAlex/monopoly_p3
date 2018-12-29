@@ -4,8 +4,12 @@ import static monopoly.mapa.Juego.consola;
 
 final public class Casa extends Edificio {
     public Casa(Solar solar) {
-        super(solar);
-        setTipo(Valor.EDIFICIO_CASA);
+        if (solar == null) {
+            consola.imprimir("Casilla nula.");
+            System.exit(1);
+        }
+        setCasilla(solar);
+        setGrupo(solar.getGrupo());
         setValor((int) (solar.getValor() * 0.6));
         switch (solar.getNumCasas()) {
             case 0:

@@ -351,7 +351,7 @@ public class Trato {
                 } else {
                     this.jugador1.getNopaga().put(this.propiedad3.getNombre(), this.turnos);
                 }
-                consola.imprimir("Se ha aceptado el siguiente trato con " + this.jugador1.getNombre() + ": le doy " + this.propiedad2.getNombre() + " y " + this.turnos + " turnos sin pagar alquiler en " + this.propiedad3 + " y " + this.jugador1.getNombre() + " me da " + this.propiedad1.getNombre() + ".");
+                consola.imprimir("Se ha aceptado el siguiente trato con " + this.jugador1.getNombre() + ": le doy " + this.propiedad2.getNombre() + " y " + this.turnos + " turnos sin pagar alquiler en " + this.propiedad3.getNombre() + " y " + this.jugador1.getNombre() + " me da " + this.propiedad1.getNombre() + ".");
                 break;
         }
     }

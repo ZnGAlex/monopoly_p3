@@ -4,8 +4,12 @@ import static monopoly.mapa.Juego.consola;
 
 final public class Hotel extends Edificio {
     public Hotel(Solar solar) {
-        super(solar);
-        setTipo(Valor.EDIFICIO_HOTEL);
+        if (solar == null) {
+            consola.imprimir("Casilla nula.");
+            System.exit(1);
+        }
+        setCasilla(solar);
+        setGrupo(solar.getGrupo());
         setValor((int) (solar.getValor() * 0.6));
         setAlquiler((int) (solar.getValor() * 0.1 * 70));
         switch (solar.getNumHoteles()) {

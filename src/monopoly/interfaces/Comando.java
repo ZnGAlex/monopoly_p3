@@ -8,6 +8,7 @@ import monopoly.persona.Jugador;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import monopoly.excepciones.ExcepcionTrato;
 
 public interface Comando {
 
@@ -50,5 +51,11 @@ public interface Comando {
     void cambiarModo(Turno turno, boolean modoCambiado);
 
     void vender(Solar s, String tipo, Integer cantidad);
+
+    Trato crearTrato(String[] comando) throws ExcepcionTrato;
+    
+    void imprimirTratos();
+    
+    void eliminarTrato(String nombre);
 
 }

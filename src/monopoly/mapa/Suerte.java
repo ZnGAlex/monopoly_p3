@@ -25,8 +25,9 @@ final public class Suerte extends Carta {
                     // Si pasa por Salida, cobra
                     consola.imprimir(jugador.getNombre() + " pasa por Salida y cobra " + Valor.CANTIDAD_PASAR_SALIDA + "€");
                     jugador.setFortuna(jugador.getFortuna() + Valor.CANTIDAD_PASAR_SALIDA);
-                    if (jugador.getAvatar() instanceof Esfinge && jugador.getModoEspecial())
+                    if (jugador.getAvatar() instanceof Esfinge && jugador.getModoEspecial()) {
                         ((Esfinge) jugador.getAvatar()).anhadirBeneficio(Valor.CANTIDAD_PASAR_SALIDA);
+                    }
                     jugador.setPasarPorCasillaDeSalida(jugador.getPasarPorCasillaDeSalida() + Valor.CANTIDAD_PASAR_SALIDA);
                 }
                 jugador.getAvatar().moverAvatarCasilla(tablero.casillaByName("Transporte2"));
@@ -38,8 +39,9 @@ final public class Suerte extends Carta {
                 break;
             case 3:
                 jugador.setFortuna(jugador.getFortuna() + 5000);
-                if (jugador.getAvatar() instanceof Esfinge && jugador.getModoEspecial())
+                if (jugador.getAvatar() instanceof Esfinge && jugador.getModoEspecial()) {
                     ((Esfinge) jugador.getAvatar()).anhadirBeneficio(5000);
+                }
                 jugador.setPremiosInversionesOBote(jugador.getPremiosInversionesOBote() + 5000);
                 break;
             case 4:
@@ -47,8 +49,9 @@ final public class Suerte extends Carta {
                     // Si pasa por Salida, cobra
                     consola.imprimir(jugador.getNombre() + " pasa por Salida y cobra " + Valor.CANTIDAD_PASAR_SALIDA + "€");
                     jugador.setFortuna(jugador.getFortuna() + Valor.CANTIDAD_PASAR_SALIDA);
-                    if (jugador.getAvatar() instanceof Esfinge && jugador.getModoEspecial())
+                    if (jugador.getAvatar() instanceof Esfinge && jugador.getModoEspecial()) {
                         ((Esfinge) jugador.getAvatar()).anhadirBeneficio(Valor.CANTIDAD_PASAR_SALIDA);
+                    }
                     jugador.setPasarPorCasillaDeSalida(jugador.getPasarPorCasillaDeSalida() + Valor.CANTIDAD_PASAR_SALIDA);
                 }
                 jugador.getAvatar().moverAvatarCasilla(tablero.casillaByName("Dalaran"));
@@ -62,26 +65,22 @@ final public class Suerte extends Carta {
                 break;
             case 6:
                 jugador.setFortuna(jugador.getFortuna() + 50000);
-                if (jugador.getAvatar() instanceof Esfinge && jugador.getModoEspecial())
+                if (jugador.getAvatar() instanceof Esfinge && jugador.getModoEspecial()) {
                     ((Esfinge) jugador.getAvatar()).anhadirBeneficio(50000);
+                }
                 jugador.setPremiosInversionesOBote(jugador.getPremiosInversionesOBote() + 50000);
                 break;
             case 7:
                 int dinero = 0;
                 for (Edificio edificio : jugador.getEdificios()) {
-                    switch (edificio.getTipo()) {
-                        case "casa":
-                            dinero += 4000;
-                            break;
-                        case "hotel":
-                            dinero += 11500;
-                            break;
-                        case "piscina":
-                            dinero += 2000;
-                            break;
-                        case "pista":
-                            dinero += 7500;
-                            break;
+                    if (edificio instanceof Casa) {
+                        dinero += 4000;
+                    } else if (edificio instanceof Hotel) {
+                        dinero += 11500;
+                    } else if (edificio instanceof Piscina) {
+                        dinero += 2000;
+                    } else if (edificio instanceof PistaDeporte) {
+                        dinero += 7500;
                     }
                 }
                 if (jugador.getFortuna() < dinero) {

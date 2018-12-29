@@ -21,6 +21,7 @@ public abstract class Casilla {
     private boolean edificable;
     private boolean hipotecada;
 
+
     public Casilla(String nombre, int posicion, Jugador banca, Tablero tablero) {
         if (nombre == null) {
             consola.imprimir(Valor.ANSI_ROJO + "Nombre nulo." + Valor.ANSI_RESET);
@@ -33,7 +34,7 @@ public abstract class Casilla {
         this.avatares = new HashMap<>();
         this.vecesCaidas = new HashMap<>();
         this.tablero = tablero;
-        this.edificable = true;
+        this.edificable = false;
         this.hipotecada = false;
     }
 
