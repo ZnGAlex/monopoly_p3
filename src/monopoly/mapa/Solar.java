@@ -9,7 +9,6 @@ import static monopoly.mapa.Juego.consola;
 
 public class Solar extends Propiedad {
 
-    private Grupo grupo;
     private int numCasas;
     private int numMaximoCasas;
     private int numHoteles;
@@ -24,7 +23,7 @@ public class Solar extends Propiedad {
     public Solar (String nombre, Grupo grupo, int posicion, Jugador banca, Tablero tablero) {
         super(nombre, posicion, banca, tablero);
         this.numMaximoCasas = 4;
-        this.grupo = grupo;
+        setGrupo(grupo);
         this.edificios = new ArrayList<>();
         switch (grupo.getColor()) {
             case Valor.GRUPO_NEGRO:
@@ -187,18 +186,6 @@ public class Solar extends Propiedad {
         this.edificios = edificios;
     }
 
-    public Grupo getGrupo() {
-        return grupo;
-    }
-
-    public void setGrupo(Grupo grupo) {
-        if (grupo == null) {
-            consola.imprimir(Valor.ANSI_ROJO + "Grupo nulo." + Valor.ANSI_RESET);
-            System.exit(1);
-        }
-        this.grupo = grupo;
-    }
-
     /**
      * Obtiene el string de los nombres de los edificios de la casilla
      */
@@ -213,13 +200,6 @@ public class Solar extends Propiedad {
             }
         }
         return cadena;
-    }
-
-    public void actualizarAlquiler() {
-        setAlquiler(grupo.getAlquiler());
-        for (Edificio edificio : edificios) {
-            setAlquiler(getAlquiler() + edificio.getAlquiler());
-        }
     }
 
     public void edificar(String tipo, Jugador jugador) {
@@ -476,6 +456,13 @@ public class Solar extends Propiedad {
 
         getPropietario().setFortuna(getPropietario().getFortuna() + dinero); // incrementamos la fortuna del expropietario
 
+    }
+
+    @Override
+    public String toString() {
+        String cadena = this.printNombreColor();
+
+        return cadena;
     }
 
     @Override
