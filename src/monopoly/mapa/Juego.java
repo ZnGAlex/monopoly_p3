@@ -392,6 +392,8 @@ public class Juego implements Comando {
             turno.turnoActual().setTurnosDadosTiradosEspecial(0);
             turno.siguienteTurno();
         } else if (turno.turnoActual().getAvatar() instanceof Esfinge) {
+            ((Esfinge) turno.turnoActual().getAvatar()).setLadoAntiguo(turno.turnoActual().getAvatar().getCasilla().getPosicion() / 10 % 4); // Restauramos la posicion anterior
+            ((Esfinge) turno.turnoActual().getAvatar()).setPosicionAntigua((turno.turnoActual().getAvatar().getCasilla().getPosicion()));
             turno.turnoActual().setTurnosDadosTiradosEspecial(0);
             turno.turnoActual().setDadosTirados(false);
             turno.siguienteTurno();

@@ -84,6 +84,8 @@ public abstract class Avatar {
             consola.imprimir(this.jugador.getNombre() + " pasa por salida y cobra " + Valor.CANTIDAD_PASAR_SALIDA + " €");
             this.jugador.setPasarPorCasillaDeSalida(this.jugador.getPasarPorCasillaDeSalida() + Valor.CANTIDAD_PASAR_SALIDA);
         }
+        lado = 0;
+        posicionNueva = 6;
         
         consola.imprimir("Desde " + this.casilla.getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
         this.casilla.eliminarAvatar(this);

@@ -5,6 +5,7 @@ import static monopoly.mapa.Juego.consola;
 final public class Hotel extends Edificio {
     public Hotel(Solar solar) {
         super(solar);
+        setTipo(Valor.EDIFICIO_HOTEL);
         setValor((int) (solar.getValor() * 0.6));
         setAlquiler((int) (solar.getValor() * 0.1 * 70));
         switch (solar.getNumHoteles()) {

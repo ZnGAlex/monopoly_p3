@@ -5,6 +5,7 @@ import static monopoly.mapa.Juego.consola;
 final public class PistaDeporte extends Edificio {
     public PistaDeporte(Solar solar) {
         super(solar);
+        setTipo(Valor.EDIFICIO_PISTA);
         setValor((int) (solar.getValor() * 1.25));
         setAlquiler((int) (solar.getValor() * 0.1 * 25));
         switch (solar.getNumPistas()) {

@@ -5,6 +5,7 @@ import static monopoly.mapa.Juego.consola;
 final public class Casa extends Edificio {
     public Casa(Solar solar) {
         super(solar);
+        setTipo(Valor.EDIFICIO_CASA);
         setValor((int) (solar.getValor() * 0.6));
         switch (solar.getNumCasas()) {
             case 0:
