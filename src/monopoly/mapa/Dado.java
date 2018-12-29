@@ -59,6 +59,9 @@ public class Dado {
         Random random = new Random();
         dado1 = random.nextInt((3-1) + 1) + 1;
         dado2 = random.nextInt((3-1) + 1) + 1;
+        
+        dado1 = 0;
+        dado2 = 8;
 
         return dado1 + dado2;
     }
