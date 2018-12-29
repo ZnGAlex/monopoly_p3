@@ -794,19 +794,8 @@ public class Jugador {
         if (!this.avatar.getCasilla().getPropietario().getNombre().equals(this.getNombre()) && !this.avatar.getCasilla().getHipotecada() && paga()) {
             if (!this.avatar.getCasilla().getPropietario().getNombre().equals("banca")) {
                 /*Calculo del numero de casillas de transporte con el mismo dueño*/
-                if (this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(0).get(5).getPropietario().getNombre())) {
-                    numEstaciones++;
-                }
-                if (this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(1).get(5).getPropietario().getNombre())) {
-                    numEstaciones++;
-                }
-                if (this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(2).get(5).getPropietario().getNombre())) {
-                    numEstaciones++;
-                }
-                if (this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(3).get(5).getPropietario().getNombre())) {
-                    numEstaciones++;
-                }
-                valorPagar = (int) (this.avatar.getCasilla().getAlquiler() * numEstaciones * 0.25);
+                Transporte t = (Transporte) this.avatar.getCasilla();
+                valorPagar = t.alquiler();
                 /*Calculo del alquiler*/
                 while (valorPagar > this.fortuna && !bancarrota) {
                     /*SI no le llega el dinero hipoteca/bancarrota*/

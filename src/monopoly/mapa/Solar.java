@@ -99,7 +99,12 @@ public class Solar extends Propiedad {
 
     @Override
     public int alquiler() {
-        return getAlquiler();
+        int alquiler = getGrupo().getAlquiler();
+        for (Edificio edificio : edificios) {
+            alquiler += edificio.getAlquiler();
+        }
+
+        return alquiler;
     }
 
     public int getNumCasas() {
