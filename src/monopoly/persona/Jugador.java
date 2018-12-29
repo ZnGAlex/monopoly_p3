@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 import static monopoly.mapa.Juego.consola;
 
-public class Jugador{
+public class Jugador {
 
     private String nombre;
     private Avatar avatar;
@@ -39,6 +39,7 @@ public class Jugador{
     private int turnosBloqueoModoEspecial;
     private boolean bloqueoTiroModoEspecial;
     private boolean haCompradoModoEspecial;
+    private HashMap<String, Integer> nopaga;
 
     // constructores
     public Jugador(String nombre, String ficha, Casilla casilla, String id) throws ExcepcionPersona {
@@ -88,6 +89,7 @@ public class Jugador{
         this.haCompradoModoEspecial = false;
         this.turnosBloqueoModoEspecial = 0;
         this.bloqueoTiroModoEspecial = false;
+        this.nopaga = new HashMap<>();
     }
 
     public Jugador(String nombre) throws ExcepcionPersona {
@@ -112,9 +114,22 @@ public class Jugador{
         this.haCompradoModoEspecial = false;
         this.turnosBloqueoModoEspecial = 0;
         this.bloqueoTiroModoEspecial = false;
+        this.nopaga = new HashMap<>();
     }
 
     //setters y getters
+    public HashMap<String, Integer> getNopaga() {
+        return nopaga;
+    }
+
+    public void setNopaga(HashMap<String, Integer> nopaga) {
+        if (nopaga == null) {
+            consola.imprimir(Valor.ANSI_ROJO + "nopaga nulo." + Valor.ANSI_RESET);
+            System.exit(1);
+        }
+        this.nopaga = nopaga;
+    }
+
     public int getPagoDeTasas() {
         return pagoDeTasas;
     }
@@ -484,8 +499,8 @@ public class Jugador{
                 while (Valor.COSTE_SALIR_CARCEL > this.fortuna && !this.bancarrota) {
                     /*Si no le llega el dinero para salir de la carcel debe hipotecarse o declararse en bancarrota*/
 
-                    String opcion = consola.leer("El jugador " + this.nombre + " no dispone de suficiente dinero. Que quieres hacer?" +
-                                                    "Hipotecar propiedad (hipotecarse) o declararse en bancarrota (bancarrota): ");
+                    String opcion = consola.leer("El jugador " + this.nombre + " no dispone de suficiente dinero. Que quieres hacer?"
+                            + "Hipotecar propiedad (hipotecarse) o declararse en bancarrota (bancarrota): ");
                     switch (opcion) {
                         case "bancarrota":
                             this.declararBancarrota(this.getAvatar().getCasilla().getPropietario(), tablero, turno);// funcion bancarrota
@@ -564,8 +579,8 @@ public class Jugador{
                 while (Valor.COSTE_SALIR_CARCEL > this.fortuna && !this.bancarrota) {
                     /*Si no le llega el dinero para salir de la carcel debe hipotecarse o declararse en bancarrota*/
 
-                    String opcion = consola.leer("El jugador " + this.nombre + " no dispone de suficiente dinero. Que quieres hacer?" +
-                            "Hipotecar propiedad (hipotecarse) o declararse en bancarrota (bancarrota): ");
+                    String opcion = consola.leer("El jugador " + this.nombre + " no dispone de suficiente dinero. Que quieres hacer?"
+                            + "Hipotecar propiedad (hipotecarse) o declararse en bancarrota (bancarrota): ");
 
                     switch (opcion) {
                         case "bancarrota":
@@ -682,7 +697,7 @@ public class Jugador{
      * pagar algo)
      */
     public void pagarAlquiler(Tablero tablero, Turno turno) {
-        if (!this.avatar.getCasilla().getPropietario().getNombre().equals(this.nombre) && !this.avatar.getCasilla().getHipotecada()) {
+        if (!this.avatar.getCasilla().getPropietario().getNombre().equals(this.nombre) && !this.avatar.getCasilla().getHipotecada() && paga()) {
             /*Si la casilla no pertenece al jugador*/
 
             if (!this.avatar.getCasilla().getPropietario().getNombre().equals("banca")) {
@@ -729,7 +744,7 @@ public class Jugador{
      */
     public void pagarAlquiler(Tablero tablero, Turno turno, int valorDados) {
         int valorPagar;
-        if (!this.avatar.getCasilla().getPropietario().getNombre().equals(this.getNombre()) && !this.avatar.getCasilla().getHipotecada()) {
+        if (!this.avatar.getCasilla().getPropietario().getNombre().equals(this.getNombre()) && !this.avatar.getCasilla().getHipotecada() && paga()) {
             if (!this.avatar.getCasilla().getPropietario().getNombre().equals("banca")) {
                 /*Calculo del alquiler en funcion del valor de los dados y del numero de casillas de servicio poseidas por el mismo propietario*/
                 if (this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(1).get(2).getPropietario().getNombre()) && this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(2).get(8).getPropietario().getNombre())) {
@@ -776,7 +791,7 @@ public class Jugador{
     public void pagarTransporte(Tablero tablero, Turno turno) {
         int valorPagar, numEstaciones = 0;
 
-        if (!this.avatar.getCasilla().getPropietario().getNombre().equals(this.getNombre()) && !this.avatar.getCasilla().getHipotecada()) {
+        if (!this.avatar.getCasilla().getPropietario().getNombre().equals(this.getNombre()) && !this.avatar.getCasilla().getHipotecada() && paga()) {
             if (!this.avatar.getCasilla().getPropietario().getNombre().equals("banca")) {
                 /*Calculo del numero de casillas de transporte con el mismo dueño*/
                 if (this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(0).get(5).getPropietario().getNombre())) {
@@ -901,14 +916,14 @@ public class Jugador{
             prop.setPropietario(jugador);
         }
         this.propiedades.clear();
-        
+
         for (Propiedad hip : this.hipotecas.values()) {
             /*Traspase de las hipotecas*/
             jugador.getHipotecas().put(hip.getNombre(), hip);
             hip.setPropietario(jugador);
         }
         this.hipotecas.clear();
-        
+
         tablero.getJugadores().remove(this.getNombre());
         /*Eliminacion del jugador del tablero*/
 
@@ -1038,5 +1053,24 @@ public class Jugador{
 
     public void anhadirGrupo(Grupo grupo) {
         this.grupos.put(grupo.getColor(), grupo);
+    }
+
+    public boolean paga() {
+        return !nopaga.containsKey(this.getAvatar().getCasilla().getNombre());
+    }
+
+    public void reducirNoPaga() {
+        ArrayList<String> eliminables = new ArrayList<>();
+
+        for (String str : nopaga.keySet()) {
+            nopaga.put(str, nopaga.get(str) - 1);
+            if (nopaga.get(str) == 0) {
+                eliminables.add(str);
+            }
+        }
+
+        for (String str : eliminables) {
+            nopaga.remove(str);
+        }
     }
 }

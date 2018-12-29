@@ -31,7 +31,7 @@ public abstract class Casilla {
         this.edificios = new ArrayList<>();
         this.vecesCaidas = new HashMap<>();
         this.tablero = tablero;
-        this.edificable = false;
+        this.edificable = true;
         this.hipotecada = false;
     }
 
@@ -48,7 +48,7 @@ public abstract class Casilla {
         this.vecesCaidas = new HashMap<>();
         this.edificios = new ArrayList<>();
         this.tablero = tablero;
-        this.edificable = false;
+        this.edificable = true;
         this.hipotecada = false;
     }
 

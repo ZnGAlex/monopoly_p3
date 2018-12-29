@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class Valor {
 
     // grupo de valores de coste
-    public static final int COSTE_INICIAL = 10000;
+    public static final int COSTE_INICIAL = 100000;
     public static final int COSTE_GRUPO_NEGRO = COSTE_INICIAL;
     public static final int ALQUILER_GRUPO_NEGRO = (int) (COSTE_INICIAL * 0.1);
     public static final int COSTE_GRUPO_CYAN = (int) (COSTE_GRUPO_NEGRO * 1.3);

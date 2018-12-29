@@ -310,7 +310,6 @@ public class Tablero {
                 }
             }
         }
-        consola.imprimir("Casilla no encontrada.");
         return null;
     }
 
