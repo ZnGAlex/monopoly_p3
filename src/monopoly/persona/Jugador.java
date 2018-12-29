@@ -747,11 +747,8 @@ public class Jugador {
         if (!this.avatar.getCasilla().getPropietario().getNombre().equals(this.getNombre()) && !this.avatar.getCasilla().getHipotecada() && paga()) {
             if (!this.avatar.getCasilla().getPropietario().getNombre().equals("banca")) {
                 /*Calculo del alquiler en funcion del valor de los dados y del numero de casillas de servicio poseidas por el mismo propietario*/
-                if (this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(1).get(2).getPropietario().getNombre()) && this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(2).get(8).getPropietario().getNombre())) {
-                    valorPagar = this.avatar.getCasilla().getAlquiler() * valorDados * 10;
-                } else {
-                    valorPagar = this.avatar.getCasilla().getAlquiler() * valorDados * 4;
-                }
+                Servicio s = (Servicio) this.avatar.getCasilla();
+                valorPagar = s.alquiler() * valorDados;
                 while (valorPagar > this.fortuna && !bancarrota) {
                     /*Si el dinero no le llega se hipoteca o declara en bancarrota*/
 

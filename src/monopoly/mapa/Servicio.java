@@ -2,6 +2,8 @@ package monopoly.mapa;
 
 import monopoly.persona.Jugador;
 
+import java.util.Iterator;
+
 public class Servicio extends Propiedad {
 
     public Servicio(String nombre, int posicion, Jugador banca, Tablero tablero) {
@@ -12,7 +14,20 @@ public class Servicio extends Propiedad {
 
     @Override
     public int alquiler() {
-        return getAlquiler();
+        int numEstaciones = 0, valor = 0;
+        Jugador j = getPropietario();
+        Iterator<Propiedad> c_it = j.getPropiedades().values().iterator();
+        while (c_it.hasNext()) {
+            Propiedad p = c_it.next();
+            if (p.getNombre().equals(Valor.CASILLA_SERVICIO))
+                numEstaciones++;
+        }
+        if (numEstaciones == 1)
+            valor = Valor.FACTOR_SERVICIO * 4;
+        else
+            valor = Valor.FACTOR_SERVICIO * 10;
+
+        return valor;
     }
 
     @Override
