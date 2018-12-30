@@ -929,7 +929,7 @@ public class Jugador {
 
         turno.getJugadores().remove(this);
 
-        jugador.getAvatar().getCasilla().eliminarAvatar(jugador.getAvatar());
+        this.getAvatar().getCasilla().eliminarAvatar(this.getAvatar());
         /*Eliminacion del avatar*/
         if (tablero.getJugadores().size() == 1) {
             Iterator jug_it = tablero.getJugadores().values().iterator();
