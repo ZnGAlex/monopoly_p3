@@ -307,6 +307,9 @@ final public class Sombrero extends Avatar {
         for (Edificio edificio : this.edificiosComprados) {
             getJugador().getEdificios().remove(edificio);
             Solar s = (Solar) edificio.getCasilla();
+            Grupo g = s.getGrupo();
+            if (g.getEdificios().contains(edificio))
+                g.getEdificios().remove(edificio);
             s.getEdificios().remove(edificio);
             tablero.getEdificios().remove(edificio);
         }

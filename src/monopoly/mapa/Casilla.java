@@ -331,7 +331,10 @@ public abstract class Casilla {
             case Valor.POSICION_CASILLA_IR_CARCEL:
                 jugador.setDadosTirados(false);
                 jugador.encarcelarJugador(tablero);
-                jugador.setDadosTirados(false);
+                jugador.setTurnosDadosTiradosEspecial(0);
+                jugador.setVecesDadosTirados(0);
+                jugador.setTurnosBloqueoModoEspecial(0);
+                jugador.setDadosDobles(0);
                 consola.imprimir("El jugador va a la carcel.");
                 turno.siguienteTurno();
                 break;
