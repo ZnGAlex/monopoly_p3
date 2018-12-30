@@ -196,7 +196,6 @@ final public class Esfinge extends Avatar{
                 int posicionActual = getCasilla().getPosicion();
                 int lado = posicionActual % 10, posicionNueva = 0;
                 /*Calculo de la nueva posicion*/
-                avance = 5;
                 if (!isAvanceEste())
                     moverAIzquierda(avance, posicionActual, tablero);
                 else

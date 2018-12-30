@@ -191,7 +191,6 @@ final public class Sombrero extends Avatar {
                 getJugador().aumentarTurnosDadosTiradosEspecial();
                 int posicionActual = getCasilla().getPosicion();
                 /*Calculo de la nueva posicion*/
-                avance = 5;
                 if (isAvanceNorte())
                     moverArriba(avance, posicionActual, tablero);
                 else
