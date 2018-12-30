@@ -445,6 +445,7 @@ public class Juego implements Comando {
         if (turno.turnoActual().getAvatar() instanceof Coche && turno.turnoActual().getModoEspecial()) {
             turno.turnoActual().setDadosTirados(false);
             turno.turnoActual().setTurnosDadosTiradosEspecial(0);
+            turno.turnoActual().setDadosDobles(0);
             turno.turnoActual().reducirNoPaga();
             turno.siguienteTurno();
             imprimirTratos();
@@ -453,6 +454,7 @@ public class Juego implements Comando {
             ((Esfinge) turno.turnoActual().getAvatar()).setPosicionAntigua((turno.turnoActual().getAvatar().getCasilla().getPosicion() / 10));
             ((Esfinge) turno.turnoActual().getAvatar()).vaciarUltimoTurno();
             turno.turnoActual().setTurnosDadosTiradosEspecial(0);
+            turno.turnoActual().setDadosDobles(0);
             turno.turnoActual().setDadosTirados(false);
             turno.siguienteTurno();
             imprimirTratos();
@@ -461,6 +463,7 @@ public class Juego implements Comando {
             ((Sombrero) turno.turnoActual().getAvatar()).setPosicionAntigua((turno.turnoActual().getAvatar().getCasilla().getPosicion() / 10));
             ((Sombrero) turno.turnoActual().getAvatar()).vaciarUltimoTurno();
             turno.turnoActual().setTurnosDadosTiradosEspecial(0);
+            turno.turnoActual().setDadosDobles(0);
             turno.turnoActual().setDadosTirados(false);
             turno.siguienteTurno();
             imprimirTratos();
@@ -472,11 +475,13 @@ public class Juego implements Comando {
                 turno.turnoActual().setTurnosBloqueoModoEspecial(0);
             }
             turno.turnoActual().setTurnosDadosTiradosEspecial(0);
+            turno.turnoActual().setDadosDobles(0);
             turno.turnoActual().reducirNoPaga();
             turno.siguienteTurno();
             imprimirTratos();
         } else if (turno.turnoActual().getDadosTirados()) {
             turno.turnoActual().setTurnosDadosTiradosEspecial(0);
+            turno.turnoActual().setDadosDobles(0);
             turno.turnoActual().setDadosTirados(false);
             turno.turnoActual().reducirNoPaga();
             turno.siguienteTurno();
