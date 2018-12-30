@@ -2,6 +2,7 @@ package monopoly.mapa;
 
 import monopoly.persona.Esfinge;
 import monopoly.persona.Jugador;
+import monopoly.persona.Sombrero;
 
 import java.util.ArrayList;
 
@@ -299,6 +300,9 @@ public class Solar extends Propiedad {
                 if (jugador.getAvatar() instanceof Esfinge && jugador.getModoEspecial()) { // Si el jugador es de tipo Esfinge y esta en modo avanzado añadimos el edificio por si va a perderlo
                     ((Esfinge) jugador.getAvatar()).anhadirEdificioComprado(edificio);
                     ((Esfinge) jugador.getAvatar()).anhadirPerdida(edificio.getValor());
+                } else if (jugador.getAvatar() instanceof Sombrero && jugador.getModoEspecial()) { // Si el jugador es de tipo Sombrero y esta en modo avanzado añadimos el edificio por si va a perderlo
+                    ((Sombrero) jugador.getAvatar()).anhadirEdificioComprado(edificio);
+                    ((Sombrero) jugador.getAvatar()).anhadirPerdida(edificio.getValor());
                 }
                 getEdificios().add(edificio);
                 jugador.setFortuna(jugador.getFortuna() - edificio.getValor());
