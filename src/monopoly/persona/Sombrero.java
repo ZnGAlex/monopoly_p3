@@ -13,6 +13,7 @@ final public class Sombrero extends Avatar {
     private boolean avanceNorte;
     private int posicionAntigua;
     private int ladoAntiguo;
+    private Casilla casillaAntigua;
     private Solar solarComprado;
     private ArrayList<Edificio> edificiosComprados;
     private ArrayList<Integer> beneficios;
@@ -24,15 +25,14 @@ final public class Sombrero extends Avatar {
         this.edificiosComprados = new ArrayList<>();
         this.beneficios = new ArrayList<>();
         this.perdidas = new ArrayList<>();
+        this.casillaAntigua = casilla;
     }
 
     private void moverArriba(int avance, int posicionActual, Tablero tablero) {
         int posicionNueva = 0, lado = 0;
 
-        if (avance >= 4) {
-            lado = (posicionActual / 10) % 4;
-            setLadoAntiguo(lado);
-            setPosicionAntigua(posicionActual / 10);
+        if (avance > 4) {
+            this.casillaAntigua = getCasilla();
             for (int i = 0; i < avance; i++) {
                 lado = (posicionActual / 10) % 4;
                 getCasilla().eliminarAvatar(this);
@@ -94,12 +94,14 @@ final public class Sombrero extends Avatar {
             getCasilla().getVecesCaidas().forEach((k, v) -> consola.imprimir(k.getNombre() + " -> " + v));
         } else {
             consola.imprimir("El jugador ha sacado menos de un 4. Retrocederá a su posición anterior y perdera lo que ha hecho en su ultimo turno.");
-            posicionNueva = posicionAntigua;
-            lado = ladoAntiguo;
             deshacerUltimoTurno(tablero);
-            consola.imprimir("Desde " + getCasilla().getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
+            consola.imprimir("Desde " + getCasilla().getNombre() + " hasta " + casillaAntigua.getNombre());
             getCasilla().eliminarAvatar(this);
-            setCasilla(tablero.getCasillas().get(lado).get(posicionNueva));
+            try {
+                setCasilla(tablero.casillaByName(casillaAntigua.getNombre()));
+            } catch (ExcepcionCasilla exc) {
+                consola.imprimir(exc.getMessage());
+            }
             getCasilla().getAvatares().put(getId(), this);
             getCasilla().getVecesCaidas().put(getJugador(), getCasilla().getVecesCaidas().get(getJugador()) + 1);
         }
@@ -108,10 +110,8 @@ final public class Sombrero extends Avatar {
     private void moverAbajo(int avance, int posicionActual, Tablero tablero) {
         int posicionNueva = 0, lado = 0;
 
-        if (avance >= 4) {
-            lado = (posicionActual / 10) % 4;
-            setLadoAntiguo(lado);
-            setPosicionAntigua(posicionActual / 10);
+        if (avance > 4) {
+            this.casillaAntigua = getCasilla();
             for (int i = 0; i < avance; i++) {
                 lado = (posicionActual / 10) % 4;
                 getCasilla().eliminarAvatar(this);
@@ -170,12 +170,14 @@ final public class Sombrero extends Avatar {
             getCasilla().getVecesCaidas().forEach((k, v) -> consola.imprimir(k.getNombre() + " -> " + v));
         } else {
             consola.imprimir("El jugador ha sacado menos de un 4. Retrocederá a su posición anterior y perdera lo que ha hecho en su ultimo turno.");
-            posicionNueva = posicionAntigua;
-            lado = ladoAntiguo;
             deshacerUltimoTurno(tablero);
-            consola.imprimir("Desde " + getCasilla().getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
+            consola.imprimir("Desde " + getCasilla().getNombre() + " hasta " + casillaAntigua.getNombre());
             getCasilla().eliminarAvatar(this);
-            setCasilla(tablero.getCasillas().get(lado).get(posicionNueva));
+            try {
+                setCasilla(tablero.casillaByName(casillaAntigua.getNombre()));
+            } catch (ExcepcionCasilla exc) {
+                consola.imprimir(exc.getMessage());
+            }
             getCasilla().getAvatares().put(getId(), this);
             getCasilla().getVecesCaidas().put(getJugador(), getCasilla().getVecesCaidas().get(getJugador()) + 1);
         }
@@ -184,8 +186,8 @@ final public class Sombrero extends Avatar {
     @Override
     public void moverEnAvanzado(int avance, Tablero tablero, Turno turno) {
         try {
-            if (getJugador().getTurnosDadosTiradosEspecial() == 2)
-                throw new ExcepcionJugador("El jugador ya ha tirado 2 veces en modo avanzado");
+            if (getJugador().getTurnosDadosTiradosEspecial() == 3)
+                throw new ExcepcionJugador("El jugador ya ha tirado 3 veces en modo avanzado");
             else {
                 getJugador().setDadosTirados(false);
                 getJugador().aumentarTurnosDadosTiradosEspecial();
@@ -195,7 +197,7 @@ final public class Sombrero extends Avatar {
                     moverArriba(avance, posicionActual, tablero);
                 else
                     moverAbajo(avance, posicionActual, tablero);
-                if (getJugador().getTurnosDadosTiradosEspecial() == 2) {
+                if (getJugador().getTurnosDadosTiradosEspecial() == 3) {
                     getJugador().setDadosTirados(true);
                 }
                 getCasilla().realizarAccion(getJugador(), turno, avance);

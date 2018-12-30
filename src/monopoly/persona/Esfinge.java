@@ -13,6 +13,7 @@ final public class Esfinge extends Avatar{
     private boolean avanceEste;
     private int posicionAntigua;
     private int ladoAntiguo;
+    private Casilla casillaAntigua;
     private Solar solarComprado;
     private ArrayList<Edificio> edificiosComprados;
     private ArrayList<Integer> beneficios;
@@ -25,15 +26,14 @@ final public class Esfinge extends Avatar{
         this.edificiosComprados = new ArrayList<>();
         this.beneficios = new ArrayList<>();
         this.perdidas = new ArrayList<>();
+        this.casillaAntigua = casilla;
     }
 
     private void moverAIzquierda(int avance, int posicionActual, Tablero tablero) {
         int posicionNueva = 0, lado = 0;
 
-        if (avance >= 4) {
-            lado = (posicionActual / 10) % 4;
-            setLadoAntiguo(lado);
-            setPosicionAntigua(posicionActual / 10);
+        if (avance > 4) {
+            this.casillaAntigua = getCasilla();
             for (int i = 0; i < avance; i++) {
                 lado = (posicionActual / 10) % 4;
                 getCasilla().eliminarAvatar(this);
@@ -64,9 +64,6 @@ final public class Esfinge extends Avatar{
                     setCasilla(tablero.getCasillas().get(lado).get(posicionNueva));
                     posicionActual = getCasilla().getPosicion();
                     getCasilla().getAvatares().put(getId(), this);
-                    consola.imprimir("El jugador pasa por salida. Obtiene " + Valor.CANTIDAD_PASAR_SALIDA);
-                    getJugador().setFortuna(getJugador().getFortuna() + Valor.CANTIDAD_PASAR_SALIDA);
-                    anhadirBeneficio(Valor.CANTIDAD_PASAR_SALIDA);
                 }else if (lado == 3) { // Si el avatar esta en el lado derecho el avatar pasa a la casilla izquierda de Salida
                     posicionNueva = 1;
                     lado = 0;
@@ -98,12 +95,14 @@ final public class Esfinge extends Avatar{
             getCasilla().getVecesCaidas().forEach((k, v) -> consola.imprimir(k.getNombre() + " -> " + v));
         } else {
             consola.imprimir("El jugador ha sacado menos de un 4. Retrocederá a su posición anterior y perdera lo que ha hecho en su ultimo turno.");
-            posicionNueva = posicionAntigua;
-            lado = ladoAntiguo;
             deshacerUltimoTurno(tablero);
-            consola.imprimir("Desde " + getCasilla().getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
+            consola.imprimir("Desde " + getCasilla().getNombre() + " hasta " + casillaAntigua.getNombre());
             getCasilla().eliminarAvatar(this);
-            setCasilla(tablero.getCasillas().get(lado).get(posicionNueva));
+            try {
+                setCasilla(tablero.casillaByName(casillaAntigua.getNombre()));
+            } catch (ExcepcionCasilla exc) {
+                consola.imprimir(exc.getMessage());
+            }
             getCasilla().getAvatares().put(getId(), this);
             getCasilla().getVecesCaidas().put(getJugador(), getCasilla().getVecesCaidas().get(getJugador()) + 1);
         }
@@ -112,10 +111,8 @@ final public class Esfinge extends Avatar{
     private void moverADerecha(int avance, int posicionActual, Tablero tablero) {
         int posicionNueva = 0, lado = 0;
 
-        if (avance >= 4) {
-            lado = (posicionActual / 10) % 4;
-            setLadoAntiguo(lado);
-            setPosicionAntigua(posicionActual / 10);
+        if (avance > 4) {
+            this.casillaAntigua = getCasilla();
             for (int i = 0; i < avance; i++) {
                 lado = (posicionActual / 10) % 4;
                 getCasilla().eliminarAvatar(this);
@@ -174,12 +171,14 @@ final public class Esfinge extends Avatar{
             getCasilla().getVecesCaidas().forEach((k, v) -> consola.imprimir(k.getNombre() + " -> " + v));
         } else {
             consola.imprimir("El jugador ha sacado menos de un 4. Retrocederá a su posición anterior y perdera lo que ha hecho en su ultimo turno.");
-            posicionNueva = posicionAntigua;
-            lado = ladoAntiguo;
             deshacerUltimoTurno(tablero);
-            consola.imprimir("Desde " + getCasilla().getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
+            consola.imprimir("Desde " + getCasilla().getNombre() + " hasta " + casillaAntigua.getNombre());
             getCasilla().eliminarAvatar(this);
-            setCasilla(tablero.getCasillas().get(lado).get(posicionNueva));
+            try {
+                setCasilla(tablero.casillaByName(casillaAntigua.getNombre()));
+            } catch (ExcepcionCasilla exc) {
+                consola.imprimir(exc.getMessage());
+            }
             getCasilla().getAvatares().put(getId(), this);
             getCasilla().getVecesCaidas().put(getJugador(), getCasilla().getVecesCaidas().get(getJugador()) + 1);
         }
@@ -188,19 +187,18 @@ final public class Esfinge extends Avatar{
     @Override
     public void moverEnAvanzado(int avance, Tablero tablero, Turno turno) {
         try {
-            if (getJugador().getTurnosDadosTiradosEspecial() == 2)
-                throw new ExcepcionJugador("El jugador ya ha tirado 2 veces en modo avanzado");
+            if (getJugador().getTurnosDadosTiradosEspecial() == 3)
+                throw new ExcepcionJugador("El jugador ya ha tirado 3 veces en modo avanzado");
             else {
                 getJugador().setDadosTirados(false);
                 getJugador().aumentarTurnosDadosTiradosEspecial();
                 int posicionActual = getCasilla().getPosicion();
-                int lado = posicionActual % 10, posicionNueva = 0;
                 /*Calculo de la nueva posicion*/
                 if (!isAvanceEste())
                     moverAIzquierda(avance, posicionActual, tablero);
                 else
                     moverADerecha(avance, posicionActual, tablero);
-                if (getJugador().getTurnosDadosTiradosEspecial() == 2) {
+                if (getJugador().getTurnosDadosTiradosEspecial() == 3) {
                     getJugador().setDadosTirados(true);
                 }
                 getCasilla().realizarAccion(getJugador(), turno, avance);
