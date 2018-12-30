@@ -133,7 +133,7 @@ public class Juego implements Comando {
                                 if (!tablero.getAvatares().containsKey(partes[2])) {
                                     consola.imprimir("El avatar " + partes[2] + " no existe.");
                                 } else {
-                                    describirAvatar(avatares, partes[2]);
+                                    describirAvatar(tablero.getAvatares(), partes[2]);
                                 }
                                 break;
                             default:
@@ -677,15 +677,6 @@ public class Juego implements Comando {
         }
     }
 
-    public static boolean esNumero(String str) {
-        try {
-            int i = Integer.parseInt(str);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
     @Override
     public Trato crearTrato(String[] comando) throws ExcepcionTrato {
         Trato trato = new Trato();
@@ -708,7 +699,7 @@ public class Juego implements Comando {
             }
             switch (comando.length) {
                 case 5:
-                    if (esNumero(comando[3])) {
+                    if (Valor.esNumero(comando[3])) {
                         if (tablero.casillaByName(comando[4]) == null) {
                             throw new ExcepcionTrato(comando[4] + " no existe");
                         }
@@ -716,7 +707,7 @@ public class Juego implements Comando {
                             throw new ExcepcionTrato(comando[1] + " no es el dueño de " + comando[4]);
                         }
                         trato = new Trato(turno.turnoActual(), Integer.parseInt(comando[3]), (Propiedad) tablero.casillaByName(comando[4]));
-                    } else if (esNumero(comando[4])) {
+                    } else if (Valor.esNumero(comando[4])) {
                         if (tablero.casillaByName(comando[3]) == null) {
                             throw new ExcepcionTrato(comando[3] + " no existe");
                         }
@@ -747,7 +738,7 @@ public class Juego implements Comando {
                     if (!turno.turnoActual().getNombre().equals(tablero.casillaByName(comando[3]).getPropietario().getNombre())) {
                         throw new ExcepcionTrato(turno.turnoActual().getNombre() + " no es el dueño de " + comando[3]);
                     }
-                    if (esNumero(comando[5])) {
+                    if (Valor.esNumero(comando[5])) {
                         if (tablero.casillaByName(comando[6]) == null) {
                             throw new ExcepcionTrato(comando[6] + " no existe");
                         }
@@ -755,7 +746,7 @@ public class Juego implements Comando {
                             throw new ExcepcionTrato(comando[1] + " no es el dueño de " + comando[6]);
                         }
                         trato = new Trato((Propiedad) tablero.casillaByName(comando[3]), Integer.parseInt(comando[5]), (Propiedad) tablero.casillaByName(comando[6]));
-                    } else if (esNumero(comando[6])) {
+                    } else if (Valor.esNumero(comando[6])) {
                         if (tablero.casillaByName(comando[4]) == null) {
                             throw new ExcepcionTrato(comando[4] + " no existe");
                         }

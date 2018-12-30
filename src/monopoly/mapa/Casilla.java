@@ -1,6 +1,7 @@
 package monopoly.mapa;
 
 import java.util.*;
+import monopoly.excepciones.ExcepcionCarta;
 
 import monopoly.excepciones.ExcepcionCasilla;
 import monopoly.persona.*;
@@ -31,7 +32,7 @@ public abstract class Casilla {
         this.edificios = new ArrayList<>();
         this.vecesCaidas = new HashMap<>();
         this.tablero = tablero;
-        this.edificable = true;
+        this.edificable = false;
         this.hipotecada = false;
     }
 
@@ -48,7 +49,7 @@ public abstract class Casilla {
         this.vecesCaidas = new HashMap<>();
         this.edificios = new ArrayList<>();
         this.tablero = tablero;
-        this.edificable = true;
+        this.edificable = false;
         this.hipotecada = false;
     }
 
@@ -349,13 +350,31 @@ public abstract class Casilla {
             case Valor.POSICION_CASILLA_CAJA2:
             case Valor.POSICION_CASILLA_CAJA3:
                 /*Caja*/
-                tablero.escogerCarta('c', jugador, turno);
+                boolean repetir = false;
+                do{
+                    try{
+                        tablero.escogerCarta('c', jugador, turno);
+                        repetir = false;
+                    }catch(ExcepcionCarta ex){
+                        consola.imprimir(ex.getMessage());
+                        repetir = true;
+                    }
+                }while(repetir);
                 break;
             case Valor.POSICION_CASILLA_SUERTE1:
             case Valor.POSICION_CASILLA_SUERTE2:
             case Valor.POSICION_CASILLA_SUERTE3:
                 /*Suerte*/
-                tablero.escogerCarta('s', jugador, turno);
+                repetir = false;
+                do{
+                    try{
+                        tablero.escogerCarta('s', jugador, turno);
+                        repetir = false;
+                    }catch(ExcepcionCarta ex){
+                        consola.imprimir(ex.getMessage());
+                        repetir = true;
+                    }
+                }while(repetir);
                 break;
             case Valor.POSICION_CASILLA_PARKING:
                 /*Parking*/

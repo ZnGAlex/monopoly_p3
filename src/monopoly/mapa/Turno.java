@@ -64,4 +64,10 @@ public class Turno {
         turno = (turno+1)%jugadores.size();
         consola.imprimir("Turno de " + jugadores.get(turno).getNombre());
     }
+    
+    public void siguienteTurnoBancarrota(){
+        if(turno == jugadores.size()-1){
+            turno = 0;
+        }
+    }
 }

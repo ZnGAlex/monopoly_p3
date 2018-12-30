@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import monopoly.excepciones.ExcepcionCarta;
 
 import static monopoly.mapa.Juego.consola;
 
@@ -269,7 +270,7 @@ public class Tablero {
         }
     }
 
-    public void escogerCarta(char c, Jugador jugador, Turno turno) throws ExcepcionCasilla {
+    public void escogerCarta(char c, Jugador jugador, Turno turno) throws ExcepcionCarta, ExcepcionCasilla {
         if (c != 's' && c != 'c') {
             consola.imprimir("c no valido.");
             System.exit(1);
@@ -285,8 +286,13 @@ public class Tablero {
         }
 
         int numero;
+        String eleccion;
         do {
-            numero = Integer.parseInt(consola.leer("Escoge un numero del 1 al " + cartas.size() + ": "));
+            eleccion = consola.leer("Escoge un numero del 1 al " + cartas.size() + ": ");
+            if(!Valor.esNumero(eleccion)){
+                throw new ExcepcionCarta("Valor no numerico");
+            }
+            numero = Integer.parseInt(eleccion);
         } while (numero < 1 || numero > cartas.size());
 
         cartas.get(numero-1).accion(jugador, this, turno);

@@ -207,5 +207,15 @@ public class Valor {
             }
         }
     }
+    
+    //metodo que comprueba si un string es numerico
+    public static boolean esNumero(String str) {
+        try {
+            int i = Integer.parseInt(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
 
 }

@@ -895,25 +895,42 @@ public class Jugador {
      * Declara la bancarrota del jugador y da sus posesiones a 'jugador'
      */
     public void declararBancarrota(Jugador jugador, Tablero tablero, Turno turno) {
+        turno.siguienteTurnoBancarrota();
         this.bancarrota = true;
+        
         for (Propiedad prop : this.propiedades.values()) {
             /*Traspase de las propiedades*/
+            if (prop instanceof Solar && jugador.getNombre().equals("banca")) {
+                ((Solar) prop).getEdificios().clear();
+            }
             jugador.getPropiedades().put(prop.getNombre(), prop);
             prop.setPropietario(jugador);
         }
         this.propiedades.clear();
 
+        if (!jugador.getNombre().equals("banca")) {
+            for (Edificio ed : this.edificios) {
+                jugador.getEdificios().add(ed);
+            }
+        }
+        this.edificios.clear();
+
         for (Propiedad hip : this.hipotecas.values()) {
             /*Traspase de las hipotecas*/
-            jugador.getHipotecas().put(hip.getNombre(), hip);
+            if (jugador.getNombre().equals("banca")) {
+                jugador.getPropiedades().put(hip.getNombre(), hip);
+            } else {
+                jugador.getHipotecas().put(hip.getNombre(), hip);
+            }
             hip.setPropietario(jugador);
         }
         this.hipotecas.clear();
 
         tablero.getJugadores().remove(this.getNombre());
+        tablero.getAvatares().remove(this.getAvatar().getId());
         /*Eliminacion del jugador del tablero*/
 
-        turno.getJugadores().remove(this);
+        turno.getJugadores().remove(turno.getJugadores().indexOf(this));
 
         this.getAvatar().getCasilla().eliminarAvatar(this.getAvatar());
         /*Eliminacion del avatar*/
