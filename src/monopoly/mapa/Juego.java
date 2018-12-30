@@ -448,15 +448,22 @@ public class Juego implements Comando {
             turno.turnoActual().reducirNoPaga();
             turno.siguienteTurno();
             imprimirTratos();
-        } else if (turno.turnoActual().getAvatar() instanceof Esfinge) {
+        } else if (turno.turnoActual().getAvatar() instanceof Esfinge && turno.turnoActual().getModoEspecial()) {
             ((Esfinge) turno.turnoActual().getAvatar()).setLadoAntiguo(turno.turnoActual().getAvatar().getCasilla().getPosicion() / 10 % 4); // Restauramos la posicion anterior
-            ((Esfinge) turno.turnoActual().getAvatar()).setPosicionAntigua((turno.turnoActual().getAvatar().getCasilla().getPosicion()));
+            ((Esfinge) turno.turnoActual().getAvatar()).setPosicionAntigua((turno.turnoActual().getAvatar().getCasilla().getPosicion() / 10));
             ((Esfinge) turno.turnoActual().getAvatar()).vaciarUltimoTurno();
             turno.turnoActual().setTurnosDadosTiradosEspecial(0);
             turno.turnoActual().setDadosTirados(false);
             turno.siguienteTurno();
             imprimirTratos();
-
+        } else if (turno.turnoActual().getAvatar() instanceof Sombrero && turno.turnoActual().getModoEspecial()) {
+            ((Sombrero) turno.turnoActual().getAvatar()).setLadoAntiguo(turno.turnoActual().getAvatar().getCasilla().getPosicion() / 10 % 4); // Restauramos la posicion anterior
+            ((Sombrero) turno.turnoActual().getAvatar()).setPosicionAntigua((turno.turnoActual().getAvatar().getCasilla().getPosicion() / 10));
+            ((Sombrero) turno.turnoActual().getAvatar()).vaciarUltimoTurno();
+            turno.turnoActual().setTurnosDadosTiradosEspecial(0);
+            turno.turnoActual().setDadosTirados(false);
+            turno.siguienteTurno();
+            imprimirTratos();
         } else if (turno.turnoActual().getBloqueoTiroModoEspecial()) {
             turno.turnoActual().aumentarTurnosBloqueoTiroModoEspecial();
             if (turno.turnoActual().getTurnosBloqueoModoEspecial() == 2) {
@@ -464,10 +471,12 @@ public class Juego implements Comando {
                 turno.turnoActual().setBloqueoTiroModoEspecial(false);
                 turno.turnoActual().setTurnosBloqueoModoEspecial(0);
             }
+            turno.turnoActual().setTurnosDadosTiradosEspecial(0);
             turno.turnoActual().reducirNoPaga();
             turno.siguienteTurno();
             imprimirTratos();
         } else if (turno.turnoActual().getDadosTirados()) {
+            turno.turnoActual().setTurnosDadosTiradosEspecial(0);
             turno.turnoActual().setDadosTirados(false);
             turno.turnoActual().reducirNoPaga();
             turno.siguienteTurno();
@@ -524,6 +533,9 @@ public class Juego implements Comando {
             } else if (turno.turnoActual().getAvatar() instanceof Esfinge && turno.turnoActual().getModoEspecial()) {
                 turno.turnoActual().comprarCasilla(tablero);
                 ((Esfinge) turno.turnoActual().getAvatar()).anhadirSolarComprado((Solar) turno.turnoActual().getAvatar().getCasilla());
+            } else if (turno.turnoActual().getAvatar() instanceof Sombrero && turno.turnoActual().getModoEspecial()) {
+                turno.turnoActual().comprarCasilla(tablero);
+                ((Sombrero) turno.turnoActual().getAvatar()).anhadirSolarComprado((Solar) turno.turnoActual().getAvatar().getCasilla());
             } else if (!(turno.turnoActual().getAvatar() instanceof Coche) && turno.turnoActual().getModoEspecial()) {
                 turno.turnoActual().comprarCasilla(tablero);
                 consola.imprimir("El jugador " + turno.turnoActual().getNombre() + " ha comprado la casilla " + casilla);
@@ -629,11 +641,15 @@ public class Juego implements Comando {
             modoCambiado = true;
             if (turno.turnoActual().getAvatar() instanceof Esfinge) {
                 ((Esfinge) turno.turnoActual().getAvatar()).cambiarAvanceEste();
+            } else if (turno.turnoActual().getAvatar() instanceof Sombrero) {
+                ((Sombrero) turno.turnoActual().getAvatar()).cambiarAvanceNorte();
             }
             consola.imprimir("A partir de ahora, el avatar " + turno.turnoActual().getAvatar().getId() + " de tipo " + turno.turnoActual().getAvatar().getTipo() + " se movera en modo avanzado.");
         } else {
             if (turno.turnoActual().getAvatar() instanceof Esfinge)
                 ((Esfinge) turno.turnoActual().getAvatar()).vaciarUltimoTurno();
+            else if (turno.turnoActual().getAvatar() instanceof Sombrero)
+                ((Sombrero) turno.turnoActual().getAvatar()).vaciarUltimoTurno();
             turno.turnoActual().cambiarModo();
             modoCambiado = false;
             consola.imprimir("A partir de ahora, el avatar " + turno.turnoActual().getAvatar().getId() + " de tipo " + turno.turnoActual().getAvatar().getTipo() + " se movera en modo normal.");

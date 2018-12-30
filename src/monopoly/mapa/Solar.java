@@ -2,6 +2,9 @@ package monopoly.mapa;
 
 import monopoly.persona.Esfinge;
 import monopoly.persona.Jugador;
+import monopoly.persona.Sombrero;
+
+import java.util.ArrayList;
 
 import static monopoly.mapa.Juego.consola;
 
@@ -16,10 +19,13 @@ public class Solar extends Propiedad {
     private int numPistas;
     private int numMaximoPistas;
     private int numTotalEdificios;
+    private ArrayList<Edificio> edificios;
 
     public Solar (String nombre, Grupo grupo, int posicion, Jugador banca, Tablero tablero) {
-        super(nombre, grupo, posicion, banca, tablero);
+        super(nombre, posicion, banca, tablero);
         this.numMaximoCasas = 4;
+        setGrupo(grupo);
+        this.edificios = new ArrayList<>();
         switch (grupo.getColor()) {
             case Valor.GRUPO_NEGRO:
                 super.setValor(Valor.COSTE_GRUPO_NEGRO);
@@ -94,7 +100,12 @@ public class Solar extends Propiedad {
 
     @Override
     public int alquiler() {
-        return getAlquiler();
+        int alquiler = getGrupo().getAlquiler();
+        for (Edificio edificio : edificios) {
+            alquiler += edificio.getAlquiler();
+        }
+
+        return alquiler;
     }
 
     public int getNumCasas() {
@@ -167,6 +178,34 @@ public class Solar extends Propiedad {
 
     public void setNumTotalEdificios(int numTotalEdificios) {
         this.numTotalEdificios = numTotalEdificios;
+    }
+
+    public ArrayList<Edificio> getEdificios() {
+        return edificios;
+    }
+
+    public void setEdificios(ArrayList<Edificio> edificios) {
+        if (edificios == null) {
+            consola.imprimir(Valor.ANSI_ROJO + "Edificios nulo." + Valor.ANSI_RESET);
+            System.exit(1);
+        }
+        this.edificios = edificios;
+    }
+
+    /**
+     * Obtiene el string de los nombres de los edificios de la casilla
+     */
+    public String obtenerEdificios() {
+        String cadena = "";
+
+        if (this.edificios.size() == 0) {
+            cadena = "no tiene edificios";
+        } else {
+            for (Edificio edificio : edificios) {
+                cadena = cadena.concat(edificio.getNombre() + " ");
+            }
+        }
+        return cadena;
     }
 
     public void edificar(String tipo, Jugador jugador) {
@@ -261,6 +300,9 @@ public class Solar extends Propiedad {
                 if (jugador.getAvatar() instanceof Esfinge && jugador.getModoEspecial()) { // Si el jugador es de tipo Esfinge y esta en modo avanzado añadimos el edificio por si va a perderlo
                     ((Esfinge) jugador.getAvatar()).anhadirEdificioComprado(edificio);
                     ((Esfinge) jugador.getAvatar()).anhadirPerdida(edificio.getValor());
+                } else if (jugador.getAvatar() instanceof Sombrero && jugador.getModoEspecial()) { // Si el jugador es de tipo Sombrero y esta en modo avanzado añadimos el edificio por si va a perderlo
+                    ((Sombrero) jugador.getAvatar()).anhadirEdificioComprado(edificio);
+                    ((Sombrero) jugador.getAvatar()).anhadirPerdida(edificio.getValor());
                 }
                 getEdificios().add(edificio);
                 jugador.setFortuna(jugador.getFortuna() - edificio.getValor());
@@ -423,6 +465,13 @@ public class Solar extends Propiedad {
 
         getPropietario().setFortuna(getPropietario().getFortuna() + dinero); // incrementamos la fortuna del expropietario
 
+    }
+
+    @Override
+    public String toString() {
+        String cadena = this.printNombreColor();
+
+        return cadena;
     }
 
     @Override

@@ -3,6 +3,7 @@ package monopoly.mapa;
 import monopoly.excepciones.ExcepcionCasilla;
 import monopoly.persona.Esfinge;
 import monopoly.persona.Jugador;
+import monopoly.persona.Sombrero;
 
 import static monopoly.mapa.Juego.consola;
 
@@ -30,6 +31,8 @@ final public class CajaComunidad extends Carta {
                     jugador.setFortuna(jugador.getFortuna() - 5000);
                     if (jugador.getAvatar() instanceof Esfinge && jugador.getModoEspecial())
                         ((Esfinge) jugador.getAvatar()).anhadirPerdida(5000);
+                    else if (jugador.getAvatar() instanceof Sombrero && jugador.getModoEspecial())
+                        ((Sombrero) jugador.getAvatar()).anhadirPerdida(5000);
                     Valor.DINERO_PARKING += 5000;
                     jugador.setPagoDeTasas(jugador.getPagoDeTasas() + 5000);
                 }
@@ -43,12 +46,16 @@ final public class CajaComunidad extends Carta {
                 jugador.setFortuna(jugador.getFortuna() + Valor.CANTIDAD_PASAR_SALIDA);
                 if (jugador.getAvatar() instanceof Esfinge && jugador.getModoEspecial())
                     ((Esfinge) jugador.getAvatar()).anhadirBeneficio(Valor.CANTIDAD_PASAR_SALIDA);
+                else if (jugador.getAvatar() instanceof Sombrero && jugador.getModoEspecial())
+                    ((Sombrero) jugador.getAvatar()).anhadirBeneficio(Valor.CANTIDAD_PASAR_SALIDA);
                 jugador.setPasarPorCasillaDeSalida(jugador.getPasarPorCasillaDeSalida() + Valor.CANTIDAD_PASAR_SALIDA);
                 break;
             case 4:
                 jugador.setFortuna(jugador.getFortuna() + 20000);
                 if (jugador.getAvatar() instanceof Esfinge && jugador.getModoEspecial())
                     ((Esfinge) jugador.getAvatar()).anhadirBeneficio(20000);
+                else if (jugador.getAvatar() instanceof Sombrero && jugador.getModoEspecial())
+                    ((Sombrero) jugador.getAvatar()).anhadirBeneficio(20000);
                 jugador.setPremiosInversionesOBote(jugador.getPremiosInversionesOBote() + 20000);
                 break;
             case 5:
@@ -59,6 +66,8 @@ final public class CajaComunidad extends Carta {
                     jugador.setFortuna(jugador.getFortuna() - 10000);
                     if (jugador.getAvatar() instanceof Esfinge && jugador.getModoEspecial())
                         ((Esfinge) jugador.getAvatar()).anhadirPerdida(10000);
+                    else if (jugador.getAvatar() instanceof Sombrero && jugador.getModoEspecial())
+                        ((Sombrero) jugador.getAvatar()).anhadirPerdida(10000);
                     Valor.DINERO_PARKING += 10000;
                     jugador.setPagoDeTasas(jugador.getPagoDeTasas() + 10000);
                 }

@@ -33,11 +33,17 @@ final public class Esfinge extends Avatar{
         if (avance >= 4) {
             lado = (posicionActual / 10) % 4;
             setLadoAntiguo(lado);
-            setPosicionAntigua(posicionActual);
+            setPosicionAntigua(posicionActual / 10);
             for (int i = 0; i < avance; i++) {
                 lado = (posicionActual / 10) % 4;
                 getCasilla().eliminarAvatar(this);
-                if ((lado == 0 && posicionActual == 9) || (lado == 2 && posicionActual == 21)) { // Si esta en una casilla antes del borde izquierdo, el avatar vuelve a la casilla de salida
+                if (lado == 0 && posicionActual == 9) { // Si esta en una casilla superior antes del borde izquierdo, el avatar vuelve a la casilla de ircarcel
+                    posicionNueva = 0;
+                    lado = 3;
+                    setCasilla(tablero.getCasillas().get(lado).get(posicionNueva));
+                    posicionActual = getCasilla().getPosicion();
+                    getCasilla().getAvatares().put(getId(), this);
+                } else if (lado == 2 && posicionActual == 21) { // Si esta en una casilla inferior antes del borde izquierdo, el avatar vuelve a la casilla de salida
                     posicionNueva = 0;
                     lado = 0;
                     setCasilla(tablero.getCasillas().get(lado).get(posicionNueva));
@@ -46,7 +52,22 @@ final public class Esfinge extends Avatar{
                     consola.imprimir("El jugador pasa por salida. Obtiene " + Valor.CANTIDAD_PASAR_SALIDA);
                     getJugador().setFortuna(getJugador().getFortuna() + Valor.CANTIDAD_PASAR_SALIDA);
                     anhadirBeneficio(Valor.CANTIDAD_PASAR_SALIDA);
-                } else if (lado == 3) { // Si el avatar esta en el lado derecho el avatar pasa a la casilla izquierda de Salida
+                } else if (lado == 3 && posicionActual == 30) { // Si esta en ircarcel, el avatar va a la izquierda de salida
+                    posicionNueva = 1;
+                    lado = 0;
+                    setCasilla(tablero.getCasillas().get(lado).get(posicionNueva));
+                    posicionActual = getCasilla().getPosicion();
+                    getCasilla().getAvatares().put(getId(), this);
+                } else if (lado == 0 && posicionActual == 0) { // Si esta en salida, el avatar va a la izquierda de ircarcel
+                    posicionNueva = 9;
+                    lado = 2;
+                    setCasilla(tablero.getCasillas().get(lado).get(posicionNueva));
+                    posicionActual = getCasilla().getPosicion();
+                    getCasilla().getAvatares().put(getId(), this);
+                    consola.imprimir("El jugador pasa por salida. Obtiene " + Valor.CANTIDAD_PASAR_SALIDA);
+                    getJugador().setFortuna(getJugador().getFortuna() + Valor.CANTIDAD_PASAR_SALIDA);
+                    anhadirBeneficio(Valor.CANTIDAD_PASAR_SALIDA);
+                }else if (lado == 3) { // Si el avatar esta en el lado derecho el avatar pasa a la casilla izquierda de Salida
                     posicionNueva = 1;
                     lado = 0;
                     consola.imprimir("Desde " + getCasilla().getNombre() + " hasta " + tablero.getCasillas().get(lado).get(posicionNueva).getNombre());
@@ -94,13 +115,31 @@ final public class Esfinge extends Avatar{
         if (avance >= 4) {
             lado = (posicionActual / 10) % 4;
             setLadoAntiguo(lado);
-            setPosicionAntigua(posicionActual);
+            setPosicionAntigua(posicionActual / 10);
             for (int i = 0; i < avance; i++) {
                 lado = (posicionActual / 10) % 4;
                 getCasilla().eliminarAvatar(this);
-                if ((lado == 0 && posicionActual == 1) || (lado == 2 && posicionActual == 29)) { // Si esta en una casilla antes del borde derecho, el avatar vuelve a la casilla de parking
+                if ((lado == 0 && posicionActual == 1)) { // Si esta en una casilla inferior antes del borde derecho, el avatar vuelve a la casilla de parking
                     posicionNueva = 0;
                     lado = 2;
+                    setCasilla(tablero.getCasillas().get(lado).get(posicionNueva));
+                    posicionActual = getCasilla().getPosicion();
+                    getCasilla().getAvatares().put(getId(), this);
+                } else if (lado == 2 && posicionActual == 29) { // Si esta en una casilla superior antes del borde derecho, el avatar vuelve a la casilla de Carcel
+                    posicionNueva = 0;
+                    lado = 1;
+                    setCasilla(tablero.getCasillas().get(lado).get(posicionNueva));
+                    posicionActual = getCasilla().getPosicion();
+                    getCasilla().getAvatares().put(getId(), this);
+                } else if ((lado == 1 && posicionActual == 10)) { // Si esta en Carcel, el avatar va a la derecha de Parking
+                    posicionNueva = 1;
+                    lado = 2;
+                    setCasilla(tablero.getCasillas().get(lado).get(posicionNueva));
+                    posicionActual = getCasilla().getPosicion();
+                    getCasilla().getAvatares().put(getId(), this);
+                } else if (lado == 2 && posicionActual == 20) { // Si esta en Parking superior antes del borde derecho, el avatar vuelve a la casilla de Carcel
+                    posicionNueva = 9;
+                    lado = 0;
                     setCasilla(tablero.getCasillas().get(lado).get(posicionNueva));
                     posicionActual = getCasilla().getPosicion();
                     getCasilla().getAvatares().put(getId(), this);
@@ -281,7 +320,8 @@ final public class Esfinge extends Avatar{
         // Eliminacion de la construccion de edificios y devolucion del coste
         for (Edificio edificio : this.edificiosComprados) {
             getJugador().getEdificios().remove(edificio);
-            edificio.getCasilla().getEdificios().remove(edificio);
+            Solar s = (Solar) edificio.getCasilla();
+            s.getEdificios().remove(edificio);
             tablero.getEdificios().remove(edificio);
         }
 

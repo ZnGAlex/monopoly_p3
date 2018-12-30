@@ -747,11 +747,8 @@ public class Jugador {
         if (!this.avatar.getCasilla().getPropietario().getNombre().equals(this.getNombre()) && !this.avatar.getCasilla().getHipotecada() && paga()) {
             if (!this.avatar.getCasilla().getPropietario().getNombre().equals("banca")) {
                 /*Calculo del alquiler en funcion del valor de los dados y del numero de casillas de servicio poseidas por el mismo propietario*/
-                if (this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(1).get(2).getPropietario().getNombre()) && this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(2).get(8).getPropietario().getNombre())) {
-                    valorPagar = this.avatar.getCasilla().getAlquiler() * valorDados * 10;
-                } else {
-                    valorPagar = this.avatar.getCasilla().getAlquiler() * valorDados * 4;
-                }
+                Servicio s = (Servicio) this.avatar.getCasilla();
+                valorPagar = s.alquiler() * valorDados;
                 while (valorPagar > this.fortuna && !bancarrota) {
                     /*Si el dinero no le llega se hipoteca o declara en bancarrota*/
 
@@ -794,19 +791,8 @@ public class Jugador {
         if (!this.avatar.getCasilla().getPropietario().getNombre().equals(this.getNombre()) && !this.avatar.getCasilla().getHipotecada() && paga()) {
             if (!this.avatar.getCasilla().getPropietario().getNombre().equals("banca")) {
                 /*Calculo del numero de casillas de transporte con el mismo dueño*/
-                if (this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(0).get(5).getPropietario().getNombre())) {
-                    numEstaciones++;
-                }
-                if (this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(1).get(5).getPropietario().getNombre())) {
-                    numEstaciones++;
-                }
-                if (this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(2).get(5).getPropietario().getNombre())) {
-                    numEstaciones++;
-                }
-                if (this.avatar.getCasilla().getPropietario().getNombre().equals(tablero.getCasillas().get(3).get(5).getPropietario().getNombre())) {
-                    numEstaciones++;
-                }
-                valorPagar = (int) (this.avatar.getCasilla().getAlquiler() * numEstaciones * 0.25);
+                Transporte t = (Transporte) this.avatar.getCasilla();
+                valorPagar = t.alquiler();
                 /*Calculo del alquiler*/
                 while (valorPagar > this.fortuna && !bancarrota) {
                     /*SI no le llega el dinero hipoteca/bancarrota*/

@@ -2,11 +2,12 @@ package monopoly.mapa;
 
 import monopoly.persona.Jugador;
 
+import static monopoly.mapa.Juego.consola;
+
 public abstract class Propiedad extends Casilla{
 
-    public Propiedad(String nombre, Grupo grupo, int posicion, Jugador banca, Tablero tablero) {
-        super(nombre, grupo, posicion, banca, tablero);
-    }
+    private int valor;
+    private int alquiler;
 
     public Propiedad(String nombre, int posicion, Jugador banca, Tablero tablero) {
         super(nombre, posicion, banca, tablero);
@@ -24,6 +25,18 @@ public abstract class Propiedad extends Casilla{
 
     public void comprar() {
 
+    }
+
+    public int getAlquiler() {
+        return alquiler;
+    }
+
+    public void setAlquiler(int alquiler) {
+        if (alquiler < 0) {
+            consola.imprimir(Valor.ANSI_ROJO + "Alquiler no valido." + Valor.ANSI_RESET);
+            System.exit(1);
+        }
+        this.alquiler = alquiler;
     }
 
 }
